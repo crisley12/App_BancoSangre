@@ -1,0 +1,31 @@
+nvm -- Manejador de versiones de node
+nvm comand -- para ver los comandos
+nvm install lts -- Para instalar una version de node "lates" para instalar la ultima version 
+nvm list -- Para ver las versiones instaladas
+nvm uninstall <version> -- Para desistalar una version de node 
+nvm use <version> -- para usar una version de node 
+nvm current -- MOstrar las version con la que se esta trabajndo 
+node -v -- Para ver la version
+npm -v --- Para ver la version 
+pip -- Administrador de paquetes de python 
+python -m pip install kivy -- Creas una carpeta y detro de la carpeta ejecutas la terminal y colocas el codigo para instalar KIVY especialmente para ese proyecto(carpeta)
+App_Basantranfs\Scripts\activate ----para activar el entorno virtual 
+source App_Basantranfs/Scripts/activate --- para activar el entorno virtual en git bash
+deactivate -- para desactivar el entorno virtual
+pip install -r requirements.txt -- Para instalar todas las dependencias en el entorno virtual
+python -m kivy -- para ver la version de kivy
+KivyMD   0.104.2 --- VERSION DE KIVYmd 
+
+python [nombre del archivo] --- ejemplo "main.py" esto es para ejecutar en la terminal un archivo que no es el archivo rais
+
+mongod -- para saber que esta corriendo bien el programa
+mongosh -- para administrar mongo por consola (mongo shell) 
+show dbs -- verifica que tabals hay 
+use [base de datos a usar]-- Para manejar esa base de datos especifica
+show tables -- muestra las tablas 
+db.[tabla].find() -- MUestra los datos que contiene la tabala 
+
+Para habilitar la supervisión gratuita, ejecute el siguiente comando: db.enableFreeMonitoring()
+   Para deshabilitar permanentemente este recordatorio, ejecute el siguiente comando: db.disableFreeMonitoring()
+
+

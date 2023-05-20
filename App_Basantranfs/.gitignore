@@ -1,0 +1,4 @@
+#para ignorar las carpetas y que no se suban al repositorio remoto
+Lib/
+Scripts/
+share/ 

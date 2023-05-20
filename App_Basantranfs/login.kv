@@ -1,0 +1,111 @@
+MDScreen:
+    name: "login"
+
+    MDFloatLayout:
+        FitImage:
+            source: 'App_Basantranfs\img\login4.png'
+        
+
+        MDLabel:
+            text: "Basantranfs"
+            font_name: 'Fuentes/Poppins-SemiBold.ttf'
+            pos_hint: {"center_x": .5, "center_y": .8}
+            halign: 'center'
+            font_size: '40sp'
+            theme_text_color: 'Custom'
+            text_color: 255/255, 255/255, 255/255, 1
+
+        MDFloatLayout:
+            size_hint: .85, .08
+            pos_hint: {"center_x": .5, "center_y": .64}
+            canvas:
+                Color:
+                    rgb: (255/255, 255/255, 255/255)
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos 
+                    radius: [25]
+            TextInput: 
+                id: 'email'
+                #icon_left: 'email'
+                #font_name: "Poppins"
+                hint_text: "Correo"
+                size_hint: 1, None
+                pos_hint: {"center_x": .5, "center_y": .5}
+                height: self.minimum_height
+                multiline: False
+                cursor_color: 0, 0, 0
+                cursor_width: '2sp'
+                foreground_color: 0, 0, 0 
+                background_color: 0, 0, 0, 0
+                padding: 15
+                font_size: '18sp'
+
+        MDFloatLayout:
+            size_hint: .85, .08
+            pos_hint: {"center_x": .5, "center_y": .54}
+            canvas:
+                Color:
+                    rgb: (255/255, 255/255, 255/255)
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos
+                    radius: [25]
+            TextInput:
+                id: 'password'
+                #icon_left: 'lock'
+                #font_name: "Poppins"
+                hint_text: "Contraseña"
+                size_hint: 1, None
+                pos_hint: {"center_x": .5, "center_y": .5}
+                height: self.minimum_height
+                multiline: False
+                cursor_color: 0, 0, 0
+                cursor_width: '2sp'
+                foreground_color: 0, 0, 0
+                background_color: 0, 0, 0, 0
+                padding: 15
+                font_size: '18sp'
+
+        MDTextButton: 
+            text: "Olvide mi contraseña?"
+            #font_name: "Poppins" 
+            theme_text_color: 'Custom'
+            text_color: rgba(255, 255, 255)
+            pos_hint: {"center_x": .7, "center_y": .45}
+
+        Button: 
+            text: "Iniciar Sesión"
+            font_name: 'Fuentes/Poppins-SemiBold.ttf'
+            font_size: '20sp'
+            size_hint: .5, .08
+            pos_hint: {"center_x": .5, "center_y": .30}
+            background_color: 0, 0, 0, 0
+            color: (240/255, 0/255, 0/255)
+            #on_release: app.send_data(email, password)
+            canvas.before:
+                Color: 
+                    rgb: (255, 255, 255)
+                RoundedRectangle:    
+                    size: self.size
+                    pos: self.pos
+                    radius: [23] 
+            
+
+        MDLabel: 
+            text: "No tengo una cuenta? "
+            #font_name: "Poppins-Light.ttf"
+            color: 0, 0, 0
+            pos_hint: {"center_x": .7, "center_y": .15}
+        MDTextButton: 
+            text: "  Unete"
+            font_name: 'Fuentes/Poppins-SemiBold.ttf'
+            color: rgba(255, 255, 255)
+            pos_hint: {"center_x": .706, "center_y": .15}
+            on_release:
+                root.manager.transition.direction = "left"
+                root.manager.current = "signup"
+
+
+
+            

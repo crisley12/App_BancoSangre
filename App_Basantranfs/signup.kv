@@ -1,0 +1,339 @@
+MDScreen:
+    name: "signup"
+
+    MDFloatLayout:
+        FitImage:
+            source: 'App_Basantranfs\img\signup4.png'
+        #MDIconButton:
+            #icon: 'arrow-left'
+            #pos_hint: {"center_y": .95}
+            #user_font_size: '30sp'
+            #theme_text_color: "Custom"
+            #text_color: rgba(26, 24, 58, 255)
+            #on_release:
+                #root.manager.transition.direction = "right"
+                #root.manager.current = "login"
+        
+        MDLabel:
+            text: "Basantranfs"
+            font_name: 'Fuentes/Poppins-SemiBold.ttf'
+            pos_hint: {"center_x": .5, "center_y": .90}
+            halign: 'center'
+            font_size: '30sp'
+            theme_text_color: 'Custom'
+            text_color: 240/255, 0/255, 0/255
+
+#Primera fila 
+        MDFloatLayout:
+            size_hint: .60, .05
+            pos_hint: {"center_x": .5, "center_y": .80}
+            canvas:
+                Color:
+                    rgb: (238/255, 238/255, 1)
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos 
+                    radius: [25]
+            TextInput: 
+                id: 'cedula'
+                #font_name: "Poppins"
+                hint_text: "Ingrese su número de cedula"
+                size_hint: 1, None
+                pos_hint: {"center_x": .5, "center_y": .5}
+                height: self.minimum_height
+                multiline: False
+                cursor_color: 0, 0, 0
+                cursor_width: '2sp'
+                foreground_color: 0, 0, 0
+                background_color: 0, 0, 0, 0
+                padding: 10
+                font_size: '13sp'
+
+#Segundaa fila  
+        MDFloatLayout:
+            size_hint: .35, .05
+            pos_hint: {"center_x": .3, "center_y": .72}
+            canvas:
+                Color:
+                    rgb: (238/255, 238/255, 1)
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos 
+                    radius: [25]
+            TextInput: 
+                id: 'p_apellido'
+                #font_name: "Poppins"
+                hint_text: "Primer Apellido"
+                size_hint: 1, None
+                pos_hint: {"center_x": .5, "center_y": .5}
+                height: self.minimum_height
+                multiline: False
+                cursor_color: 0, 0, 0
+                cursor_width: '2sp'
+                foreground_color: 0, 0, 0
+                background_color: 0, 0, 0, 0
+                padding: 10
+                font_size: '13sp'
+
+        MDFloatLayout:
+            size_hint: .35, .05
+            pos_hint: {"center_x": .7, "center_y": .72}
+            canvas:
+                Color:
+                    rgb: (238/255, 238/255, 1)
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos 
+                    radius: [25]
+            TextInput: 
+                id: 's_apellido'
+                #font_name: "Poppins"
+                hint_text: "Segundo Apellido"
+                size_hint: 1, None
+                pos_hint: {"center_x": .5, "center_y": .5}
+                height: self.minimum_height
+                multiline: False
+                cursor_color: 0, 0, 0
+                cursor_width: '2sp'
+                foreground_color: 0, 0, 0
+                background_color: 0, 0, 0, 0
+                padding: 10
+                font_size: '13sp'
+
+#Tercera fila                
+        MDFloatLayout:
+            size_hint: .35, .05
+            pos_hint: {"center_x": .3, "center_y": .64}
+            canvas:
+                Color:
+                    rgb: (238/255, 238/255, 1)
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos 
+                    radius: [25]
+            TextInput: 
+                id: 'p_nombre'
+                #font_name: "Poppins"
+                hint_text: "Primer Nombre"
+                size_hint: 1, None
+                pos_hint: {"center_x": .5, "center_y": .5}
+                height: self.minimum_height
+                multiline: False
+                cursor_color: 0, 0, 0
+                cursor_width: '2sp'
+                foreground_color: 0, 0, 0
+                background_color: 0, 0, 0, 0
+                padding: 10
+                font_size: '13sp'
+
+        MDFloatLayout:
+            size_hint: .35, .05
+            pos_hint: {"center_x": .7, "center_y": .64}
+            canvas:
+                Color:
+                    rgb: (238/255, 238/255, 1)
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos 
+                    radius: [25]
+            TextInput: 
+                id: 's_nombre'
+                #font_name: "Poppins"
+                hint_text: "Segundo Nombre"
+                size_hint: 1, None
+                pos_hint: {"center_x": .5, "center_y": .5}
+                height: self.minimum_height
+                multiline: False
+                cursor_color: 0, 0, 0
+                cursor_width: '2sp'
+                foreground_color: 0, 0, 0
+                background_color: 0, 0, 0, 0
+                padding: 10
+                font_size: '13sp'
+
+#Cuarta fila                  
+        MDFloatLayout:
+            size_hint: .35, .05
+            pos_hint: {"center_x": .3, "center_y": .56}
+            canvas:
+                Color:
+                    rgb: (238/255, 238/255, 1)
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos 
+                    radius: [25]
+            TextInput: 
+                id: 'n_telefono'
+                #font_name: "Poppins"
+                hint_text: "N° Telefono"
+                size_hint: 1, None
+                pos_hint: {"center_x": .5, "center_y": .5}
+                height: self.minimum_height
+                multiline: False
+                cursor_color: 0, 0, 0
+                cursor_width: '2sp'
+                foreground_color: 0, 0, 0
+                background_color: 0, 0, 0, 0
+                padding: 10
+                font_size: '13sp'
+
+        MDFloatLayout:
+            size_hint: .35, .05
+            pos_hint: {"center_x": .7, "center_y": .56}
+            canvas:
+                Color:
+                    rgb: (238/255, 238/255, 1)
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos 
+                    radius: [25]
+            TextInput: 
+                id: 't_sangre'
+                #font_name: "Poppins"
+                hint_text: "Tipo de Sangre"
+                size_hint: 1, None
+                pos_hint: {"center_x": .5, "center_y": .5}
+                height: self.minimum_height
+                multiline: False
+                cursor_color: 0, 0, 0
+                cursor_width: '2sp'
+                foreground_color: 0, 0, 0
+                background_color: 0, 0, 0, 0
+                padding: 10
+                font_size: '13sp'
+
+#Quinta fila  
+        MDFloatLayout:
+            size_hint: .35, .05
+            pos_hint: {"center_x": .3, "center_y": .48}
+            canvas:
+                Color:
+                    rgb: (238/255, 238/255, 1)
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos 
+                    radius: [25]
+            TextInput: 
+                id: 't_sexo'
+                #font_name: "Poppins"
+                hint_text: "Sexo"
+                size_hint: 1, None
+                pos_hint: {"center_x": .5, "center_y": .5}
+                height: self.minimum_height
+                multiline: False
+                cursor_color: 0, 0, 0
+                cursor_width: '2sp'
+                foreground_color: 0, 0, 0
+                background_color: 0, 0, 0, 0
+                padding: 10
+                font_size: '13sp'
+
+        MDFloatLayout:
+            size_hint: .35, .05
+            pos_hint: {"center_x": .7, "center_y": .48}
+            canvas:
+                Color:
+                    rgb: (238/255, 238/255, 1)
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos 
+                    radius: [25]
+            TextInput: 
+                id: 'f_nacimiento'
+                #font_name: "Poppins"
+                hint_text: "Fecha de Naci"
+                size_hint: 1, None
+                pos_hint: {"center_x": .5, "center_y": .5}
+                height: self.minimum_height
+                multiline: False
+                cursor_color: 0, 0, 0
+                cursor_width: '2sp'
+                foreground_color: 0, 0, 0
+                background_color: 0, 0, 0, 0
+                padding: 10
+                font_size: '13sp'
+
+#Sexta fila
+        MDFloatLayout:
+            size_hint: .60, .05
+            pos_hint: {"center_x": .5, "center_y": .40}
+            canvas:
+                Color:
+                    rgb: (238/255, 238/255, 1)
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos 
+                    radius: [25]
+            TextInput: 
+                id: 'email'
+                #font_name: "Poppins"
+                hint_text: "Ingrese su Correo"
+                size_hint: 1, None
+                pos_hint: {"center_x": .5, "center_y": .5}
+                height: self.minimum_height
+                multiline: False
+                cursor_color: 0, 0, 0
+                cursor_width: '2sp'
+                foreground_color: 0, 0, 0
+                background_color: 0, 0, 0, 0
+                padding: 10
+                font_size: '13sp'
+
+#Septima fila
+        MDFloatLayout:
+            size_hint: .60, .05
+            pos_hint: {"center_x": .5, "center_y": .32}
+            canvas:
+                Color:
+                    rgb: (238/255, 238/255, 1)
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos 
+                    radius: [25]
+            TextInput: 
+                id: 'password'
+                #font_name: "Poppins"
+                hint_text: "Ingrese una Contraseña"
+                size_hint: 1, None
+                pos_hint: {"center_x": .5, "center_y": .5}
+                height: self.minimum_height
+                multiline: False
+                cursor_color: 0, 0, 0
+                cursor_width: '2sp'
+                foreground_color: 0, 0, 0
+                background_color: 0, 0, 0, 0
+                padding: 10
+                font_size: '13sp'
+
+
+        Button: 
+            text: "Registrarse"
+            font_name: 'Fuentes/Poppins-SemiBold.ttf'
+            font_size: '20sp'
+            size_hint: .5, .08
+            pos_hint: {"center_x": .5, "center_y": .21}
+            background_color: 0, 0, 0, 0
+            #on_release: app.send_data(email, password)
+            canvas.before:
+                Color: 
+                    rgb: 240/255, 0/255, 0/255
+                RoundedRectangle:    
+                    size: self.size
+                    pos: self.pos
+                    radius: [23] 
+
+        MDLabel: 
+            text: "Ya tengo una cuenta."
+            #font_name: "Poppins"
+            #font_size: '13sp'
+            color: 0, 0, 0
+            pos_hint: {"center_x": .608, "center_y": .13}
+        MDTextButton: 
+            text: "Iniciar Sesion"
+            font_name: 'Fuentes/Poppins-SemiBold.ttf'
+            color: 240/255, 0/255, 0/255
+            pos_hint: {"center_x": .7, "center_y": .13}
+            on_release:
+                root.manager.transition.direction = "right"
+                root.manager.current = "login"
+        

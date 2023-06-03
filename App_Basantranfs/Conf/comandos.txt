@@ -11,8 +11,9 @@ pip -- Administrador de paquetes de python
 python -m pip install kivy -- Creas una carpeta y detro de la carpeta ejecutas la terminal y colocas el codigo para instalar KIVY especialmente para ese proyecto(carpeta)
 App_Basantranfs\Scripts\activate ----para activar el entorno virtual 
 source App_Basantranfs/Scripts/activate --- para activar el entorno virtual en git bash
+pip freeze > requirements.txt --- Se realiza dentro del directorio del sistema para crear un archivo .txt con las dependencias utilizadas en ese proyecto (solo funciona en el entorno virtaul)
+pip install -r requirements.txt -- Esto instalará todas las dependencias especificadas en el archivo requirements.txt en tu entorno virtual. Asegúrate de activar el entorno virtual antes de ejecutar este comando.
 deactivate -- para desactivar el entorno virtual
-pip install -r requirements.txt -- Para instalar todas las dependencias en el entorno virtual
 python -m kivy -- para ver la version de kivy
 KivyMD   0.104.2 --- VERSION DE KIVYmd 
 

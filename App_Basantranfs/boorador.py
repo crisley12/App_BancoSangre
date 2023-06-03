@@ -1,103 +1,52 @@
-from kivymd.app import MDApp
 from kivy.lang import Builder
-from kivymd.uix.dialog import MDDialog
-from kivymd.uix.button import MDFlatButton
-from kivy.core.window import Window
 
-Window.size = (350,500)
+from kivymd.app import MDApp
+from kivymd.uix.pickers import MDDatePicker
 
-kV = '''
-MDScreen:
+KV = '''
+MDFloatLayout:
 
-    FitImage:
-        source: 'App_Basantranfs\img\login.png'
-        
-
-    BoxLayout: 
-        size_hint: None, None
-        size: 400, 600
-        elevation: 10
-        padding: 10
-        spacing: 15
-        orientation: 'vertical'
-        
-        MDLabel:
-            text: "Basantranfs"
-            pos_hint: {"center_x": .5, "center_y": .20}
-            halign: 'center'
-            font_size: '40sp'
-            theme_text_color: 'Custom'
-            text_color: 255/255, 255/255, 255/255, 1
-
+    MDRaisedButton:
+        text: "Open date picker"
+        pos_hint: {'center_x': .5, 'center_y': .5}
+        on_release: app.show_date_picker()
     
-        MDTextFieldRound:
-            id: email
-            icon_left: 'email'
-            hint_text: "Ingrese el correo"
-            color_active: [1, 1, 1, 1]
-            foreground_color: 0, 0, 0
-            size_hint_x: None
-            width: 220
-            font_size: 20
-            pos_hint: {"center_x": 0.5}
-        
-        MDTextFieldRound:
-            id: password
-            icon_left: 'lock'
-            hint_text: "Ingrese la contraseña"
-            color_active: [1, 1, 1, 1]
-            foreground_color: 0, 0, 0
-            size_hint_x: None
-            width: 220
-            font_size: 20
-            pos_hint: {"center_x": 0.5}
-            password: True
-
-
-        MDFillRoundFlatButton:
-            text: "Iniciar Session"
-            color_active: [1, 1, 1, 1]
-            foreground_color: 0, 0, 0
-            font_size: 15
-            pos_hint: {"center_x": 0.5} 
-            opacity: 1  
-            on_press: app.login()
+    MDTextField:
+        hint_text: "hint_text_color_normal"
+        hint_text_color_normal: "red"
+        hint_text: "Round mode"
+        mode: "round"
+        max_text_length: 15
+        helper_text: "Massage"
 '''
 
 
+class Test(MDApp):
+    def build(self):
+        self.theme_cls.theme_style = "Dark"
+        self.theme_cls.primary_palette = "Orange"
+        return Builder.load_string(KV)
 
-class MainApp(MDApp):
-     dialog = None  
-     
+    def on_save(self, instance, value, date_range):
+        '''
+        Events called when the "OK" dialog box button is clicked.
 
-#Colores de la pantala 
-     def build(self) : 
-        self.theme_cls.theme_style = 'Light'
-        self.theme_cls.primary_palette = 'Gray'
-        self.theme_cls.accent_palette = 'Blue'
+        :type instance: <kivymd.uix.picker.MDDatePicker object>;
+        :param value: selected date;
+        :type value: <class 'datetime.date'>;
+        :param date_range: list of 'datetime.date' objects in the selected range;
+        :type date_range: <class 'list'>;
+        '''
 
-        return Builder.load_string(kV)
+        print(instance, value, date_range)
 
-#Login configuracion
+    def on_cancel(self, instance, value):
+        '''Events called when the "CANCEL" dialog box button is clicked.'''
 
-     def login(self):
-        if self.root.ids.email.text == 'c' and self.root.ids.password.text == '123':
-         if not self.dialog:
-            self.dialog = MDDialog(
-             title = 'Login',
-             text = f"Bienvenido {self.root.ids.email.text}!",
-             buttons = [
-                MDFlatButton(
-                text = "ok", text_color = self.theme_cls.accent_color,
-                on_release = self.close 
-                ),
-             ], 
-          )         
-            self.dialog.open()
-         
-     def close(self):
-        self.dialog.dismiss()
-
-MainApp().run()
+    def show_date_picker(self):
+        date_dialog = MDDatePicker()
+        date_dialog.bind(on_save=self.on_save, on_cancel=self.on_cancel)
+        date_dialog.open()
 
 
+Test().run()

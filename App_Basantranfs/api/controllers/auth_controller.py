@@ -1,4 +1,4 @@
-from db.conection import db
+from database.conection import db
 
 class AuthController:
     def login(self, username, password):

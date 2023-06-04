@@ -6,14 +6,18 @@ from kivy.clock import Clock
 from kivy.core.window import Window
 from views.login import Login
 from views.signup import Signup
+from conection import Database
 
 Window.size = (350, 600)
 
 
+
 class MainApp(MDApp):
+    db = None  # Instancia de la base de datos
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        # self.db = Database(database_name='banco_de_sangre')
+        self.db = Database(database_name='banco_de_sangre')
+
 
 
 # Constructor de la interfaz
@@ -35,7 +39,8 @@ class MainApp(MDApp):
 
     def login(self, *args) -> None:
         screen_manager.current = "login"
-
+        #login_instance = Login()  # Crear una instancia de la clase Login
+        #login_instance.validacionUser()  # Llamar al método validacionUser()
 
 if __name__ == '__main__':
     MainApp().run()

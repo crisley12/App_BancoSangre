@@ -27,7 +27,7 @@
                         pos: self.pos
                         radius: [25]
                 TextInput:
-                    id: 'email'
+                    id: email
                     #icon_left: 'email'
                     #font_name: "Poppins"
                     hint_text: "Correo"
@@ -53,7 +53,7 @@
                         pos: self.pos
                         radius: [25]
                 TextInput:
-                    id: 'password'
+                    id: password
                     #icon_left: 'lock'
                     #font_name: "Poppins"
                     hint_text: "Contraseña"
@@ -83,6 +83,7 @@
                 pos_hint: {"center_x": .5, "center_y": .30}
                 background_color: 0, 0, 0, 0
                 color: (240/255, 0/255, 0/255)
+
                 #on_release: app.send_data(email, password)
                 canvas.before:
                     Color:
@@ -91,6 +92,7 @@
                         size: self.size
                         pos: self.pos
                         radius: [23]
+                on_release: root.validacionUser()
 
             MDLabel:
                 text: "No tengo una cuenta? "

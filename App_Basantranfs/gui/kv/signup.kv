@@ -91,7 +91,7 @@
                     pos: self.pos
                     radius: [25]
             TextInput:
-                id: 'p_apellido'
+                id: p_apellido
                 #font_name: "Poppins"
                 hint_text: "Primer Apellido"
                 size_hint: 1, None
@@ -195,10 +195,10 @@
                 pos_hint: {"center_x": .2, "center_y": .56}
                 on_release: root.show_date_picker()
 
-
+        MDFloatLayout:
+            id: dropdown_2
             MDRaisedButton:
-                id: dropdown_2
-                id: t_sex
+                id: t_sexo
                 icon: 'gender-male-female'
                 text: "Sexo"
                 md_bg_color: (238/255, 238/255, 1)
@@ -213,9 +213,9 @@
                 size_hint_y: None
                 height: "40dp"
 
-
+        MDFloatLayout:
+            id: dropdown_1
             MDRaisedButton:
-                id: dropdown_1
                 id: t_sangre
                 icon: 'user'
                 text: "Tipo de Sangre"
@@ -293,7 +293,6 @@
             size_hint: .5, .08
             pos_hint: {"center_x": .5, "center_y": .25}
             background_color: 0, 0, 0, 0
-            #on_release: app.send_data(email, password)
             canvas.before:
                 Color:
                     rgb: 240/255, 0/255, 0/255
@@ -301,6 +300,7 @@
                     size: self.size
                     pos: self.pos
                     radius: [23]
+            on_release: root.validacionRegistro()
 
 #Testo para regresar al Login
         MDLabel:

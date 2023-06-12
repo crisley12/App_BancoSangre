@@ -188,7 +188,7 @@ class MainApp(MDApp):
                     }).inserted_id
 
                     if user_id:
-                        self.show_dialog("Bienvenido", f"Bienvenido, {p_nombre}.")
+                        #self.show_dialog("Bienvenido", f"Bienvenido, {p_nombre}.")
                         screen_manager.current = "login"
                     else:
                         self.show_dialog("Error", "Error al registrar.")

@@ -1,3 +1,4 @@
+
 <Signup>:
     MDScreen:
         name: "signup"
@@ -38,6 +39,8 @@
                     radius: [25]
             TextInput:
                 id: cedula
+                input_filter: 'int'
+                on_text: self.text = app.solo_numeros(self.text, root.ids.mensaje_numero)
                 #font_name: "Poppins"
                 hint_text: "Cédula"
                 size_hint: 1, None
@@ -51,6 +54,10 @@
                 padding: 10
                 font_size: '13sp'
                 on_text: root.check_length_cedula()
+                Label:
+                    id: mensaje_numero
+                    text: "Solo se permiten números"
+                    opacity: 0
 
         MDFloatLayout:
             size_hint: .35, .05
@@ -64,6 +71,8 @@
                     radius: [25]
             TextInput:
                 id: n_telefono
+                input_filter: 'int'
+                on_text: self.text = app.solo_numeros(self.text, root.ids.mensaje_numero)
                 #font_name: "Poppins"
                 hint_text: "N° Telefono"
                 size_hint: 1, None
@@ -77,6 +86,10 @@
                 padding: 10
                 font_size: '13sp'
                 on_text: root.check_length_telefono()
+                Label:
+                    id: mensaje_numero
+                    text: "Solo se permiten números"
+                    opacity: 0
 
 
 #Segundaa fila
@@ -92,6 +105,8 @@
                     radius: [25]
             TextInput:
                 id: p_apellido
+                #input_filter: 'str'
+                on_text: self.text = app.solo_letras(self.text, root.ids.mensaje_nombre)
                 #font_name: "Poppins"
                 hint_text: "Primer Apellido"
                 size_hint: 1, None
@@ -104,6 +119,10 @@
                 background_color: 0, 0, 0, 0
                 padding: 10
                 font_size: '13sp'
+                Label:
+                    id: mensaje_nombre
+                    text: "Solo se permiten Letras"
+                    opacity: 0
 
         MDFloatLayout:
             size_hint: .35, .05
@@ -117,6 +136,8 @@
                     radius: [25]
             TextInput:
                 id: s_apellido
+                #input_filter: 'str'
+                on_text: self.text = app.solo_letras(self.text, root.ids.mensaje_nombre)
                 #font_name: "Poppins"
                 hint_text: "Segundo Apellido"
                 size_hint: 1, None
@@ -129,6 +150,10 @@
                 background_color: 0, 0, 0, 0
                 padding: 10
                 font_size: '13sp'
+                Label:
+                    id: mensaje_nombre
+                    text: "Solo se permiten Letras"
+                    opacity: 0
 
 #Tercera fila
         MDFloatLayout:
@@ -143,6 +168,8 @@
                     radius: [25]
             TextInput:
                 id: p_nombre
+                #input_filter: 'str'
+                on_text: self.text = app.solo_letras(self.text, root.ids.mensaje_nombre)
                 #font_name: "Poppins"
                 hint_text: "Primer Nombre"
                 size_hint: 1, None
@@ -155,6 +182,10 @@
                 background_color: 0, 0, 0, 0
                 padding: 10
                 font_size: '13sp'
+                Label:
+                    id: mensaje_nombre
+                    text: "Solo se permiten Letras"
+                    opacity: 0
 
         MDFloatLayout:
             size_hint: .35, .05
@@ -168,6 +199,8 @@
                     radius: [25]
             TextInput:
                 id: s_nombre
+                #input_filter: 'str'
+                on_text: self.text = app.solo_letras(self.text, root.ids.mensaje_nombre)
                 #font_name: "Poppins"
                 hint_text: "Segundo Nombre"
                 size_hint: 1, None
@@ -180,6 +213,10 @@
                 background_color: 0, 0, 0, 0
                 padding: 10
                 font_size: '13sp'
+                Label:
+                    id: mensaje_nombre
+                    text: "Solo se permiten Letras"
+                    opacity: 0
 
 #Cuarta fila
         MDFloatLayout:
@@ -300,7 +337,7 @@
                     size: self.size
                     pos: self.pos
                     radius: [23]
-            on_release: root.validacionRegistro()
+            on_release: app.validacionRegistro()
 
 #Testo para regresar al Login
         MDLabel:

@@ -4,7 +4,7 @@
 
         MDFloatLayout:
             FitImage:
-                source: 'asset/img/login.png'
+                source: 'asset/img/login4.png'
 
 
             MDLabel:
@@ -83,7 +83,7 @@
                 pos_hint: {"center_x": .5, "center_y": .30}
                 background_color: 0, 0, 0, 0
                 color: (240/255, 0/255, 0/255)
-
+                
                 #on_release: app.send_data(email, password)
                 canvas.before:
                     Color:
@@ -92,7 +92,7 @@
                         size: self.size
                         pos: self.pos
                         radius: [23]
-                on_release: root.validacionUser()
+                on_release: app.validacionUser()
 
             MDLabel:
                 text: "No tengo una cuenta? "

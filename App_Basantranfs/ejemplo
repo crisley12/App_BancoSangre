@@ -1,0 +1,73 @@
+
+app.config['MONGO_URI']='mongodb://localhost/banco_de_sangre'
+#mongo = PyMongo(app)
+
+@app.route('/users', methods=['POST'])
+def create_user():
+    #recibiendo datos
+    username= request.json['username']
+    password =request.json['password']
+    email =request.json['email']
+
+    if username and password and email:
+        hashed_password = generate_password_hash(password)
+        id = mongo.db.users.insert_one(
+            {'username': username, 'password': hashed_password, 'email': email}
+        )
+        response={
+            'id': str(id),
+            'username': username,
+            'password': hashed_password,
+            'email': email
+        }
+        return response
+    else:
+        return not_found()
+
+    return {'message': 'recibido'}
+
+@app.route('/users', methods=['GET'])
+def get_users():
+    users = mongo.db.users.find()
+    response = json_util.dumps(users)
+    return Response(response, mimetype='aplication/json')
+
+@app.route('/users/<id>', methods=['GET'])
+def get_user(id):
+    user = mongo.db.users.find_one({'_id': ObjectId(id)})
+    response = json_util.dumps(user)
+    return Response(response, mimetype='aplication/json')
+
+@app.route('/users/<id>', methods=['DELETE'])
+def delete_user(id):
+    mongo.db.users.delete_one({'_id': ObjectId(id)})
+    response = jsonify({'message':'El Usuario ' + id + ' Fue eliminado'})
+    return response
+
+@app.route('/users/<id>', methods=['PUT'])
+def update_user(id):
+    username = request.json['username']
+    password = request.json['password']
+    email = request.json['email']
+
+    if   username and  password and email:
+        hashed_password = generate_password_hash(password)
+        mongo.db.users.update_one({'_id': ObjectId(id)}, {'$set': {
+            'username': username,
+            'password': hashed_password,
+            'email': email
+        }})
+        response = jsonify({'message': 'User ' + id + ' Se actualizo correctamente'})
+        return response
+
+@app.errorhandler(404)
+def not_found(error=None):
+    message = jsonify({
+        'message': 'No se encontro nada ' + request.url,
+        'status': 404
+    })
+    message.status_code = 404
+    return message
+
+if __name__ == "__main__":
+    app.run(debug=True)

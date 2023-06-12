@@ -3,24 +3,16 @@ from kivy.lang import Builder
 from kivy.uix.dropdown import DropDown
 from kivymd.uix.list import OneLineListItem
 from kivymd.uix.pickers import MDDatePicker
-from kivymd.uix.dialog import MDDialog
-from kivymd.uix.button import MDFlatButton
 #from kivymd.theming import ThemeManager
-from conection import Database
-
 
 class Signup(MDScreen):
-    db = None
 
     def __init__(self, **kwargs) -> None:
         Builder.load_file("kv/signup.kv")
         super(Signup, self).__init__(**kwargs)
-        self.database = kwargs.get('database')
         self.t_sangre = self.ids.t_sangre
         self.t_sexo = self.ids.t_sexo
         self.create_dropdown()
-        self.validacionRegistro()
-        self.db = Database(database_name='banco_de_sangre')
     
 
 #################################################
@@ -135,79 +127,3 @@ class Signup(MDScreen):
             telefono.foreground_color = 1, 0, 0, 1  
         else:
             telefono.foreground_color = 0, 0, 0, 1  
-
-####################################################
-#                VALIDACION 
-####################################################
-
-    def validacionRegistro(self):
-      # Obtener el texto de los campos de usuario y contraseña
-      cedula = self.ids.cedula.text
-      p_apellido = self.ids.p_apellido.text
-      s_apellido  = self.ids.s_apellido.text
-      p_nombre  = self.ids.p_nombre.text
-      s_nombre  = self.ids.s_nombre.text
-      n_telefono  = self.ids.n_telefono.text
-      t_sangre  = self.ids.t_sangre.text
-      t_sexo  = self.ids.t_sexo.text
-      f_nacimiento  = self.ids.f_nacimiento.text
-      email  = self.ids.email.text
-      password  = self.ids.password.text
-        
-      # Verificar si los campos están vacíos
-      campo_vacio = []
-      if not cedula:
-          campo_vacio.append("cedula")
-      if not p_apellido:
-          campo_vacio.append("p_apellido")
-      if not s_apellido:
-          campo_vacio.append("s_apellido")
-      if not p_nombre:
-          campo_vacio.append("p_nombre")
-      if not s_nombre:
-          campo_vacio.append("s_nombre")
-      if not n_telefono:
-          campo_vacio.append("n_telefono")
-      if not t_sangre:
-          campo_vacio.append("t_sangre")
-      if not t_sexo:
-          campo_vacio.append("t_sexo")
-      if not f_nacimiento:
-          campo_vacio.append("f_nacimiento")
-      if not email:
-          campo_vacio.append("email")
-      if not password:
-          campo_vacio.append("password")
-          
-      if campo_vacio:
-        campos_str = ", ".join(campo_vacio)
-        mensaje = f"Por favor, complete los siguientes campos: {campos_str}"
-        self.show_dialog("Error", mensaje)
-        return
-    
-      # Obtener la colección de usuarios
-      users_collection = self.db.get_collection('users')
-
-      # Buscar al usuario en la base de datos
-      registro = users_collection.insert_one({'cedula': cedula, 'p_apellido': p_apellido, 's_apellido': s_apellido, 'p_nombre': p_nombre, 's_nombre': s_nombre,
-                                          'n_telefono': n_telefono, 't_sangre': t_sangre, 't_sexo': t_sexo,'f_nacimiento': f_nacimiento, 'email': email, 'password': password})
-
-      if registro is None:
-          self.show_dialog("Error", "error al registrar.")
-      else:
-        self.show_dialog("Bienvenido", f"Bienvenido, {p_nombre}.")
-        self.current = "login"
-        
-            
-    def show_dialog(self, title, text):
-      # Crear y mostrar un cuadro de diálogo
-      dialog = MDDialog(
-          title=title,
-          text=text,
-          buttons=[
-              MDFlatButton(
-                  text="Cerrar", on_release=lambda *args: dialog.dismiss()
-              )
-          ],
-      )
-      dialog.open()

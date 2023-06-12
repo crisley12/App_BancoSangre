@@ -2,7 +2,7 @@ from kivymd.uix.screen import MDScreen
 from kivy.lang import Builder
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDFlatButton
-
+from conection import Database
 
 
 
@@ -14,6 +14,7 @@ class Login(MDScreen):
       super().__init__(**kwargs)
       self.database = kwargs.get('database')
       self.validacionUser()
+      self.db = Database(database_name='banco_de_sangre')
 
 
 ####################################################

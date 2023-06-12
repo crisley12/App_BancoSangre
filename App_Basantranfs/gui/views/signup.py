@@ -6,6 +6,7 @@ from kivymd.uix.pickers import MDDatePicker
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDFlatButton
 #from kivymd.theming import ThemeManager
+from conection import Database
 
 
 class Signup(MDScreen):
@@ -19,6 +20,7 @@ class Signup(MDScreen):
         self.t_sexo = self.ids.t_sexo
         self.create_dropdown()
         self.validacionRegistro()
+        self.db = Database(database_name='banco_de_sangre')
     
 
 #################################################

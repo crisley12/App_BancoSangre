@@ -40,7 +40,7 @@
             TextInput:
                 id: cedula
                 input_filter: 'int'
-                on_text: self.text = app.solo_numeros(self.text, root.ids.mensaje_numero)
+                prefix: "V-"
                 #font_name: "Poppins"
                 hint_text: "Cédula"
                 size_hint: 1, None
@@ -51,9 +51,11 @@
                 cursor_width: '2sp'
                 foreground_color: 0, 0, 0
                 background_color: 0, 0, 0, 0
-                padding: 10
+                padding: [10]
                 font_size: '13sp'
-                on_text: root.check_length_cedula()
+                on_text: 
+                    root.check_length_cedula()
+                    self.text = app.solo_numeros(self.text, root.ids.mensaje_numero)
                 Label:
                     id: mensaje_numero
                     text: "Solo se permiten números"
@@ -72,7 +74,6 @@
             TextInput:
                 id: n_telefono
                 input_filter: 'int'
-                on_text: self.text = app.solo_numeros(self.text, root.ids.mensaje_numero)
                 #font_name: "Poppins"
                 hint_text: "N° Telefono"
                 size_hint: 1, None
@@ -83,9 +84,11 @@
                 cursor_width: '2sp'
                 foreground_color: 0, 0, 0
                 background_color: 0, 0, 0, 0
-                padding: 10
+                padding: [10]
                 font_size: '13sp'
-                on_text: root.check_length_telefono()
+                on_text: 
+                    root.check_length_telefono()
+                    self.text = app.solo_numeros(self.text, root.ids.mensaje_numero)
                 Label:
                     id: mensaje_numero
                     text: "Solo se permiten números"
@@ -106,7 +109,6 @@
             TextInput:
                 id: p_apellido
                 #input_filter: 'str'
-                on_text: self.text = app.solo_letras(self.text, root.ids.mensaje_nombre)
                 #font_name: "Poppins"
                 hint_text: "Primer Apellido"
                 size_hint: 1, None
@@ -117,8 +119,9 @@
                 cursor_width: '2sp'
                 foreground_color: 0, 0, 0
                 background_color: 0, 0, 0, 0
-                padding: 10
+                padding: [10]
                 font_size: '13sp'
+                on_text: self.text = app.solo_letras(self.text, root.ids.mensaje_nombre)
                 Label:
                     id: mensaje_nombre
                     text: "Solo se permiten Letras"
@@ -137,7 +140,6 @@
             TextInput:
                 id: s_apellido
                 #input_filter: 'str'
-                on_text: self.text = app.solo_letras(self.text, root.ids.mensaje_nombre)
                 #font_name: "Poppins"
                 hint_text: "Segundo Apellido"
                 size_hint: 1, None
@@ -148,8 +150,9 @@
                 cursor_width: '2sp'
                 foreground_color: 0, 0, 0
                 background_color: 0, 0, 0, 0
-                padding: 10
+                padding: [10]
                 font_size: '13sp'
+                on_text: self.text = app.solo_letras(self.text, root.ids.mensaje_nombre)
                 Label:
                     id: mensaje_nombre
                     text: "Solo se permiten Letras"
@@ -169,7 +172,6 @@
             TextInput:
                 id: p_nombre
                 #input_filter: 'str'
-                on_text: self.text = app.solo_letras(self.text, root.ids.mensaje_nombre)
                 #font_name: "Poppins"
                 hint_text: "Primer Nombre"
                 size_hint: 1, None
@@ -180,8 +182,9 @@
                 cursor_width: '2sp'
                 foreground_color: 0, 0, 0
                 background_color: 0, 0, 0, 0
-                padding: 10
+                padding: [10]
                 font_size: '13sp'
+                on_text: self.text = app.solo_letras(self.text, root.ids.mensaje_nombre)
                 Label:
                     id: mensaje_nombre
                     text: "Solo se permiten Letras"
@@ -200,7 +203,6 @@
             TextInput:
                 id: s_nombre
                 #input_filter: 'str'
-                on_text: self.text = app.solo_letras(self.text, root.ids.mensaje_nombre)
                 #font_name: "Poppins"
                 hint_text: "Segundo Nombre"
                 size_hint: 1, None
@@ -211,8 +213,9 @@
                 cursor_width: '2sp'
                 foreground_color: 0, 0, 0
                 background_color: 0, 0, 0, 0
-                padding: 10
+                padding: [10]
                 font_size: '13sp'
+                on_text: self.text = app.solo_letras(self.text, root.ids.mensaje_nombre)
                 Label:
                     id: mensaje_nombre
                     text: "Solo se permiten Letras"
@@ -220,16 +223,35 @@
 
 #Cuarta fila
         MDFloatLayout:
-            MDRaisedButton:
+            #font_name: "Poppins"
+            orientation: "vertical"
+            spacing: "5dp"
+            adaptive_height: True
+            size_hint_x: .3
+            #padding: [15]
+            pos_hint: {"center_x": .25, "center_y": .56}
+            MDTextField:
                 id: f_nacimiento
+                pos_hint: {"center_x": .3, "center_y": .56}
+                hint_text: "Fecha"
+                helper_text: "dd/mm/yyyy"
+                validator: "date"
+                date_format: "dd/mm/yyyy" 
+                helper_text_mode: "persistent"
+                input_filter: lambda text, from_undo: text[:10]
+                on_text_validate:
+                    app.validate_date(self.text)
+
+           # MDRaisedButton:
+                #id: f_nacimiento
                 #font_name: "Poppins"
-                text: "F_Nacimiento"
-                title:"Selecione una Fecha"
-                pos_hint: {'center_x': .5, 'center_y': .5}
+                #text: "F_Nacimiento"
+                #title:"Selecione una Fecha"
+                #pos_hint: {'center_x': .5, 'center_y': .5}
                 #md_bg_color: (238/255, 238/255, 1)
-                text_color: (240/255, 0/255, 0/255)
-                padding: 15, 0
-                pos_hint: {"center_x": .2, "center_y": .56}
+                #text_color: (240/255, 0/255, 0/255)
+                #padding: 15, 0
+                #pos_hint: {"center_x": .2, "center_y": .56}
                 #on_release: root.show_date_picker()
 
         MDFloatLayout:
@@ -238,9 +260,9 @@
                 id: t_sexo
                 icon: 'gender-male-female'
                 text: "Sexo"
-                #md_bg_color: (238/255, 238/255, 1)
+                md_bg_color: (238/255, 238/255, 1)
                 text_color: 240/255, 0/255, 0/255
-                padding: 30, 0
+                padding: [30, 0]
                 size_hint: .25, .05
                 pos_hint: {"center_x": .50, "center_y": .56}
                 on_release: root.dropdown_2.open(self)
@@ -256,9 +278,9 @@
                 id: t_sangre
                 icon: 'user'
                 text: "Tipo de Sangre"
-                #md_bg_color: (238/255, 238/255, 1)
+                md_bg_color: (238/255, 238/255, 1)
                 text_color: (240/255, 0/255, 0/255)
-                padding: 15, 0
+                padding: [15, 0]
                 size_hint: .25, .05
                 pos_hint: {"center_x": .80, "center_y": .56}
                 on_release: root.dropdown_1.open(self)
@@ -292,7 +314,7 @@
                 cursor_width: '2sp'
                 foreground_color: 0, 0, 0
                 background_color: 0, 0, 0, 0
-                padding: 10
+                padding: [10]
                 font_size: '13sp'
 
 #Sexta fila
@@ -318,7 +340,7 @@
                 cursor_width: '2sp'
                 foreground_color: 0, 0, 0
                 background_color: 0, 0, 0, 0
-                padding: 10
+                padding: [10]
                 font_size: '13sp'
 
 

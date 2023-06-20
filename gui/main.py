@@ -9,67 +9,73 @@ from conection import Database
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDFlatButton
 import re
+import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from kivy.lang import Builder
 Window.size = (350, 600)
-
 
 class MainApp(MDApp):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.db = Database(database_name='banco_de_sangre')
 
-# Constructor de la interfaz
-
-    def build(self) -> None:
+    # Constructor de la interfaz
+    def build(self):
         global screen_manager
         screen_manager = ScreenManager()
-        # self.manager = ScreenManager(transition = NoTransition())
         screen_manager.add_widget(Builder.load_file("kv/main.kv"))
         screen_manager.add_widget(Login(name='login'))
         screen_manager.add_widget(Signup(name='signup'))
         return screen_manager
 
-
-# Transicion de pantalla de inicio a --> LoginScreen
-
-    def on_start(self) -> None:
+    # Transicion de pantalla de inicio a --> LoginScreen
+    def on_start(self):
         Clock.schedule_once(self.login, 3)
 
-    def login(self, *args) -> None:
+    def login(self, *args):
         screen_manager.current = "login"
-        
-    
+
+    #################################################
+    #            VALIDACION LOGIN
+    #################################################
+
     def validacionUser(self):
         # Obtener el texto de los campos de usuario y contraseña
         login_screen = screen_manager.get_screen('login')
         username = login_screen.ids.email.text
         password = login_screen.ids.password.text
-            
+
         # Verificar si los campos están vacíos
         if not username or not password:
             self.show_dialog("Error", "Por favor, complete todos los campos.")
             return
-        
+
         # Obtener la colección de usuarios
         users_collection = self.db.get_collection('users')
 
         # Buscar al usuario en la base de datos
-        user = users_collection.find_one({'email': username, 'password': password})
+        user = users_collection.find_one({'email': username})
 
         # Verificar si el usuario fue encontrado o no
         if user is None:
             self.show_dialog("Error", "Usuario o contraseña incorrecto.")
         else:
-            self.show_dialog("Bienvenido", f"Bienvenido, {user['p_nombre']}.")
-            
-# Validar el formato del email
+            if check_password_hash(user['password'], password):
+                self.show_dialog("Bienvenido", f"Bienvenido, {user['p_nombre']}.")
+            else:
+                self.show_dialog("Error", "Usuario o contraseña incorrecto.")
+
+    #################################################
+    #            VALIDACION REGISTRO
+    #################################################
+
+    # Validar el formato del email
     def validar_email(self, email):
         pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
         return re.match(pattern, email) is not None
-    
-#Validar Solo numeros
+
+    # Valida solo números
     def solo_numeros(self, text, mensaje_numero):
         if text.isdigit():
             mensaje_numero.opacity = 0
@@ -78,7 +84,7 @@ class MainApp(MDApp):
             mensaje_numero.opacity = 1
             return ""
 
-#Valida solo Letras
+    # Valida solo letras
     def solo_letras(self, text, mensaje_nombre):
         if text.isalpha():
             mensaje_nombre.opacity = 0
@@ -87,9 +93,30 @@ class MainApp(MDApp):
             mensaje_nombre.opacity = 1
             return ""
 
-              
+    # Valida el formato de fecha
+    def on_text(self, instance, value):
+        if value == "":
+            self.helper_text = "dd/mm/yyyy"
+        else:
+            self.helper_text = ""
+
+    def validate_date(self, text):
+        parts = text.split('/')
+        if len(parts) == 3 and all(part.isdigit() for part in parts):
+            day, month, year = map(int, parts)
+            if 1 <= day <= 31 and 1 <= month <= 12:
+                current_year = datetime.datetime.now().year
+                age = current_year - year
+                if age >= 18:
+                    return True
+                else:
+                    return "No eres mayor de edad."
+            else:
+                return "Fecha de nacimiento inválida."
+        else:
+            return "Formato de fecha de nacimiento incorrecto (dd/mm/yyyy)."
+
     def validacionRegistro(self):
-        # Obtener el texto de los campos de usuario y contraseña
         registre_screen = screen_manager.get_screen('signup')
         cedula = registre_screen.ids.cedula.text
         p_apellido = registre_screen.ids.p_apellido.text
@@ -137,6 +164,24 @@ class MainApp(MDApp):
             campos_str = ", ".join(campo_vacio)
             mensaje = f"Por favor, complete los siguientes campos: {campos_str}"
             self.show_dialog("Error", mensaje)
+            return
+
+         # Validar la fecha de nacimiento
+        date_validation_result = self.validate_date(f_nacimiento)
+        if date_validation_result != True:
+            self.show_dialog("Error", date_validation_result)
+            return
+
+        # Convertir la fecha de nacimiento a un objeto de tipo datetime
+        try:
+            f_nacimiento_dt = datetime.datetime.strptime(f_nacimiento, '%d/%m/%Y').date()
+        except ValueError:
+            self.show_dialog("Error", "Formato de fecha de nacimiento incorrecto (dd/mm/yyyy).")
+            return
+
+        # Validar que la fecha de nacimiento sea anterior a la fecha actual
+        if f_nacimiento_dt >= datetime.date.today():
+            self.show_dialog("Error", "Fecha de nacimiento inválida.")
             return
 
         # Obtener la colección de pacientes

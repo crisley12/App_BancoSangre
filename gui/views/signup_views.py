@@ -12,13 +12,13 @@ class Signup(MDScreen):
         super(Signup, self).__init__(**kwargs)
         self.t_sangre = self.ids.t_sangre
         self.t_sexo = self.ids.t_sexo
+        self.f_nacimiento = self.ids.f_nacimiento
         self.create_dropdown()
     
 
 #################################################
 #            SELECTOR DE FECHA
 #################################################
-
 
 #################################################
 #            LISTA DESPLEGABLE
@@ -59,7 +59,7 @@ class Signup(MDScreen):
 #            INPUT CEDULA 
 #################################################
 
-    Max_c = 8
+    Max_c = 10
 
     def check_length_cedula(self):
         cedula = self.ids.cedula
@@ -68,6 +68,8 @@ class Signup(MDScreen):
             cedula.foreground_color = 1, 0, 0, 1  # Cambiar a color rojo
         else:
             cedula.foreground_color = 0, 0, 0, 1  # Restaurar el color original
+
+
 
 #################################################
 #            INPUT N_TELEFONO

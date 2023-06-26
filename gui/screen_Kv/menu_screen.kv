@@ -1,0 +1,18 @@
+<MenuScreen>:
+    MDScreen:
+        name: "menu"
+        MDLabel:
+            text: "Basantranfs"
+            font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
+            pos_hint: {"center_x": .5, "center_y": .90}
+            halign: 'center'
+            font_size: '30sp'
+            theme_text_color: 'Custom'
+            text_color: 240/255, 0/255, 0/255
+        MDFloatLayout:
+            MDTextButton:
+                text: "  Unete"
+                font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
+                color: 0, 0, 0
+                pos_hint: {"center_x": .706, "center_y": .65}
+                on_release: app.root.current = 'requirements'

@@ -8,7 +8,7 @@ from kivymd.uix.list import OneLineListItem
 class Signup(MDScreen):
 
     def __init__(self, **kwargs) -> None:
-        Builder.load_file("kv/signup.kv")
+        Builder.load_file("views_kv/signup.kv")
         super(Signup, self).__init__(**kwargs)
         self.t_sangre = self.ids.t_sangre
         self.t_sexo = self.ids.t_sexo

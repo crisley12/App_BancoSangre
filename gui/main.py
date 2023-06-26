@@ -5,6 +5,18 @@ from kivy.clock import Clock
 from kivy.core.window import Window
 from views.login_views import Login
 from views.signup_views import Signup
+from root_screen import RootScreen
+from screen.requirements_screen import RequirementsScreen
+from screen.donate_screen import DonateScreen
+from screen.need_donate_screen import NeedDonateScreen
+from screen.process_screen import ProcessScreen
+from screen.group_blood_screen import GroupBloodScreen
+from screen.location_screen import LocationScreen
+from screen.questions_screen import QuestionsScreen
+from screen.about_screen import AboutScreen
+from screen.user_screen import UserScreen
+from screen.alert_screen import AlertScreen
+from screen.menu_screen import MenuScreen
 from conection import Database
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDFlatButton
@@ -15,6 +27,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from kivy.lang import Builder
 Window.size = (350, 600)
 
+
 class MainApp(MDApp):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -24,17 +37,44 @@ class MainApp(MDApp):
     def build(self):
         global screen_manager
         screen_manager = ScreenManager()
-        screen_manager.add_widget(Builder.load_file("kv/main.kv"))
+        screen_manager.add_widget(Builder.load_file("views_kv/main.kv"))
         screen_manager.add_widget(Login(name='login'))
         screen_manager.add_widget(Signup(name='signup'))
+        screen_manager.add_widget(RootScreen(name='root'))
+        screen_manager.add_widget(RequirementsScreen(name='requirements'))
+
+
+        '''
+        screen_manager.add_widget(MenuScreen(name='menu'))
+        screen_manager.add_widget(UserScreen(name='user'))
+        screen_manager.add_widget(LocationScreen(name='location'))
+        screen_manager.add_widget(AlertScreen(name='alert'))
+        screen_manager.add_widget(DonateScreen(name='donate'))
+        screen_manager.add_widget(NeedDonateScreen(name='need'))
+        screen_manager.add_widget(ProcessScreen(name='process'))
+        screen_manager.add_widget(GroupBloodScreen(name='group'))
+        screen_manager.add_widget(QuestionsScreen(name='questions'))
+        screen_manager.add_widget(AboutScreen(name='about'))
+        '''
+        
+        '''
+        directory = "gui/root_screen.py"  # Reemplazar con la ruta correcta
+        root_screen = RootScreen(directory, name='root')
+        screen_manager.add_widget(root_screen)
+         Cargar los archivos KV
+        self.load_all_kv_files(self.directory)
+
+        Retornar RootScreen() o usar screen_manager como raíz si es necesario
+        return RootScreen()
+        '''
         return screen_manager
 
-    # Transicion de pantalla de inicio a --> LoginScreen
+    #Transicion de pantalla de inicio a --> LoginScreen
     def on_start(self):
-        Clock.schedule_once(self.login, 3)
+        Clock.schedule_once(self.login, 1)
 
     def login(self, *args):
-        screen_manager.current = "login"
+        screen_manager.current = 'login'
 
     #################################################
     #            VALIDACION LOGIN
@@ -62,7 +102,9 @@ class MainApp(MDApp):
             self.show_dialog("Error", "Usuario o contraseña incorrecto.")
         else:
             if check_password_hash(user['password'], password):
-                self.show_dialog("Bienvenido", f"Bienvenido, {user['p_nombre']}.")
+                screen_manager.current ="root"
+                #self.show_dialog(
+                    #"Bienvenido", f"Bienvenido, {user['p_nombre']}.")
             else:
                 self.show_dialog("Error", "Usuario o contraseña incorrecto.")
 
@@ -132,7 +174,8 @@ class MainApp(MDApp):
 
         # Validar el formato del email
         if not self.validar_email(email):
-            self.show_dialog("Error", "Por favor, ingrese un correo electrónico válido.")
+            self.show_dialog(
+                "Error", "Por favor, ingrese un correo electrónico válido.")
             return
 
         # Verificar si los campos están vacíos
@@ -174,9 +217,11 @@ class MainApp(MDApp):
 
         # Convertir la fecha de nacimiento a un objeto de tipo datetime
         try:
-            f_nacimiento_dt = datetime.datetime.strptime(f_nacimiento, '%d/%m/%Y').date()
+            f_nacimiento_dt = datetime.datetime.strptime(
+                f_nacimiento, '%d/%m/%Y').date()
         except ValueError:
-            self.show_dialog("Error", "Formato de fecha de nacimiento incorrecto (dd/mm/yyyy).")
+            self.show_dialog(
+                "Error", "Formato de fecha de nacimiento incorrecto (dd/mm/yyyy).")
             return
 
         # Validar que la fecha de nacimiento sea anterior a la fecha actual
@@ -211,17 +256,19 @@ class MainApp(MDApp):
                     roles_collection = self.db.get_collection('roles')
 
                     # Buscar el rol "paciente"
-                    paciente_role = roles_collection.find_one({'nombre': 'paciente'})
+                    paciente_role = roles_collection.find_one(
+                        {'nombre': 'paciente'})
 
                     if not paciente_role:
                         # Si el rol "paciente" no existe, se crea
-                        paciente_role_id = roles_collection.insert_one({'nombre': 'paciente'}).inserted_id
+                        paciente_role_id = roles_collection.insert_one(
+                            {'nombre': 'paciente'}).inserted_id
                     else:
                         paciente_role_id = paciente_role['_id']
 
                     # Obtener la colección de usuarios
                     users_collection = self.db.get_collection('users')
-                    
+
                     hashed_password = generate_password_hash(password)
 
                     # Insertar el usuario en la colección "users" con referencia al paciente correspondiente
@@ -233,17 +280,16 @@ class MainApp(MDApp):
                     }).inserted_id
 
                     if user_id:
-                        #self.show_dialog("Bienvenido", f"Bienvenido, {p_nombre}.")
+                        # self.show_dialog("Bienvenido", f"Bienvenido, {p_nombre}.")
                         screen_manager.current = "login"
                     else:
                         self.show_dialog("Error", "Error al registrar.")
                 else:
-                    self.show_dialog("Error", "Error al registrar el paciente.")
+                    self.show_dialog(
+                        "Error", "Error al registrar el paciente.")
             except Exception as e:
                 print(f"Error al registrar: {str(e)}")
                 self.show_dialog("Error", "Error al registrar.")
-
-
 
     def show_dialog(self, title, text):
         # Crear y mostrar un cuadro de diálogo
@@ -256,7 +302,8 @@ class MainApp(MDApp):
                 )
             ],
         )
-        dialog.open()        
-            
+        dialog.open()
+
+
 if __name__ == '__main__':
     MainApp().run()

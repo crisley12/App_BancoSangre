@@ -14,7 +14,7 @@
                 halign: 'center'
                 font_size: '40sp'
                 theme_text_color: 'Custom'
-                text_color: 255/255, 255/255, 255/255, 1
+                text_color: (255/255, 255/255, 255/255, 1)
 
             MDFloatLayout:
                 size_hint: .85, .08
@@ -83,7 +83,6 @@
                 pos_hint: {"center_x": .5, "center_y": .30}
                 background_color: 0, 0, 0, 0
                 color: (240/255, 0/255, 0/255)
-                
                 #on_release: app.send_data(email, password)
                 canvas.before:
                     Color:

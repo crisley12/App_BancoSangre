@@ -23,7 +23,6 @@ from kivymd.uix.button import MDFlatButton
 import re
 import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
-
 from kivy.lang import Builder
 Window.size = (350, 600)
 
@@ -74,7 +73,7 @@ class MainApp(MDApp):
         Clock.schedule_once(self.login, 1)
 
     def login(self, *args):
-        screen_manager.current = 'login'
+        screen_manager.current = 'root'
 
     #################################################
     #            VALIDACION LOGIN

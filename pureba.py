@@ -1,54 +1,95 @@
 from kivy.lang import Builder
-from kivy.core.window import Window
+from kivy.properties import StringProperty
+from kivy.uix.screenmanager import Screen
+
+from kivymd.icon_definitions import md_icons
 from kivymd.app import MDApp
-from kivymd.uix.textfield import MDTextField
+from kivymd.uix.list import OneLineIconListItem
 
-KV = """
-MDFloatLayout:
-    size_hint: .35, .05
-    pos_hint: {"center_x": .3, "center_y": .80}
-    canvas:
-        Color:
-            rgb: (238/255, 238/255, 1)
-        RoundedRectangle:
-            size: self.size
-            pos: self.pos
-            radius: [25]
-    TextInput:
-        id: cedula
-        input_filter: 'int'
-        on_text: self.text = app.solo_numeros(self.text, root.ids.mensaje_numero)
-        #font_name: "Poppins"
-        hint_text: "Cédula"
-        size_hint: 1, None
-        pos_hint: {"center_x": .5, "center_y": .5}
-        height: self.minimum_height
-        multiline: False
-        cursor_color: 0, 0, 0
-        cursor_width: '2sp'
-        foreground_color: 0, 0, 0
-        background_color: 0, 0, 0, 0
-        padding: [10]
-        font_size: '13sp'
-        on_text: root.check_length_cedula()
-        on_focus:
-            if self.focus: self.text = "V-" + self.text.lstrip("V-")
-"""
 
-class MyApp(MDApp):
+Builder.load_string(
+    '''
+#:import images_path kivymd.images_path
+
+
+<CustomOneLineIconListItem>
+
+    IconLeftWidget:
+        icon: root.icon
+
+
+<PreviousMDIcons>
+
+    MDBoxLayout:
+        orientation: 'vertical'
+        spacing: dp(10)
+        padding: dp(20)
+
+        MDBoxLayout:
+            adaptive_height: True
+
+            MDIconButton:
+                icon: 'magnify'
+
+            MDTextField:
+                id: search_field
+                hint_text: 'Search icon'
+                on_text: root.set_list_md_icons(self.text, True)
+
+        RecycleView:
+            id: rv
+            key_viewclass: 'viewclass'
+            key_size: 'height'
+
+            RecycleBoxLayout:
+                padding: dp(10)
+                default_size: None, dp(48)
+                default_size_hint: 1, None
+                size_hint_y: None
+                height: self.minimum_height
+                orientation: 'vertical'
+'''
+)
+
+
+class CustomOneLineIconListItem(OneLineIconListItem):
+    icon = StringProperty()
+
+
+class PreviousMDIcons(Screen):
+
+    def set_list_md_icons(self, text="", search=False):
+        '''Builds a list of icons for the screen MDIcons.'''
+
+        def add_icon_item(name_icon):
+            self.ids.rv.data.append(
+                {
+                    "viewclass": "CustomOneLineIconListItem",
+                    "icon": name_icon,
+                    "text": name_icon,
+                    "callback": lambda x: x,
+                }
+            )
+
+        self.ids.rv.data = []
+        for name_icon in md_icons.keys():
+            if search:
+                if text in name_icon:
+                    add_icon_item(name_icon)
+            else:
+                add_icon_item(name_icon)
+
+
+class MainApp(MDApp):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.screen = PreviousMDIcons()
+
     def build(self):
-        Window.size = (300, 200)
-        return Builder.load_string(KV)
+        return self.screen
 
-    def solo_numeros(self, text, label):
-        if text:
-            return "".join([c for c in text if c.isdigit()])
-        return ""
+    def on_start(self):
+        self.screen.set_list_md_icons()
 
-    def check_length_cedula(self):
-        cedula = self.root.ids.cedula.text
-        if len(cedula) > 1 and not cedula.startswith("V-"):
-            self.root.ids.cedula.text = "V-" + cedula
 
-if __name__ == '__main__':
-    MyApp().run()
+MainApp().run()

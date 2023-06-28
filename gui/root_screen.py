@@ -1,13 +1,11 @@
 from kivymd.uix.screen import MDScreen
 from kivy.lang import Builder
-#from screen.menu_screen import MenuScreen
-# from screen.user_screen import UserScreen
-
 
 class RootScreen(MDScreen):
     def __init__(self, **kwargs) -> None:
         Builder.load_file('root_screen.kv')
         super().__init__(**kwargs)
+        
         
         
     '''

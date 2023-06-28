@@ -1,29 +1,36 @@
 <RootScreen>
-    MDBottomNavigation:
-        MDBottomNavigationItem:
-            name: "menu screen"
-            icon: "user"
-            text: "Menu"
-            MenuScreen:
+    MDScreen:
+        MDBottomNavigation:
+            panel_color: "#ffffff"
+            text_color_active: "red"
+            radius: [16]
+            elevation: 2
+            MDBottomNavigationItem:
+                name: "menu screen"
+                icon: "home"
+                #text: "Menu"
+                MenuScreen:
 
 
-        MDBottomNavigationItem:
-            name: "user screen"
-            icon: "email"
-            text: "User"
-            UserScreen:
+            MDBottomNavigationItem:
+                name: "user screen"
+                icon: "account-circle"
+                #text: "User"
+                UserScreen:
 
          
-        MDBottomNavigationItem:
-            name:"location screen"
-            icon: "user"
-            text: "location"
-            LocationScreen:
+            MDBottomNavigationItem:
+                name:"location screen"
+                #icon: "office-building-marker"
+                icon: "map-marker-radius"
+                #text: "location"
+                LocationScreen:
 
 
-        MDBottomNavigationItem:
-            name:"alert screen"
-            icon: "user"
-            text: "alert"
-            AlertScreen:
+            MDBottomNavigationItem:
+                name:"alert screen"
+                icon: "bell"
+                #text: "alert"
+                badge_icon: "numeric-10"
+                AlertScreen:
 

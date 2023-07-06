@@ -1,11 +1,13 @@
-from flask import Flask, request, jsonify, Response
+from flask import Flask, request,  jsonify, Response, session
 from flask_pymongo import PyMongo
 from werkzeug.security import generate_password_hash, check_password_hash
 from bson import json_util
 from bson.objectid import ObjectId
+#import requests
 
 app = Flask(__name__)
-
+app.config['JSON_AS_ASCII'] = False
+app.config['SECRET_KEY'] = 'admin123'
 app.config['MONGO_URI']='mongodb://localhost/banco_de_sangre'
 
 mongo = PyMongo(app)
@@ -18,7 +20,7 @@ def get_users():
     return Response(response, mimetype='application/json')
 
 # Ruta de registro de usuario
-@app.route('/users', methods=['POST'])
+@app.route('/users/create', methods=['POST'])
 def create_user():
     cedula = request.json['cedula']
     p_apellido = request.json['p_apellido']
@@ -98,17 +100,22 @@ def create_user():
 # Ruta de inicio de sesión
 @app.route('/login', methods=['POST'])
 def login():
-    username = request.json['username']
+    email = request.json['email']
     password = request.json['password']
     
-    if username and password:
+    if email and password:
         # Buscar el usuario en la base de datos
-        user = mongo.db.users.find_one({'username': username})
+        user = mongo.db.users.find_one({'email': email})
         if user and check_password_hash(user['password'], password):
+            user_id = str(user['_id'])
+            
+            # Guardar el user_id en la sesión
+            session['user_id'] = user_id
+            
             response = {
-                'id': str(user['_id']),
-                'username': user['username'],
-                'email': user['email']
+                'user_id': user_id,
+                'email': user['email'],
+                'password': user['password']
             }
             return jsonify(response), 200
         

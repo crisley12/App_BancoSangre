@@ -1,0 +1,55 @@
+<PacienteBasantranfsScreen>:
+    MDScreen:
+        name: 'paciente_basantranfs'
+        MDFloatLayout:
+            MDCard:
+                size_hint: .95, .95
+                pos_hint: {"center_x": .5, "center_y": .5}
+                Carousel:
+                    #id: carusel
+                    MDFloatLayout:
+                        MDLabel:
+                            #id: name
+                            font_size: '18sp'
+                            text: "¿Eres donador de Basantranfs?"
+                            size_hint_x: .8
+                            pos_hint: {"center_x": .55, "center_y": .55}
+                            theme_text_color: "Custom"
+                        MDFillRoundFlatButton:
+                            text: "Si"
+                            size_hint_x: .3
+                            pos_hint: {"center_x": .35, "center_y": .45}
+                            text_color: "white"
+                            md_bg_color: get_color_from_hex("#F41F05")
+                            elevation: None
+                            padding: [10]
+                            #on_release: root.next()
+                        MDFillRoundFlatButton:
+                            text: "No"
+                            size_hint_x: .3
+                            pos_hint: {"center_x": .7, "center_y": .45}
+                            text_color: "white"
+                            md_bg_color: get_color_from_hex("#F41F05")
+                            elevation: None
+                            padding: [10]
+                            #on_release: root.next()
+
+# PANTALLA DE ACEPTADO
+                    MDFloatLayout:
+                        MDLabel:
+                            #id: name
+                            font_size: '18sp'
+                            text: "Aceptado"
+                            size_hint_x: .8
+                            pos_hint: {"center_x": .55, "center_y": .55}
+                            theme_text_color: "Custom"
+# PANTALLA DE RECHAZADO 
+                    MDFloatLayout:
+                        MDLabel:
+                            #id: name
+                            font_size: '18sp'
+                            text: "Rechazado"
+                            size_hint_x: .8
+                            pos_hint: {"center_x": .55, "center_y": .55}
+                            theme_text_color: "Custom"
+    

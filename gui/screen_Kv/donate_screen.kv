@@ -1,5 +1,617 @@
+<DonateScreen>:
+    MDScreen:
+        name: 'donate'
+        MDFloatLayout:
+            MDCard:
+                size_hint: .95, .95
+                pos_hint: {"center_x": .5, "center_y": .5}
+                Carousel:
+                    id: carusel
+                    MDFloatLayout:
+                        MDLabel:
+                            id: label1
+                            font_size: '18sp'
+                            text: "¿Eres donador de Basantranfs?"
+                            size_hint_x: .8
+                            pos_hint: {"center_x": .55, "center_y": .55}
+                            theme_text_color: "Custom"
+                        MDFillRoundFlatButton:
+                            text: "Si"
+                            size_hint_x: .3
+                            pos_hint: {"center_x": .35, "center_y": .45}
+                            text_color: "white"
+                            md_bg_color: get_color_from_hex("#F41F05")
+                            elevation: None
+                            padding: [10]
+                            on_release: app.root.current = 'paciente_basantranfs'
+                        MDFillRoundFlatButton:
+                            text: "No"
+                            size_hint_x: .3
+                            pos_hint: {"center_x": .7, "center_y": .45}
+                            text_color: "white"
+                            md_bg_color: get_color_from_hex("#F41F05")
+                            elevation: None
+                            padding: [10]
+                            on_release: root.next()
+
+#Segundo paso
+                    MDFloatLayout:
+                        name: 'pantalla2'
+                        MDLabel: 
+                            id: label2
+                            font_size: '18sp'
+                            text: "¿Cuál es tu peso?"
+                            size_hint_x: .8
+                            pos_hint: {"center_x": .70, "center_y": .55}
+                            theme_text_color: "Custom"
+                        MDFillRoundFlatButton:
+                            id: less_than_50kg
+                            text: "menos de 50kg"
+                            size_hint_x: .2
+                            pos_hint: {"center_x": .17, "center_y": .45}
+                            text_color: "white"
+                            md_bg_color: get_color_from_hex("#F41F05")
+                            elevation: None
+                            padding: [10]
+                            on_release: root.next2()
+                        MDFillRoundFlatButton:
+                            id: from_50kg
+                            text: "a partir de 50kg"
+                            size_hint_x: .2
+                            pos_hint: {"center_x": .51, "center_y": .45}
+                            text_color: "white"
+                            md_bg_color: get_color_from_hex("#F41F05")
+                            elevation: None
+                            padding: [10]
+                            on_release: root.next2()
+                        MDFillRoundFlatButton:
+                            id: from_50kg_to_65kg
+                            text: "50kg a 65kg"
+                            size_hint_x: .2
+                            pos_hint: {"center_x": .82, "center_y": .45}
+                            text_color: "white"
+                            md_bg_color: get_color_from_hex("#F41F05")
+                            elevation: None
+                            padding: [10]
+                            on_release: root.next2()
+                        MDFillRoundFlatButton:
+                            id: from_65kg_to_80kg
+                            text: "65kg a 80kg"
+                            size_hint_x: .2
+                            pos_hint: {"center_x": .35, "center_y": .35}
+                            text_color: "white"
+                            md_bg_color: get_color_from_hex("#F41F05")
+                            elevation: None
+                            padding: [10]
+                            on_release: root.next2()
+                        MDFillRoundFlatButton:
+                            id: more_than_80kg
+                            text: "+ de 80kg"
+                            size_hint_x: .2
+                            pos_hint: {"center_x": .65, "center_y": .35}
+                            text_color: "white"
+                            md_bg_color: get_color_from_hex("#F41F05")
+                            elevation: None
+                            padding: [10]
+                            on_release: root.next2()
+                        MDIconButton:
+                            icon: "arrow-left"
+                            pos_hint: {"center_x": .65, "center_y": .25}
+                            theme_icon_color: "Custom"
+                            icon_color: (0, 0, 0, 0)
+                            md_bg_color: get_color_from_hex("#ECECEC")
+                            on_release: root.previous1()
 
 
+#Tercer paso                            
+                    MDFloatLayout:
+                        name: 'pantalla3'
+                        MDLabel:
+                            id: label3
+                            font_size: '18sp'
+                            text: "¿Has sido vacunado en los últimos 30 días?"
+                            size_hint_x: .8
+                            pos_hint: {"center_x": .50, "center_y": .55}
+                            theme_text_color: "Custom"
+                        MDFillRoundFlatButton:
+                            id: vaccinated_yes
+                            text: "Si"
+                            size_hint_x: .3
+                            pos_hint: {"center_x": .35, "center_y": .40}
+                            text_color: "white"
+                            md_bg_color: get_color_from_hex("#F41F05")
+                            elevation: None
+                            padding: [10]
+                            on_release: root.next3()
+                        MDFillRoundFlatButton:
+                            id: vaccinated_no
+                            text: "No"
+                            size_hint_x: .3
+                            pos_hint: {"center_x": .7, "center_y": .40}
+                            text_color: "white"
+                            md_bg_color: get_color_from_hex("#F41F05")
+                            elevation: None
+                            padding: [10]
+                            on_release: root.next3()
+                        MDFillRoundFlatButton:
+                            id: validacion
+                            text: "her"
+                            size_hint_x: .3
+                            pos_hint: {"center_x": .7, "center_y": .20}
+                            text_color: "white"
+                            md_bg_color: get_color_from_hex("#F41F05")
+                            elevation: None
+                            padding: [10]
+                            #on_release: root.verificar_apto_para_donar()
+                        MDIconButton:
+                            icon: "arrow-left"
+                            pos_hint: {"center_x": .65, "center_y": .25}
+                            theme_icon_color: "Custom"
+                            icon_color: (0, 0, 0, 0)
+                            md_bg_color: get_color_from_hex("#ECECEC")
+                            on_release: root.previous2()
+
+#Cuarto paso
+
+                    MDFloatLayout:
+                        MDLabel:
+                            id: label4
+                            font_size: '18sp'
+                            text: "¿Tomaste algún medicamento en los últimos 7 días?"
+                            size_hint_x: .8
+                            pos_hint: {"center_x": .50, "center_y": .55}
+                            theme_text_color: "Custom"
+                        MDFillRoundFlatButton:
+                            text: "Si"
+                            size_hint_x: .3
+                            pos_hint: {"center_x": .35, "center_y": .40}
+                            text_color: "white"
+                            md_bg_color: get_color_from_hex("#F41F05")
+                            elevation: None
+                            padding: [10]
+                            on_release: root.next4()
+                        MDFillRoundFlatButton:
+                            text: "No"
+                            size_hint_x: .3
+                            pos_hint: {"center_x": .7, "center_y": .40}
+                            text_color: "white"
+                            md_bg_color: get_color_from_hex("#F41F05")
+                            elevation: None
+                            padding: [10]
+                            on_release: root.next4()
+                            
+
+#Quinto  paso
+
+                    MDFloatLayout:
+                        MDLabel:
+                            id: label5
+                            font_size: '18sp'
+                            text: "¿Padeces de alguna infección o enfermedad actualmente?"
+                            size_hint_x: .8
+                            pos_hint: {"center_x": .50, "center_y": .55}
+                            theme_text_color: "Custom"
+                        MDFillRoundFlatButton:
+                            text: "Si"
+                            size_hint_x: .3
+                            pos_hint: {"center_x": .35, "center_y": .40}
+                            text_color: "white"
+                            md_bg_color: get_color_from_hex("#F41F05")
+                            elevation: None
+                            padding: [10]
+                            on_release: root.next5()
+                        MDFillRoundFlatButton:
+                            text: "No"
+                            size_hint_x: .3
+                            pos_hint: {"center_x": .7, "center_y": .40}
+                            text_color: "white"
+                            md_bg_color: get_color_from_hex("#F41F05")
+                            elevation: None
+                            padding: [10]
+                            on_release: root.next5()
+
+#Sexto  paso
+
+                    MDFloatLayout:
+                        MDLabel:
+                            id: label6
+                            font_size: '18sp'
+                            text: "¿Has padecido alguna de las siguientes enfermedades?"
+                            size_hint_x: .8
+                            pos_hint: {"center_x": .50, "center_y": .55}
+                            theme_text_color: "Custom"
+                        MDFillRoundFlatButton:
+                            text: "Hepatitis B o C"
+                            size_hint_x: .3
+                            pos_hint: {"center_x": .30, "center_y": .40}
+                            text_color: "white"
+                            md_bg_color: get_color_from_hex("#F41F05")
+                            elevation: None
+                            padding: [10]
+                            on_release: root.next6()
+                        MDFillRoundFlatButton:
+                            text: "VIH (Sida)"
+                            size_hint_x: .3
+                            pos_hint: {"center_x": .75, "center_y": .40}
+                            text_color: "white"
+                            md_bg_color: get_color_from_hex("#F41F05")
+                            elevation: None
+                            padding: [10]
+                            on_release: root.next6()
+                        MDFillRoundFlatButton:
+                            text: "HTLV I y II"
+                            size_hint_x: .3
+                            pos_hint: {"center_x": .30, "center_y": .30}
+                            text_color: "white"
+                            md_bg_color: get_color_from_hex("#F41F05")
+                            elevation: None
+                            padding: [10]
+                            on_release: root.next6()
+                        MDFillRoundFlatButton:
+                            text: "Sifilis"
+                            size_hint_x: .3
+                            pos_hint: {"center_x": .75, "center_y": .30}
+                            text_color: "white"
+                            md_bg_color: get_color_from_hex("#F41F05")
+                            elevation: None
+                            padding: [10]
+                            on_release: root.next6()
+                        MDFillRoundFlatButton:
+                            text: "Brucelosis"
+                            size_hint_x: .3
+                            pos_hint: {"center_x": .30, "center_y": .20}
+                            text_color: "white"
+                            md_bg_color: get_color_from_hex("#F41F05")
+                            elevation: None
+                            padding: [10]
+                            on_release: root.next6()
+                        MDFillRoundFlatButton:
+                            text: "Chagas"
+                            size_hint_x: .3
+                            pos_hint: {"center_x": .75, "center_y": .20}
+                            text_color: "white"
+                            md_bg_color: get_color_from_hex("#F41F05")
+                            elevation: None
+                            padding: [10]
+                            on_release: root.next6()
+                        MDFillRoundFlatButton:
+                            text: "No"
+                            size_hint_x: .3
+                            pos_hint: {"center_x": .55, "center_y": .10}
+                            text_color: "white"
+                            md_bg_color: get_color_from_hex("#F41F05")
+                            elevation: None
+                            padding: [10]
+                            on_release: root.next6()
+
+#Septimo paso
+
+                    MDFloatLayout:
+                        MDLabel:
+                            id: label7
+                            font_size: '18sp'
+                            text: "¿Consumiste alguna bebida alcoholica en los últimos 3 días?"
+                            size_hint_x: .8
+                            pos_hint: {"center_x": .50, "center_y": .55}
+                            theme_text_color: "Custom"
+                        MDFillRoundFlatButton:
+                            text: "Si"
+                            size_hint_x: .3
+                            pos_hint: {"center_x": .35, "center_y": .40}
+                            text_color: "white"
+                            md_bg_color: get_color_from_hex("#F41F05")
+                            elevation: None
+                            padding: [10]
+                            on_release: root.next7()
+                        MDFillRoundFlatButton:
+                            text: "No"
+                            size_hint_x: .3
+                            pos_hint: {"center_x": .7, "center_y": .40}
+                            text_color: "white"
+                            md_bg_color: get_color_from_hex("#F41F05")
+                            elevation: None
+                            padding: [10]
+                            on_release: root.next7()
+
+#Octavo paso
+
+                    MDFloatLayout:
+                        MDLabel:
+                            id: label8
+                            font_size: '18sp'
+                            text: "¿Posees tatuajes hechos recientemente?"
+                            size_hint_x: .8
+                            pos_hint: {"center_x": .50, "center_y": .55}
+                            theme_text_color: "Custom"
+                        MDFillRoundFlatButton:
+                            text: "Hace poco"
+                            size_hint_x: .3
+                            pos_hint: {"center_x": .30, "center_y": .40}
+                            text_color: "white"
+                            md_bg_color: get_color_from_hex("#F41F05")
+                            elevation: None
+                            padding: [10]
+                            on_release: root.next8()
+                        MDFillRoundFlatButton:
+                            text: "+ de 1 año"
+                            size_hint_x: .3
+                            pos_hint: {"center_x": .75, "center_y": .40}
+                            text_color: "white"
+                            md_bg_color: get_color_from_hex("#F41F05")
+                            elevation: None
+                            padding: [10]
+                            on_release: root.next8()
+                        MDFillRoundFlatButton:
+                            text: "- de 1 año"
+                            size_hint_x: .3
+                            pos_hint: {"center_x": .30, "center_y": .30}
+                            text_color: "white"
+                            md_bg_color: get_color_from_hex("#F41F05")
+                            elevation: None
+                            padding: [10]
+                            on_release: root.next8()
+                        MDFillRoundFlatButton:
+                            text: "No"
+                            size_hint_x: .3
+                            pos_hint: {"center_x": .75, "center_y": .30}
+                            text_color: "white"
+                            md_bg_color: get_color_from_hex("#F41F05")
+                            elevation: None
+                            padding: [10]
+                            on_release: root.next8()
+
+#Noveno paso
+
+                    MDFloatLayout:
+                        MDLabel:
+                            id: label9
+                            font_size: '18sp'
+                            text: "¿Has donado anteriormente?"
+                            size_hint_x: .8
+                            pos_hint: {"center_x": .60, "center_y": .55}
+                            theme_text_color: "Custom"
+                        MDFillRoundFlatButton:
+                            text: "- de 2 meses"
+                            size_hint_x: .3
+                            pos_hint: {"center_x": .30, "center_y": .40}
+                            text_color: "white"
+                            md_bg_color: get_color_from_hex("#F41F05")
+                            elevation: None
+                            padding: [10]
+                            on_release: root.next9()
+                        MDFillRoundFlatButton:
+                            text: "Hace 2 meces"
+                            size_hint_x: .3
+                            pos_hint: {"center_x": .75, "center_y": .40}
+                            text_color: "white"
+                            md_bg_color: get_color_from_hex("#F41F05")
+                            elevation: None
+                            padding: [10]
+                            on_release: root.next9()
+                        MDFillRoundFlatButton:
+                            text: "+ de 2 meses"
+                            size_hint_x: .3
+                            pos_hint: {"center_x": .30, "center_y": .30}
+                            text_color: "white"
+                            md_bg_color: get_color_from_hex("#F41F05")
+                            elevation: None
+                            padding: [10]
+                            on_release: root.next9()
+                        MDFillRoundFlatButton:
+                            text: "No"
+                            size_hint_x: .3
+                            pos_hint: {"center_x": .75, "center_y": .30}
+                            text_color: "white"
+                            md_bg_color: get_color_from_hex("#F41F05")
+                            elevation: None
+                            padding: [10]
+                            on_release: root.next9()
+
+# PANTALLA DE ACEPTADO
+                    #MDFloatLayout:
+                        #MDLabel:
+                            #id: label10
+                            #font_size: '18sp'
+                            #text: "Aceptado"
+                            #size_hint_x: .8
+                            #pos_hint: {"center_x": .55, "center_y": .55}
+                            #theme_text_color: "Custom"
+# PANTALLA DE RECHAZADO 
+                    #MDFloatLayout:
+                        #MDLabel:
+                            #id: label11
+                            #font_size: '18sp'
+                            #text: "Rechazado"
+                            #size_hint_x: .8
+                            #pos_hint: {"center_x": .55, "center_y": .55}
+                            #theme_text_color: "Custom"
 
 
- 
+            MDLabel:
+                text: "Custionario"
+                font_size: '25sp'
+                font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
+                #bold: True
+                pos_hint: {"center_x": .60, "center_y": .9}
+            MDLabel:
+                text:"De las siguientes preguntas seleciona la respuesta con  sinceridad"
+                font_size: '15sp'
+                font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
+                #bold: True
+                pos_hint: {"center_x": .60, "center_y": .8}
+            MDIconButton:
+                id: icon1
+                icon: "alert-circle"
+                pos_hint: {"center_x": .06, "center_y": .815}
+                theme_text_color: "Custom"
+                icon_color: (240/255, 0/255, 0/255)
+                
+
+
+#LINEA DE PROGRESO--1
+            MDLabel: 
+                id: label1
+                #text: "1"
+                pos_hint: {"center_x": .540, "center_y": .7}
+                theme_text_color: "Custom"
+            MDIconButton:
+                id: icon1
+                icon: "numeric-1-circle"
+                pos_hint: {"center_x": .07, "center_y": .65}
+                user_font_size: "35sp"
+                theme_text_color: "Custom"
+            MDProgressBar: 
+                id: progress1
+                size_hint_x: .08
+                pos_hint: {"center_x": .14, "center_y": .65}
+                color: (240/255, 0/255, 0/255)
+                
+
+#LINEA DE PROGRESO--2
+            MDLabel: 
+                id: label2
+                #text: "2"
+                pos_hint: {"center_x": .958, "center_y": .7}
+                theme_text_color: "Custom"
+            MDIconButton:
+                id: icon2
+                icon: "numeric-2-circle"
+                pos_hint: {"center_x": .20, "center_y": .65}
+                user_font_size: "35sp"
+                theme_text_color: "Custom"
+            MDProgressBar: 
+                id: progress2
+                size_hint_x: .06
+                pos_hint: {"center_x": .26, "center_y": .65}
+                color: (240/255, 0/255, 0/255)
+
+
+#LINEA DE PROGRESO--3
+            MDLabel: 
+                id: label3
+                #text: "2"
+                pos_hint: {"center_x": .958, "center_y": .7}
+                theme_text_color: "Custom"
+            MDIconButton:
+                id: icon3
+                icon: "numeric-3-circle"
+                pos_hint: {"center_x": .30, "center_y": .65}
+                user_font_size: "35sp"
+                theme_text_color: "Custom"
+            MDProgressBar: 
+                id: progress3
+                size_hint_x: .06
+                pos_hint: {"center_x": .36, "center_y": .65}
+                color: (240/255, 0/255, 0/255)
+
+#LINEA DE PROGRESO--4
+
+            MDLabel: 
+                id: label4
+                #text: "2"
+                pos_hint: {"center_x": .958, "center_y": .7}
+                theme_text_color: "Custom"
+            MDIconButton:
+                id: icon4
+                icon: "numeric-4-circle"
+                pos_hint: {"center_x": .40, "center_y": .65}
+                user_font_size: "35sp"
+                theme_text_color: "Custom"
+            MDProgressBar: 
+                id: progress4
+                size_hint_x: .06
+                pos_hint: {"center_x": .46, "center_y": .65}
+                color: (240/255, 0/255, 0/255)
+
+
+#LINEA DE PROGRESO--5
+            MDLabel: 
+                id: label5
+                #text: "2"
+                pos_hint: {"center_x": .958, "center_y": .7}
+                theme_text_color: "Custom"
+            MDIconButton:
+                id: icon5
+                icon: "numeric-5-circle"
+                pos_hint: {"center_x": .50, "center_y": .65}
+                user_font_size: "35sp"
+                theme_text_color: "Custom"
+            MDProgressBar: 
+                id: progress5
+                size_hint_x: .06
+                pos_hint: {"center_x": .56, "center_y": .65}
+                color: (240/255, 0/255, 0/255)
+
+
+#LINEA DE PROGRESO--6
+            MDLabel: 
+                id: label6
+                #text: "2"
+                pos_hint: {"center_x": .958, "center_y": .7}
+                theme_text_color: "Custom"
+            MDIconButton:
+                id: icon6
+                icon: "numeric-6-circle"
+                pos_hint: {"center_x": .60, "center_y": .65}
+                user_font_size: "35sp"
+                theme_text_color: "Custom"
+            MDProgressBar: 
+                id: progress6
+                size_hint_x: .06
+                pos_hint: {"center_x": .66, "center_y": .65}
+                color: (240/255, 0/255, 0/255)
+
+
+#LINEA DE PROGRESO--7
+
+            MDLabel: 
+                id: label7
+                #text: "2"
+                pos_hint: {"center_x": .958, "center_y": .7}
+                theme_text_color: "Custom"
+            MDIconButton:
+                id: icon7
+                icon: "numeric-7-circle"
+                pos_hint: {"center_x": .70, "center_y": .65}
+                user_font_size: "35sp"
+                theme_text_color: "Custom"
+            MDProgressBar: 
+                id: progress7
+                size_hint_x: .06
+                pos_hint: {"center_x": .76, "center_y": .65}
+                color: (240/255, 0/255, 0/255)
+
+#LINEA DE PROGRESO--8
+            MDLabel: 
+                id: label8
+                #text: "2"
+                pos_hint: {"center_x": .958, "center_y": .7}
+                theme_text_color: "Custom"
+            MDIconButton:
+                id: icon8
+                icon: "numeric-8-circle"
+                pos_hint: {"center_x": .80, "center_y": .65}
+                user_font_size: "35sp"
+                theme_text_color: "Custom"
+            MDProgressBar: 
+                id: progress8
+                size_hint_x: .06
+                pos_hint: {"center_x": .86, "center_y": .65}
+                color: (240/255, 0/255, 0/255)
+
+#LINEA DE PROGRESO--9
+            MDLabel: 
+                id: label9
+                #text: "2"
+                pos_hint: {"center_x": .958, "center_y": .7}
+                theme_text_color: "Custom"
+            MDIconButton:
+                id: icon9
+                icon: "numeric-9-circle"
+                pos_hint: {"center_x": .90, "center_y": .65}
+                user_font_size: "35sp"
+                theme_text_color: "Custom"
+            #MDProgressBar: 
+                #id: progress9
+                #size_hint_x: .06
+                #pos_hint: {"center_x": .96, "center_y": .65}

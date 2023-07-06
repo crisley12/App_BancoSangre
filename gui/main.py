@@ -8,6 +8,7 @@ from views.signup_views import Signup
 from root_screen import RootScreen
 from screen.requirements_screen import RequirementsScreen
 from screen.donate_screen import DonateScreen
+from screen.paciente_basantranfs_screen import PacienteBasantranfsScreen
 from screen.need_donate_screen import NeedDonateScreen
 from screen.process_screen import ProcessScreen
 from screen.group_blood_screen import GroupBloodScreen
@@ -22,8 +23,9 @@ from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDFlatButton
 import re
 import datetime
+import requests
 from werkzeug.security import generate_password_hash, check_password_hash
-from kivy.lang import Builder
+from flask import Flask, session, request, jsonify
 Window.size = (350, 600)
 
 
@@ -41,21 +43,22 @@ class MainApp(MDApp):
         screen_manager.add_widget(Signup(name='signup'))
         screen_manager.add_widget(RootScreen(name='root'))
         screen_manager.add_widget(RequirementsScreen(name='requirements'))
-
+        screen_manager.add_widget(DonateScreen(name='donate'))
+        screen_manager.add_widget(
+            PacienteBasantranfsScreen(name='paciente_basantranfs'))
 
         '''
         screen_manager.add_widget(MenuScreen(name='menu'))
         screen_manager.add_widget(UserScreen(name='user'))
         screen_manager.add_widget(LocationScreen(name='location'))
         screen_manager.add_widget(AlertScreen(name='alert'))
-        screen_manager.add_widget(DonateScreen(name='donate'))
         screen_manager.add_widget(NeedDonateScreen(name='need'))
         screen_manager.add_widget(ProcessScreen(name='process'))
         screen_manager.add_widget(GroupBloodScreen(name='group'))
         screen_manager.add_widget(QuestionsScreen(name='questions'))
         screen_manager.add_widget(AboutScreen(name='about'))
         '''
-        
+
         '''
         directory = "gui/root_screen.py"  # Reemplazar con la ruta correcta
         root_screen = RootScreen(directory, name='root')
@@ -68,12 +71,12 @@ class MainApp(MDApp):
         '''
         return screen_manager
 
-    #Transicion de pantalla de inicio a --> LoginScreen
+    # Transicion de pantalla de inicio a --> LoginScreen
     def on_start(self):
-        Clock.schedule_once(self.login, 1)
+        Clock.schedule_once(self.login, 3)
 
     def login(self, *args):
-        screen_manager.current = 'root'
+        screen_manager.current = 'login'
 
     #################################################
     #            VALIDACION LOGIN
@@ -82,30 +85,50 @@ class MainApp(MDApp):
     def validacionUser(self):
         # Obtener el texto de los campos de usuario y contraseña
         login_screen = screen_manager.get_screen('login')
-        username = login_screen.ids.email.text
-        password = login_screen.ids.password.text
+        username = login_screen.ids.email.text  # .strip()
+        self.validar_email(username)
+        if not self.validar_email(username):
+            self.show_dialog("Error", "Ingrese un email válido")
+            return
+        password = login_screen.ids.password.text  # .strip()
 
         # Verificar si los campos están vacíos
         if not username or not password:
             self.show_dialog("Error", "Por favor, complete todos los campos.")
             return
 
-        # Obtener la colección de usuarios
-        users_collection = self.db.get_collection('users')
+        # Realizar la solicitud de inicio de sesión a la API
+        data = {
+            "email": username,
+            "password": password
+        }
 
-        # Buscar al usuario en la base de datos
-        user = users_collection.find_one({'email': username})
+        response = requests.post("http://localhost:5000/login", json=data)
+        print(response)
 
-        # Verificar si el usuario fue encontrado o no
-        if user is None:
-            self.show_dialog("Error", "Usuario o contraseña incorrecto.")
+        if response.status_code == 200:
+            self.show_dialog("Bienvenido", "¡Bienvenido!")
+            screen_manager.current ="root"
+
+            # Obtener el user_id del usuario actual de la respuesta JSON
+            user_id = response.json().get('user_id')
+
+            print("El user_id del usuario actual es:", user_id)
+
+            # Obtener la colección de usuarios
+            # users_collection = self.db.get_collection('users')
+
+            # Buscar al usuario en la base de datos
+            # user = users_collection.find_one({'email': username, 'password': password})
+
+            # Verificar si el usuario fue encontrado o no
+            # if user is not None:
+            #    self.show_dialog("Error", "Usuario o contraseña incorrecto.")
+
+            # return jsonify(response), 200
+
         else:
-            if check_password_hash(user['password'], password):
-                screen_manager.current ="root"
-                #self.show_dialog(
-                    #"Bienvenido", f"Bienvenido, {user['p_nombre']}.")
-            else:
-                self.show_dialog("Error", "Usuario o contraseña incorrecto.")
+            self.show_dialog("Error", "Usuario o contraseña incorrecto.")
 
     #################################################
     #            VALIDACION REGISTRO

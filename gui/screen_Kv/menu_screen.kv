@@ -33,7 +33,7 @@
         text: "Crisley Gonzalez"
         #bold: True
         font_size: "20sp"
-        font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
+        font_name: 'asset/Fuentes/Poppins-SemiBoldItalic.ttf'
         theme_text_color: "Custom"
         text_color: get_color_from_hex("#FFFFFF")
         pos_hint: {"center_y": .80}
@@ -46,7 +46,7 @@
         text: "AB+"
         #bold: True
         font_size: "20sp"
-        font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
+        font_name: 'asset/Fuentes/Poppins-SemiBoldItalic.ttf'
         theme_text_color: "Custom"
         text_color: get_color_from_hex("#FFFFFF")
         pos_hint: {"center_y": .80}
@@ -66,7 +66,7 @@
         MDCard:
             orientation: "vertical"
             radius: 12
-            padding: "12dp", 0, "12dp", "24dp"
+            padding: "12dp", "5dp", "12dp", "12dp"
             ripple_behavior: True
             md_bg_color: get_color_from_hex("#ffffff")
             elevation: 2
@@ -74,10 +74,10 @@
             Image:
                 source: 'asset/img/logo.png'
             MDLabel:
-                text:"Diet Recommendation"
+                text:"Requisitos para donar sangre"
                 halign: "center"
                 adaptive_height: True
-                #font_name: "assets/fonts/Cairo/Cairo-Bold.ttf"
+                #font_name: "asset\Fuentes\Poppins-LightItalic.ttf"
                 line_height: .6
                 font_size: "14sp"
 
@@ -89,10 +89,11 @@
             ripple_behavior: True
             md_bg_color: get_color_from_hex("#ffffff")
             elevation: 2
+            on_release: app.root.current = 'donate'
             Image:
                 source: 'asset/img/logo.png'
             MDLabel:
-                text:"Diet Recommendation"
+                text:"Quiero Donar"
                 halign: "center"
                 adaptive_height: True
                 #font_name: "assets/fonts/Cairo/Cairo-Bold.ttf"

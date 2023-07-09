@@ -70,7 +70,9 @@
             ripple_behavior: True
             md_bg_color: get_color_from_hex("#ffffff")
             elevation: 2
-            on_release: app.root.current = 'requirements'
+            on_release: 
+                app.root.transition.direction = "left" 
+                app.root.current = 'requirements'
             Image:
                 source: 'asset/img/logo.png'
             MDLabel:
@@ -89,7 +91,10 @@
             ripple_behavior: True
             md_bg_color: get_color_from_hex("#ffffff")
             elevation: 2
-            on_release: app.root.current = 'donate'
+            on_release:  
+                app.root.transition.direction = "left" 
+                app.root.current = 'donate'
+                
             Image:
                 source: 'asset/img/logo.png'
             MDLabel:

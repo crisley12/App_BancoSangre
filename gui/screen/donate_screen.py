@@ -34,10 +34,10 @@ class DonateScreen(MDScreen):
 #######################################################
 
     def next2(self):
-        pregunta_actual = self.ids.carusel.current_slide.name  # Obtener el nombre de la pregunta actual
-        respuesta = self.get_selected_answer(pregunta_actual)  # Obtener la respuesta seleccionada
-        if respuesta is not None:
-            self.respuestas[pregunta_actual] = respuesta  # Guardar la respuesta en el diccionario
+        #pregunta_actual = self.ids.carusel.current_slide.name  # Obtener el nombre de la pregunta actual
+        #respuesta = self.get_selected_answer(pregunta_actual)  # Obtener la respuesta seleccionada
+        #if respuesta is not None:
+            #self.respuestas[pregunta_actual] = respuesta  # Guardar la respuesta en el diccionario
 
 
 #  Cambio de color e icono a la barra de progreso 
@@ -64,10 +64,10 @@ class DonateScreen(MDScreen):
 
 
     def next3(self):
-        pregunta_actual = self.ids.carusel.current_slide.name 
-        respuesta = self.get_selected_answer(pregunta_actual) 
-        if respuesta is not None:
-            self.respuestas[pregunta_actual] = respuesta
+        #pregunta_actual = self.ids.carusel.current_slide.name 
+        #respuesta = self.get_selected_answer(pregunta_actual) 
+        #if respuesta is not None:
+            #self.respuestas[pregunta_actual] = respuesta
 
         self.next_donate = self.ids.carusel.load_next(mode="next")
         self.ids.label3.text_color = [1, 0, 0, 1]
@@ -89,10 +89,10 @@ class DonateScreen(MDScreen):
 #######################################################
 
     def next4(self):
-        pregunta_actual = self.ids.carusel.current_slide.name 
-        respuesta = self.get_selected_answer(pregunta_actual) 
-        if respuesta is not None:
-            self.respuestas[pregunta_actual] = respuesta   
+        #pregunta_actual = self.ids.carusel.current_slide.name 
+        #respuesta = self.get_selected_answer(pregunta_actual) 
+        #if respuesta is not None:
+            #self.respuestas[pregunta_actual] = respuesta   
 
         self.next_donate = self.ids.carusel.load_next(mode="next")
         self.ids.label4.text_color = [1, 0, 0, 1]
@@ -116,10 +116,10 @@ class DonateScreen(MDScreen):
 
 
     def next5(self):
-        pregunta_actual = self.ids.carusel.current_slide.name 
-        respuesta = self.get_selected_answer(pregunta_actual) 
-        if respuesta is not None:
-            self.respuestas[pregunta_actual] = respuesta   
+        #pregunta_actual = self.ids.carusel.current_slide.name 
+        #respuesta = self.get_selected_answer(pregunta_actual) 
+        #if respuesta is not None:
+            #self.respuestas[pregunta_actual] = respuesta   
 
         self.next_donate = self.ids.carusel.load_next(mode="next")
         self.ids.label5.text_color = [1, 0, 0, 1]
@@ -143,10 +143,10 @@ class DonateScreen(MDScreen):
 
 
     def next6(self):
-        pregunta_actual = self.ids.carusel.current_slide.name 
-        respuesta = self.get_selected_answer(pregunta_actual) 
-        if respuesta is not None:
-            self.respuestas[pregunta_actual] = respuesta   
+        #pregunta_actual = self.ids.carusel.current_slide.name 
+        #respuesta = self.get_selected_answer(pregunta_actual) 
+        #if respuesta is not None:
+            #self.respuestas[pregunta_actual] = respuesta   
 
         self.next_donate = self.ids.carusel.load_next(mode="next")
         self.ids.label6.text_color = [1, 0, 0, 1]
@@ -169,10 +169,10 @@ class DonateScreen(MDScreen):
 #######################################################
 
     def next7(self):
-        pregunta_actual = self.ids.carusel.current_slide.name 
-        respuesta = self.get_selected_answer(pregunta_actual) 
-        if respuesta is not None:
-            self.respuestas[pregunta_actual] = respuesta   
+        #pregunta_actual = self.ids.carusel.current_slide.name 
+        #respuesta = self.get_selected_answer(pregunta_actual) 
+        #if respuesta is not None:
+            #self.respuestas[pregunta_actual] = respuesta   
 
         self.next_donate = self.ids.carusel.load_next(mode="next")
         self.ids.label7.text_color = [1, 0, 0, 1]
@@ -195,10 +195,10 @@ class DonateScreen(MDScreen):
 #######################################################
 
     def next8(self):
-        pregunta_actual = self.ids.carusel.current_slide.name 
-        respuesta = self.get_selected_answer(pregunta_actual) 
-        if respuesta is not None:
-            self.respuestas[pregunta_actual] = respuesta   
+        #pregunta_actual = self.ids.carusel.current_slide.name 
+        #respuesta = self.get_selected_answer(pregunta_actual) 
+        #if respuesta is not None:
+            #self.respuestas[pregunta_actual] = respuesta   
 
         self.next_donate = self.ids.carusel.load_next(mode="next")
         self.ids.label8.text_color = [1, 0, 0, 1]
@@ -219,7 +219,7 @@ class DonateScreen(MDScreen):
 ######################################################
 #           NOVENA PANTALLA
 #######################################################
-
+'''
     def next9(self):
         pregunta_actual = self.ids.carusel.current_slide.name 
         respuesta = self.get_selected_answer(pregunta_actual) 
@@ -274,7 +274,7 @@ def verificar_apto_para_donar(self):
             # Apto para donar
             print("Eres apto para donar sangre.")
 
-
+'''
 
 
 

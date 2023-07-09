@@ -5,51 +5,55 @@
             MDCard:
                 size_hint: .95, .95
                 pos_hint: {"center_x": .5, "center_y": .5}
-                Carousel:
-                    #id: carusel
-                    MDFloatLayout:
-                        MDLabel:
-                            #id: name
-                            font_size: '18sp'
-                            text: "¿Eres donador de Basantranfs?"
-                            size_hint_x: .8
-                            pos_hint: {"center_x": .55, "center_y": .55}
-                            theme_text_color: "Custom"
-                        MDFillRoundFlatButton:
-                            text: "Si"
-                            size_hint_x: .3
-                            pos_hint: {"center_x": .35, "center_y": .45}
-                            text_color: "white"
-                            md_bg_color: get_color_from_hex("#F41F05")
-                            elevation: None
-                            padding: [10]
-                            #on_release: root.next()
-                        MDFillRoundFlatButton:
-                            text: "No"
-                            size_hint_x: .3
-                            pos_hint: {"center_x": .7, "center_y": .45}
-                            text_color: "white"
-                            md_bg_color: get_color_from_hex("#F41F05")
-                            elevation: None
-                            padding: [10]
-                            #on_release: root.next()
+                MDFloatLayout:
+                    MDTextField:
+                        hint_text: "Codigo de Donante"
+                        size_hint_x: .8
+                        pos_hint: {"center_x": .5, "center_y": .56}
+                        line_color_focus: "red"
+                        text_color_focus: "black"
+                        hint_text_color_focus: "red"
+                    MDTextField:
+                        hint_text: "Cédula"
+                        size_hint_x: .8
+                        pos_hint: {"center_x": .5, "center_y": .46}
+                        line_color_focus: "red"
+                        text_color_focus: "black"
+                        hint_text_color_focus: "red"
+                    MDFillRoundFlatButton:
+                        text: "Verificar"
+                        size_hint_x: .3
+                        pos_hint: {"center_x": .50, "center_y": .30}
+                        text_color: "white"
+                        md_bg_color: get_color_from_hex("#F41F05")
+                        elevation: None
+                        padding: [10]
+                        #on_release: root.next()
+                    MDIconButton:
+                        icon: "arrow-left"
+                        pos_hint: {"center_x": .10, "center_y": .1}
+                        on_release:
+                            root.manager.transition.direction = "left" 
+                            app.root.current = 'donate'
 
-# PANTALLA DE ACEPTADO
-                    MDFloatLayout:
-                        MDLabel:
-                            #id: name
-                            font_size: '18sp'
-                            text: "Aceptado"
-                            size_hint_x: .8
-                            pos_hint: {"center_x": .55, "center_y": .55}
-                            theme_text_color: "Custom"
-# PANTALLA DE RECHAZADO 
-                    MDFloatLayout:
-                        MDLabel:
-                            #id: name
-                            font_size: '18sp'
-                            text: "Rechazado"
-                            size_hint_x: .8
-                            pos_hint: {"center_x": .55, "center_y": .55}
-                            theme_text_color: "Custom"
-    
+            MDLabel:
+                text: "Verificacion"
+                font_size: '25sp'
+                font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
+                #bold: True
+                pos_hint: {"center_x": .80, "center_y": .90}
+            MDLabel:
+                text:"Solo usuarios que ya han realizado una donación en Basantranfs. Con su codigo se verfica la última vez que fue altruista y así llevar un control de sus donaciones"
+                font_size: '10sp'
+                halign: "justify"
+                size_hint_x: .8
+                font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
+                #bold: True
+                pos_hint: {"center_x": .50, "center_y": .75}
+            MDIconButton:
+                id: icon1
+                icon: "alert-circle"
+                pos_hint: {"center_x": .06, "center_y": .78}
+                theme_text_color: "Custom"
+                icon_color: (240/255, 0/255, 0/255)
+

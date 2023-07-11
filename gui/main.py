@@ -1,3 +1,6 @@
+
+# -*- coding: utf-8 -*-
+from werkzeug.security import generate_password_hash, check_password_hash
 from kivymd.app import MDApp
 from kivy.uix.screenmanager import ScreenManager
 from kivy.lang import Builder
@@ -9,13 +12,14 @@ from conection import Database
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDFlatButton
 import re
-from werkzeug.security import generate_password_hash, check_password_hash
-
+import requests
 from kivy.lang import Builder
+from flask import Flask, session, request, jsonify
 Window.size = (350, 600)
 
 
 class MainApp(MDApp):
+    previous_text = " "
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.db = Database(database_name='banco_de_sangre')
@@ -44,25 +48,49 @@ class MainApp(MDApp):
     def validacionUser(self):
         # Obtener el texto de los campos de usuario y contraseña
         login_screen = screen_manager.get_screen('login')
-        username = login_screen.ids.email.text
-        password = login_screen.ids.password.text
+        username = login_screen.ids.email.text #.strip()
+        self.validar_email(username)
+        if not self.validar_email(username):
+            self.show_dialog("Error", "Ingrese un email válido")
+            return
+        password = login_screen.ids.password.text #.strip()
             
         # Verificar si los campos están vacíos
         if not username or not password:
             self.show_dialog("Error", "Por favor, complete todos los campos.")
             return
         
-        # Obtener la colección de usuarios
-        users_collection = self.db.get_collection('users')
+        # Realizar la solicitud de inicio de sesión a la API
+        data = {
+            "email": username,
+            "password": password
+        }
+        
+        response = requests.post("http://localhost:5000/login", json=data)
+        print(response)
+        
+        if response.status_code == 200:
+            self.show_dialog("Bienvenido", "¡Bienvenido!")
+            
+            # Obtener el user_id del usuario actual de la respuesta JSON
+            user_id = response.json().get('user_id')
+            
+            print("El user_id del usuario actual es:", user_id)
+        
+            # Obtener la colección de usuarios
+            #users_collection = self.db.get_collection('users')
 
-        # Buscar al usuario en la base de datos
-        user = users_collection.find_one({'email': username, 'password': password})
+            # Buscar al usuario en la base de datos
+            #user = users_collection.find_one({'email': username, 'password': password})
 
-        # Verificar si el usuario fue encontrado o no
-        if user is None:
-            self.show_dialog("Error", "Usuario o contraseña incorrecto.")
+            # Verificar si el usuario fue encontrado o no
+            #if user is not None:
+            #    self.show_dialog("Error", "Usuario o contraseña incorrecto.")
+                
+            #return jsonify(response), 200
+    
         else:
-            self.show_dialog("Bienvenido", f"Bienvenido, {user['p_nombre']}.")
+            self.show_dialog("Error", "Usuario o contraseña incorrecto.")
             
 # Validar el formato del email
     def validar_email(self, email):
@@ -81,11 +109,15 @@ class MainApp(MDApp):
 #Valida solo Letras
     def solo_letras(self, text, mensaje_nombre):
         if text.isalpha():
+            self.previous_text = text
             mensaje_nombre.opacity = 0
             return text
         else:
             mensaje_nombre.opacity = 1
-            return ""
+            return self.previous_text
+        
+    def on_textinput(self, instance, text, mensaje_nombre):
+        instance.text = self.solo_letras(instance.text, mensaje_nombre)
 
               
     def validacionRegistro(self):
@@ -188,7 +220,7 @@ class MainApp(MDApp):
                     }).inserted_id
 
                     if user_id:
-                        #self.show_dialog("Bienvenido", f"Bienvenido, {p_nombre}.")
+                        self.show_dialog("Bienvenido", f"Bienvenido, {p_nombre}.")
                         screen_manager.current = "login"
                     else:
                         self.show_dialog("Error", "Error al registrar.")
@@ -197,7 +229,6 @@ class MainApp(MDApp):
             except Exception as e:
                 print(f"Error al registrar: {str(e)}")
                 self.show_dialog("Error", "Error al registrar.")
-
 
 
     def show_dialog(self, title, text):

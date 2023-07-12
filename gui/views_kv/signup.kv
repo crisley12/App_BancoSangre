@@ -229,10 +229,10 @@
             adaptive_height: True
             size_hint_x: .3
             #padding: [15]
-            pos_hint: {"center_x": .25, "center_y": .56}
+            pos_hint: {"center_x": .3, "center_y": .56}
             MDTextField:
                 id: f_nacimiento
-                pos_hint: {"center_x": .3, "center_y": .56}
+                pos_hint: {"center_x": .2, "center_y": .52}
                 hint_text: "Fecha"
                 helper_text: "dd/mm/yyyy"
                 validator: "date"
@@ -242,54 +242,69 @@
                 on_text_validate:
                     app.validate_date(self.text)
 
-           # MDRaisedButton:
-                #id: f_nacimiento
-                #font_name: "Poppins"
-                #text: "F_Nacimiento"
-                #title:"Selecione una Fecha"
-                #pos_hint: {'center_x': .5, 'center_y': .5}
+        OneLineListItem:
+        MDScreen
+            MDTextField:
+                id: t_sexo
+                pos_hint: {"center_x": .51, "center_y": .56}
+                size_hint_x: .2
+                width: "100dp"
+                hint_text: "Sexo"
+                position: "center"
+                line_color_focus: "red"
+                text_color_focus: "red"
+                hint_text_color_focus: "red"
+                on_focus: if self.focus: root.sexo.open()
+
+        OneLineListItem:
+        MDScreen
+            MDTextField:
+                id: t_sangre
+                pos_hint: {"center_x": .75, "center_y": .56}
+                size_hint_x: .2
+                width: "100dp"
+                hint_text: "Sangre"
+                position: "center"
+                line_color_focus: "red"
+                text_color_focus: "red"
+                hint_text_color_focus: "red"
+                on_focus: if self.focus: root.sangre.open()
+
+        #MDFloatLayout:
+            #id: dropdown_2
+            #MDRaisedButton:
+                #id: t_sexo
+                #icon: 'gender-male-female'
+                #text: "Sexo"
+                #md_bg_color: (238/255, 238/255, 1)
+                #text_color: 240/255, 0/255, 0/255
+                #padding: [30, 0]
+                #size_hint: .25, .05
+                #pos_hint: {"center_x": .50, "center_y": .56}
+                #on_release: root.dropdown_2.open(self)
+            #MDBoxLayout:
+                #id: items_2
+                #orientation: 'vertical'
+                #size_hint_y: None
+                #height: "40dp"
+
+        #MDFloatLayout:
+            #id: dropdown_1
+            #MDRaisedButton:
+                #id: t_sangre
+                #icon: 'user'
+                #text: "Tipo de Sangre"
                 #md_bg_color: (238/255, 238/255, 1)
                 #text_color: (240/255, 0/255, 0/255)
-                #padding: 15, 0
-                #pos_hint: {"center_x": .2, "center_y": .56}
-                #on_release: root.show_date_picker()
-
-        MDFloatLayout:
-            id: dropdown_2
-            MDRaisedButton:
-                id: t_sexo
-                icon: 'gender-male-female'
-                text: "Sexo"
-                md_bg_color: (238/255, 238/255, 1)
-                text_color: 240/255, 0/255, 0/255
-                padding: [30, 0]
-                size_hint: .25, .05
-                pos_hint: {"center_x": .50, "center_y": .56}
-                on_release: root.dropdown_2.open(self)
-            MDBoxLayout:
-                id: items_2
-                orientation: 'vertical'
-                size_hint_y: None
-                height: "40dp"
-
-        MDFloatLayout:
-            id: dropdown_1
-            MDRaisedButton:
-                id: t_sangre
-                icon: 'user'
-                text: "Tipo de Sangre"
-                md_bg_color: (238/255, 238/255, 1)
-                text_color: (240/255, 0/255, 0/255)
-                padding: [15, 0]
-                size_hint: .25, .05
-                pos_hint: {"center_x": .80, "center_y": .56}
-                on_release: root.dropdown_1.open(self)
-            MDBoxLayout:
-                id: items_1
-                orientation: 'vertical'
-                size_hint_y: None
-                height: "40dp"
-                
+                #padding: [15, 0]
+                #size_hint: .25, .05
+                #pos_hint: {"center_x": .80, "center_y": .56}
+                #on_release: root.dropdown_1.open(self)
+            #MDBoxLayout:
+                #id: items_1
+                #orientation: 'vertical'
+                #size_hint_y: None
+                #height: "40dp"
 
 #Quinta fila
         MDFloatLayout:
@@ -344,22 +359,35 @@
                 font_size: '13sp'
 
 
-#Boton de registto 
-        Button:
+#Boton de registto
+
+        MDFillRoundFlatButton:
             text: "Registrarse"
             font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
             font_size: '20sp'
             size_hint: .5, .08
             pos_hint: {"center_x": .5, "center_y": .25}
-            background_color: 0, 0, 0, 0
-            canvas.before:
-                Color:
-                    rgb: 240/255, 0/255, 0/255
-                RoundedRectangle:
-                    size: self.size
-                    pos: self.pos
-                    radius: [23]
+            text_color: "white"
+            md_bg_color: get_color_from_hex("#F41F05")
+            elevation: None
+            padding: [10]
             on_release: app.validacionRegistro()
+
+        #B0utton:
+            #text: "Registrarse"
+            #font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
+            #font_size: '20sp'
+            #size_hint: .5, .08
+            #pos_hint: {"center_x": .5, "center_y": .25}
+            #background_color: 0, 0, 0, 0
+            #canvas.before:
+                #Color:
+                    #rgb: 240/255, 0/255, 0/255
+                #RoundedRectangle:
+                    #size: self.size
+                    #pos: self.pos
+                    #radius: [23]
+            #on_release: app.validacionRegistro()
 
 #Testo para regresar al Login
         MDLabel:

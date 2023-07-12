@@ -5,19 +5,14 @@ from kivy.clock import Clock
 from kivy.core.window import Window
 from views.login_views import Login
 from views.signup_views import Signup
-from root_screen import RootScreen
+from views.root_screen import RootScreen
 from screen.requirements_screen import RequirementsScreen
 from screen.donate_screen import DonateScreen
 from screen.paciente_basantranfs_screen import PacienteBasantranfsScreen
 from screen.need_donate_screen import NeedDonateScreen
 from screen.process_screen import ProcessScreen
-from screen.group_blood_screen import GroupBloodScreen
-from screen.location_screen import LocationScreen
 from screen.questions_screen import QuestionsScreen
 from screen.about_screen import AboutScreen
-from screen.user_screen import UserScreen
-from screen.alert_screen import AlertScreen
-from screen.menu_screen import MenuScreen
 from conection import Database
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDFlatButton
@@ -48,13 +43,8 @@ class MainApp(MDApp):
             PacienteBasantranfsScreen(name='paciente_basantranfs'))
 
         '''
-        screen_manager.add_widget(MenuScreen(name='menu'))
-        screen_manager.add_widget(UserScreen(name='user'))
-        screen_manager.add_widget(LocationScreen(name='location'))
-        screen_manager.add_widget(AlertScreen(name='alert'))
         screen_manager.add_widget(NeedDonateScreen(name='need'))
         screen_manager.add_widget(ProcessScreen(name='process'))
-        screen_manager.add_widget(GroupBloodScreen(name='group'))
         screen_manager.add_widget(QuestionsScreen(name='questions'))
         screen_manager.add_widget(AboutScreen(name='about'))
         '''
@@ -108,7 +98,7 @@ class MainApp(MDApp):
 
         if response.status_code == 200:
             self.show_dialog("Bienvenido", "¡Bienvenido!")
-            screen_manager.current ="root"
+            screen_manager.current = "root"
 
             # Obtener el user_id del usuario actual de la respuesta JSON
             user_id = response.json().get('user_id')
@@ -325,6 +315,23 @@ class MainApp(MDApp):
             ],
         )
         dialog.open()
+
+
+#################################################
+ #       PANTALLAS DE ROOT
+#################################################
+
+    # Obtener la instancia de la pantalla MenuScreen desde RootScreen
+        # group_blood_screen = root.ids.group_blood_screen
+
+        # Acceder a los IDs de los widgets en MenuScreen
+        # menu_button = group_blood_screen.ids.
+        # menu_label = group_blood_screen.ids.title
+
+        # Realizar acciones con los widgets según los datos de la base de datos
+        # Por ejemplo, agregar un nuevo widget según los datos de la base de datos
+        # new_widget = CustomWidget()
+        # group_blood_screen.add_widget(new_widget)
 
 
 if __name__ == '__main__':

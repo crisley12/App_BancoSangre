@@ -85,20 +85,24 @@ class Test(MDApp):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.screen = Builder.load_string(KV)
+        
+        items_1 = ['AB+', 'AB-', 'O+', 'O-', 'B+', 'B-', 'A+', 'A-']
+
         menu_items = [
             {
                 "viewclass": "IconListItem",
-                "icon": "git",
                 "height": dp(56),
-                "text": f"Item {i}",
-                "on_release": lambda x=f"Item {i}": self.set_item(x),
-            } for i in range(5)]
+                "text": f"{i}",
+                "on_release": lambda x=f"{i}": self.set_item(x),
+            } for i in items_1]
         self.menu = MDDropdownMenu(
             caller=self.screen.ids.field,
             items=menu_items,
             position="bottom",
-            width_mult=4,
+            width_mult=3,
         )
+
+        
 
     def set_item(self, text__item):
         self.screen.ids.field.text = text__item
@@ -109,3 +113,23 @@ class Test(MDApp):
 
 
 Test().run()
+
+'''
+MDFloatLayout:
+            id: dropdown_2
+            MDRaisedButton:
+                id: t_sexo
+                icon: 'gender-male-female'
+                text: "Sexo"
+                md_bg_color: (238/255, 238/255, 1)
+                text_color: 240/255, 0/255, 0/255
+                padding: [30, 0]
+                size_hint: .25, .05
+                pos_hint: {"center_x": .50, "center_y": .56}
+                on_release: root.dropdown_2.open(self)
+            MDBoxLayout:
+                id: items_2
+                orientation: 'vertical'
+                size_hint_y: None
+                height: "40dp"
+'''

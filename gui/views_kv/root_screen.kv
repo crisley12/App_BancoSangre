@@ -1,0 +1,409 @@
+<RootScreen>
+    MDScreen:
+        MDBottomNavigation:
+            panel_color: "#ffffff"
+            text_color_active: "red"
+            radius: [16]
+            elevation: 2
+
+#########################################
+#     PANTALLA DE MENU
+#########################################
+            MDBottomNavigationItem:
+                name: "menu_screen"
+                icon: "home"
+                #text: "Menu"
+                #MenuScreen:
+                MDScreen:
+                    name: 'menu_screen'
+                MDFloatLayout:
+                    MDCard:
+                        size_hint: .95, .95
+                        pos_hint: {"center_x": .5, "center_y": .5}
+                    MDLabel:
+                        text: "Información"
+                        font_size: '25sp'
+                        font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
+                        #bold: True
+                        pos_hint: {"center_x": .80, "center_y": .90}
+                    MDLabel:
+                        text:"Solo usuarios que ya han realizado una donación en Basantranfs. Con su codigo se verfica la última vez que fue altruista y así llevar un control de sus donaciones"
+                        font_size: '10sp'
+                        halign: "justify"
+                        size_hint_x: .8
+                        font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
+                        #bold: True
+                        pos_hint: {"center_x": .50, "center_y": .75}
+                    MDIconButton:
+                        id: icon1
+                        icon: "alert-circle"
+                        pos_hint: {"center_x": .06, "center_y": .78}
+                        theme_text_color: "Custom"
+                        icon_color: (240/255, 0/255, 0/255)
+                        MDFloatLayout:
+                            MDIconButton:
+                                icon: "arrow-left"
+                                pos_hint: {"center_x": .10, "center_y": .1}
+                                on_release:
+                                    root.manager.transition.direction = "left" 
+                                    app.root.current = 'donate'
+
+#########################################
+#     PANTALLA DE USER
+#########################################
+            MDBottomNavigationItem:
+                name: "user_screen"
+                icon: "account-circle"
+                #text: "User"
+                #UserScreen:
+                MDScreen:
+                    name: "user_screen"
+                MDFloatLayout:
+                    md_bg_color: get_color_from_hex("#ffffff")
+                    ##ECECEC
+                    MDCard:
+                        id: image_bg_box
+                        md_bg_color: get_color_from_hex("#F41F05")
+                        size_hint_y: .30
+                        pos_hint: {"top": 1}
+                        radius: [0, 0, 50, 50]
+                    #FitImage:
+                        #source: 'asset/img/logo.png'
+                        #size_hint: None, None
+                        #adaptive_size: True
+                        #size: self.parent.width - dp(72), self.parent.height - dp(72)
+                        #allow_stretch: True
+                        #keep_ratio: False
+                        #x: -dp(20)
+                        #y: dp(40)
+                MDLabel:
+                    text: "Crisley Gonzalez"
+                    font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
+                    pos_hint: {"center_x": .5, "center_y": .93}
+                    halign: 'center'
+                    text_color: get_color_from_hex("#FFFFFF")
+                    font_size: '20sp'
+                    theme_text_color: 'Custom'
+
+                MDLabel:
+                    text: "0001"
+                    #bold: True
+                    font_size: "15sp"
+                    font_name: 'asset/Fuentes/Poppins-SemiBoldItalic.ttf'
+                    theme_text_color: "Custom"
+                    text_color: get_color_from_hex("#FFFFFF")
+                    pos_hint: {"center_x": .40, "center_y": .85}
+                    halign: "center"
+                    #x: "15dp"
+                    line_height: .6
+
+                MDLabel:
+                    text: "AB+"
+                    #bold: True
+                    font_size: "18sp"
+                    font_name: 'asset/Fuentes/Poppins-SemiBoldItalic.ttf'
+                    theme_text_color: "Custom"
+                    text_color: get_color_from_hex("#FFFFFF")
+                    pos_hint: {"center_x": .60, "center_y": .85}
+                    halign: "center"
+                    #x: "270dp"
+                    line_height: .6
+
+
+                MDGridLayout:
+                    id: cards_box
+                    cols: 2
+                    rows: 3
+                    spacing: "18dp"
+                    padding: "25dp"
+                    size_hint_y: None
+                    height: root.height / 1.4
+
+                    MDCard:
+                        orientation: "vertical"
+                        radius: 12
+                        padding: "12dp", "5dp", "12dp", "12dp"
+                        ripple_behavior: True
+                        md_bg_color: get_color_from_hex("#ECECEC")
+                        on_release: 
+                            app.root.transition.direction = "left" 
+                            app.root.current = 'requirements'
+                        MDIconButton:
+                            icon: "text-box-edit-outline"
+                            pos_hint: {"center_x": .50, "center_y": .45}
+                        MDLabel:
+                            text:"Requisitos para donar sangre"
+                            halign: "center"
+                            adaptive_height: True
+                            #font_name: "asset\Fuentes\Poppins-LightItalic.ttf"
+                            line_height: .6
+                            font_size: "14sp"
+
+
+                    MDCard:
+                        orientation: "vertical"
+                        radius: 12
+                        padding: "12dp", 0, "12dp", "24dp"
+                        ripple_behavior: True
+                        md_bg_color: get_color_from_hex("#ECECEC")
+                        on_release:  
+                            app.root.transition.direction = "left" 
+                            app.root.current = 'donate'
+                            
+                        MDIconButton:
+                            icon: 'hand-heart'
+                            pos_hint: {"center_x": .50, "center_y": .43}
+                        MDLabel:
+                            text:"Quiero donar"
+                            halign: "center"
+                            adaptive_height: True
+                            #font_name: "assets/fonts/Cairo/Cairo-Bold.ttf"
+                            line_height: .6
+                            font_size: "14sp"
+
+
+                    MDCard:
+                        orientation: "vertical"
+                        radius: 12
+                        padding: "12dp", 0, "12dp", "24dp"
+                        ripple_behavior: True
+                        md_bg_color: get_color_from_hex("#ECECEC")
+                        MDIconButton:
+                            icon: "book-heart-outline"
+                            halign: "center"
+                            pos_hint: {"center_x": .50, "center_y": .33}
+                        MDLabel:
+                            text:"Mis donaciones"
+                            halign: "center"
+                            adaptive_height: True
+                            #font_name: "assets/fonts/Cairo/Cairo-Bold.ttf"
+                            line_height: .6
+                            font_size: "14sp"
+
+
+                    MDCard:
+                        orientation: "vertical"
+                        radius: 12
+                        padding: "12dp", 0, "12dp", "24dp"
+                        ripple_behavior: True
+                        md_bg_color: get_color_from_hex("#ECECEC")
+                        MDIconButton:
+                            icon: "heart-plus-outline"
+                            pos_hint: {"center_x": .50, "center_y": .33}
+                        MDLabel:
+                            text:"Necesito un donador"
+                            halign: "center"
+                            adaptive_height: True
+                            #font_name: "assets/fonts/Cairo/Cairo-Bold.ttf"
+                            line_height: .6
+                            font_size: "14sp"
+
+
+                    MDCard:
+                        orientation: "vertical"
+                        radius: 12
+                        padding: "12dp", 0, "12dp", "24dp"
+                        ripple_behavior: True
+                        md_bg_color: get_color_from_hex("#ECECEC")
+                        MDIconButton:
+                            icon: "help-circle-outline"
+                            pos_hint: {"center_x": .50, "center_y": .23}
+                        MDLabel:
+                            text:"Preguntas frecuentes"
+                            halign: "center"
+                            adaptive_height: True
+                            #font_name: "assets/fonts/Cairo/Cairo-Bold.ttf"
+                            line_height: .6
+                            font_size: "14sp"
+
+
+                    MDCard:
+                        orientation: "vertical"
+                        radius: 12
+                        padding: "12dp", 0, "12dp", "24dp"
+                        ripple_behavior: True
+                        md_bg_color: get_color_from_hex("#ECECEC")
+                        MDIconButton:
+                            icon: "account-group-outline"
+                            pos_hint: {"center_x": .50, "center_y": .23}
+                        MDLabel:
+                            text:"Acerca de Basantranfs"
+                            halign: "center"
+                            adaptive_height: True
+                            #font_name: "assets/fonts/Cairo/Cairo-Bold.ttf"
+                            line_height: .6
+                            font_size: "14sp"
+
+#########################################
+#     PANTALLA DE GRUPO DE SANGRE
+#########################################
+
+            MDBottomNavigationItem:
+                name:"group_blood_creen"
+                id: group_blood_screen
+                icon: "water"
+                #text: "location"
+                #GroupBloodScreen:
+                MDScreen:
+                    name: 'group_blood_creen'
+                MDFloatLayout:
+                    MDLabel:
+                        text: "Grupo de Sangre"
+                        font_size: '25sp'
+                        font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
+                        #bold: True
+                        pos_hint: {"center_x": .80, "center_y": .90}
+#########################################
+#     PANTALLA DE LOCATION
+#########################################
+
+            MDBottomNavigationItem:
+                name:"location_screen"
+                icon: "map-marker-radius"
+                #text: "location"
+                #LocationScreen:
+                MDScreen:
+                    name: 'location_screen'
+                MDFloatLayout:
+                    MDLabel:
+                        text: "Ubicación"
+                        font_size: '25sp'
+                        font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
+                        #bold: True
+                        pos_hint: {"center_x": .80, "center_y": .90}
+                    #MDIconButton:
+                        #icon: "arrow-left"
+                        #pos_hint: {"center_x": .1, "center_y": .90}
+                        #on_release: app.root.current = 'root'
+                    MDFloatLayout:
+                        MDSmartTile:
+                            radius: 24
+                            box_radius: [0, 0, 24, 24]
+                            box_color: [1, 1, 1, 1]
+                            source: "asset/img/location_sc3.png"
+                            url: "https://goo.gl/maps/hiq32YzLHpcbxS9j6"
+                            pos_hint: {"center_x": .5, "center_y": .6}
+                            size_hint: None, None
+                            size: "320dp", "240dp"
+                            elevation: 5
+                            on_release: root.open_google_maps(self)
+
+                            MDIconButton:
+                                icon: "heart-outline"
+                                theme_icon_color: "Custom"
+                                icon_color: 1, 0, 0, 1
+                                pos_hint: {"center_y": .5}
+                                on_release: root.open_google_maps(self)
+                                icon: "directions"
+                            TwoLineListItem:
+                                text: "[color=#000000][b]Banco de Sangre Basantranfs[/b][/color]"
+                                secondary_text: "[color=#808080][b]San Cristóbal - Táchira[/b][/color]"
+                                pos_hint: {"center_y": .5}
+                                _no_ripple_effect: True
+
+                        MDCard:
+                            size_hint: .90, .35
+                            pos_hint: {"center_x": .5, "center_y": .19}
+                            #elevation: 3
+                            #shadow_softness: 8
+                            #shadow_offset: (-2, 2)
+                            MDFloatLayout:
+                                MDIconButton:
+                                    icon: "heart-outlin"
+                                    theme_icon_color: "Custom"
+                                    icon_color: 1, 0, 0, 1
+                                    pos_hint: {"center_x": .1, "center_y": .85}
+                                    on_release: root.open_google_maps(self)
+                                    icon: "map-marker"
+                                MDLabel:
+                                    text: '5001, San Cristóbal 5001, Táchira, Venezuela'
+                                    bold: True
+                                    color: [0, 0, 0]
+                                    font_size: '12sp'
+                                    pos_hint: {"center_x": .7, "center_y": .85}
+
+                                MDIconButton:
+                                    icon: "heart-outlin"
+                                    theme_icon_color: "Custom"
+                                    icon_color: 1, 0, 0, 1
+                                    pos_hint: {"center_x": .1, "center_y": .65}
+                                    icon: "phone"
+                                MDLabel:
+                                    text: '0416-5029813'
+                                    bold: True
+                                    color: [0, 0, 0]
+                                    font_size: '12sp'
+                                    pos_hint: {"center_x": .7, "center_y": .65}
+
+                                MDIconButton:
+                                    icon: "heart-outlin"
+                                    theme_icon_color: "Custom"
+                                    icon_color: 1, 0, 0, 1
+                                    pos_hint: {"center_x": .1, "center_y": .45}
+                                    icon: "clock"
+                                MDLabel:
+                                    text: 'Abierto las 24 horas'
+                                    bold: True
+                                    color: [0, 0, 0]
+                                    font_size: '12sp'
+                                    pos_hint: {"center_x": .7, "center_y": .45}
+
+                                MDIconButton:
+                                    icon: "heart-outlin"
+                                    theme_icon_color: "Custom"
+                                    icon_color: 1, 0, 0, 1
+                                    pos_hint: {"center_x": .1, "center_y": .30}
+                                    icon: "minus"
+
+                                MDLabel:
+                                    text: 'Redes Sociales:'
+                                    bold: True
+                                    color: [0, 0, 0]
+                                    font_size: '12sp'
+                                    pos_hint: {"center_x": .7, "center_y": .30}
+                                    #halign: "center"
+
+                                MDIconButton:
+                                    icon: "heart-outlin"
+                                    theme_icon_color: "Custom"
+                                    icon_color: (0.13, 0.72, 0.29, 1)
+                                    pos_hint: {"center_x": .3, "center_y": .13}
+                                    on_release: root.open_whatsapp(self)
+                                    icon: "whatsapp"
+
+                                MDIconButton:
+                                    icon: "heart-outlin"
+                                    theme_icon_color: "Custom"
+                                    icon_color: (0.23, 0.35, 0.60, 1)
+                                    pos_hint: {"center_x": .5, "center_y": .13}
+                                    on_release: root.open_facebook(self)
+                                    icon: "facebook"
+
+                                MDIconButton:
+                                    icon: "heart-outlin"
+                                    theme_icon_color: "Custom"
+                                    icon_color: (0.5, 0, 0, 1)
+                                    pos_hint: {"center_x": .7, "center_y": .13}
+                                    on_release: root.open_instagram(self)
+                                    icon: "instagram"
+
+#########################################
+#     PANTALLA DE ALERT
+#########################################
+
+            MDBottomNavigationItem:
+                name:"alert_screen"
+                icon: "bell"
+                #text: "alert"
+                badge_icon: "numeric-10"
+                #AlertScreen:
+                MDScreen:
+                    name: 'alert_screen'
+                MDFloatLayout:
+                    MDLabel:
+                        text: "Centro de Notificaciones"
+                        font_size: '25sp'
+                        font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
+                        #bold: True
+                        pos_hint: {"center_x": .80, "center_y": .90}
+

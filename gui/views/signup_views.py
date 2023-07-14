@@ -29,7 +29,7 @@ class Signup(MDScreen):
                 "viewclass": "OneLineListItem",
                 "height": dp(30),
                 "text": f"{i}",
-                "on_release": lambda x=f"{i}": self.set_item(x),
+                "on_release": lambda x=f"{i}": self.set_item1(x),
             } for i in items_1]
         self.sexo = MDDropdownMenu(
             caller=self.ids.t_sexo,
@@ -40,7 +40,7 @@ class Signup(MDScreen):
             elevation=2
         )
 
-    def set_item(self, text__item):
+    def set_item1(self, text__item):
         self.ids.t_sexo.text = text__item
         self.sexo.dismiss()
 
@@ -54,7 +54,7 @@ class Signup(MDScreen):
                 "viewclass": "OneLineListItem",
                 "height": dp(30),
                 "text": f"{i}",
-                "on_release": lambda x=f"{i}": self.set_item(x),
+                "on_release": lambda x=f"{i}": self.set_item2(x),
             } for i in items_2]
         self.sangre = MDDropdownMenu(
             caller=self.ids.t_sexo,
@@ -65,7 +65,7 @@ class Signup(MDScreen):
             elevation=2
         )
 
-    def set_item(self, text__item):
+    def set_item2(self, text__item):
         self.ids.t_sangre.text = text__item
         self.sangre.dismiss()
 

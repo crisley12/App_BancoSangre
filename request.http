@@ -1,0 +1,572 @@
+//request de usuarios
+
+###
+POST http://localhost:9000/api/users HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "kevin@gmail.com",
+    "password" : "1234",
+    "paciente_id": 2,
+    "rol_id" : 3
+}
+
+
+// las peticiones se separan con ###
+
+### 
+GET http://localhost:9000/api/users HTTP/1.1
+
+//peticion para conseguir un usuario especifico
+###
+GET http://localhost:9000/api/users/64abffe7d7166a77b75f7123 HTTP/1.1
+
+//peticion para actualizar
+###
+PUT http://localhost:9000/api/users/64abffe7d7166a77b75f7123 HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Kevin" ,
+    "email": "hola",
+    "password" : "27815919",
+    "rol" : 2,
+    "id_usuario_eliminacion" : null
+}
+
+//peticion eliminar
+###
+DELETE http://localhost:9000/api/users/64aab6a2e8ff1156371904db HTTP/1.1
+
+
+//request de Paciente
+
+///
+###
+POST http://localhost:9000/api/pacientes HTTP/1.1
+Content-Type: application/json
+
+{
+    "cedula": "29699734",
+    "p_apellido": "Gonzalez",
+    "s_apellido" : "Vivas",
+    "p_nombre": "Crisley",
+    "s_nombre": "Tahiry",
+    "n_telefono" : "04147247101",
+    "t_sangre" : "aB+",
+    "t_sexo": "F",
+    "f_nacimiento" : "2021-05-06T00:00:00Z"
+}
+###
+
+#POST http://localhost:9000/api/tipoSangre HTTP/1.1
+#Content-Type: application/json
+
+// auditorias 
+//crear auditoria
+// accion es :Registro de lo realizado por el usuario, 1=Agregar, 2=Modificar, 3=Eliminar
+//id_Dato: Se guardara el identificador de la tabla que se modifico, guardo o elimino
+// tabla: Se guardara la tabla a la que accedio el usuario	
+//id_usuario: id_usuario_accion	
+###
+
+
+
+
+//peticion para conseguir una auditoria especifico
+###
+GET http://localhost:9000/api/auditorias/64aabaf7996e9efd98db30c8 HTTP/1.1
+
+//peticion para actualizar
+###
+PUT http://localhost:9000/api/auditorias/64aabaf7996e9efd98db30c8 HTTP/1.1
+Content-Type: application/json
+
+{
+    "accion": 1 ,
+    "id_dato": 2,
+    "tabla" : "Especialidades",
+    "modificaciones" : null,
+    "id_usuario" : 1,
+    "created_at": "2021-09-06T00:00:00Z",
+    "updated_at" : "2021-05-06T00:00:00Z"
+}
+
+//peticion eliminar
+###
+DELETE http://localhost:9000/api/auditorias/64aabaf7996e9efd98db30c8 HTTP/1.1
+
+
+// citas
+###
+
+POST http://localhost:9000/api/roles HTTP/1.1
+Content-Type: application/json
+
+{
+    "nombre": "paciente" ,
+    "rol": 3
+}
+
+//peticion para conseguir una auditoria especifico
+###
+GET http://localhost:9000/api/citas/64aac0c1b8eaec0b77dc4eab HTTP/1.1
+
+//peticion para actualizar
+###
+PUT http://localhost:9000/api/citas/64aac0c1b8eaec0b77dc4eab HTTP/1.1
+Content-Type: application/json
+
+{
+    "id_paciente": 2 ,
+    "id_medico": 5,
+    "fecha_cita" : "2023-05-06T00:00:00Z",
+    "razon_cita" : "Mala de una pata2",
+    "id_usuario_eliminacion" : null,
+    "fechaeliminacion": null,
+    "estado" : 0,
+    "created_at": "2021-05-06T00:00:00Z",
+    "updated_at" : "2021-05-06T00:00:00Z"
+}
+
+
+//peticion eliminar
+###
+DELETE http://localhost:9000/api/citas/64aac0c1b8eaec0b77dc4eab HTTP/1.1
+
+
+
+
+
+// consultas
+###
+
+POST http://localhost:9000/api/consultas HTTP/1.1
+Content-Type: application/json
+
+{
+    "motivo_consulta": "dolor muela" ,
+    "estado_consulta": "activo",
+    "id_medico" : 4,
+    "id_paciente" : 2,
+    "fechareg_consulta" : "2021-05-06T00:00:00Z",
+    "id_usuario_eliminacion" : null,
+    "fechaeliminacion" : null,
+    "id_citas": 5,
+    "created_at": "2021-05-06T00:00:00Z",
+    "updated_at" : "2021-05-06T00:00:00Z"
+}
+
+//peticion para conseguir una auditoria especifico
+###
+GET http://localhost:9000/api/consultas/64aaca9e0b7c1b47290266bb HTTP/1.1
+
+//peticion para actualizar
+###
+PUT http://localhost:9000/api/consultas/64aaca9e0b7c1b47290266bb HTTP/1.1
+Content-Type: application/json
+
+{
+    "motivo_consulta": "dolor muela" ,
+    "estado_consulta": "activo",
+    "id_medico" : 4,
+    "id_paciente" : 7,
+    "fechareg_consulta" : "2021-05-06T00:00:00Z",
+    "id_usuario_eliminacion" : null,
+    "fechaeliminacion" : null,
+    "id_citas": 5,
+    "created_at": "2022-05-06T00:00:00Z",
+    "updated_at" : "2021-05-06T00:00:00Z"
+}
+
+
+//peticion eliminar
+###
+DELETE http://localhost:9000/api/consultas/64aaca9e0b7c1b47290266bb HTTP/1.1
+
+
+
+
+// diagnosticos
+###
+
+POST http://localhost:9000/api/diagnosticos HTTP/1.1
+Content-Type: application/json
+
+{
+    "enfermedad_diagnostico": "dolor muela" ,
+    "sinstomas_diagnostico": "Fuerte",
+    "tratamiento_diagnostico" : "Nuevo tratamiento",
+    "nro_consulta" : 2,
+    "examenes_diagnostico" : "Sin examen",
+    "id_enfermedad" : 5,
+    "id_consulta" : 9,
+    "created_at": "2021-05-06T00:00:00Z",
+    "updated_at" : "2021-05-06T00:00:00Z"
+}
+
+//peticion para conseguir una auditoria especifico
+###
+GET http://localhost:9000/api/diagnosticos/64aacc8a5dae725c1cd4846d HTTP/1.1
+
+//peticion para actualizar
+###
+PUT http://localhost:9000/api/diagnosticos/64aacc8a5dae725c1cd4846d HTTP/1.1
+Content-Type: application/json
+
+{
+    "enfermedad_diagnostico": "dolor muela nuevo" ,
+    "sinstomas_diagnostico": "Fuerte",
+    "tratamiento_diagnostico" : "Nuevo tratamiento",
+    "nro_consulta" : 5,
+    "examenes_diagnostico" : "Sin examen",
+    "id_enfermedad" : 5,
+    "id_consulta" : 9,
+    "created_at": "2021-05-06T00:00:00Z",
+    "updated_at" : "2021-05-06T00:00:00Z"
+}
+
+
+//peticion eliminar
+###
+DELETE http://localhost:9000/api/diagnosticos/64aacc8a5dae725c1cd4846d HTTP/1.1
+
+
+
+
+// enfermeros
+###
+
+POST http://localhost:9000/api/enfermeros HTTP/1.1
+Content-Type: application/json
+
+{
+    "id_enfermera": 5,
+    "apellidop_enfermera": "Labrador",
+    "apellidom_enfermera" : "De villarreal",
+    "nombre_enfermera" : "Danix",
+    "cedula_enfermera" : "11490541",
+    "tlf_enfermera" : "04143795613",
+    "id_usuario_eliminacion" : 2,
+    "fechaeliminacion" : "2021-05-06T00:00:00Z",
+    "created_at": "2021-05-06T00:00:00Z",
+    "updated_at" : "2021-05-06T00:00:00Z"
+}
+
+//peticion para conseguir una auditoria especifico
+###
+GET http://localhost:9000/api/enfermeros/64aad193f4318daa97d45a6d HTTP/1.1
+
+//peticion para actualizar
+###
+PUT http://localhost:9000/api/enfermeros/64aad193f4318daa97d45a6d HTTP/1.1
+Content-Type: application/json
+
+{
+    "id_enfermera": 5,
+    "apellidop_enfermera": "Labrador",
+    "apellidom_enfermera" : "De villarreal",
+    "nombre_enfermera" : "Danix",
+    "cedula_enfermera" : "11490541",
+    "tlf_enfermera" : "04143795613",
+    "id_usuario_eliminacion" : null,
+    "fechaeliminacion" : null,
+    "created_at": "2021-05-06T00:00:00Z",
+    "updated_at" : "2021-05-06T00:00:00Z"
+}
+
+
+//peticion eliminar
+###
+DELETE http://localhost:9000/api/enfermeros/64aad193f4318daa97d45a6d HTTP/1.1
+
+
+
+
+// especialidades
+###
+
+POST http://localhost:9000/api/especialidades HTTP/1.1
+Content-Type: application/json
+
+{
+    "especialidad_nombre": "Odontologia",
+    "id_usuario_eliminacion" : 0,
+    "fechaeliminacion" : null,
+    "created_at": "2021-05-06T00:00:00Z",
+    "updated_at" : "2021-05-06T00:00:00Z"
+}
+
+//peticion para conseguir una auditoria especifico
+###
+GET http://localhost:9000/api/especialidades/64aad696b2513155d1cdd934 HTTP/1.1
+
+//peticion para actualizar
+###
+PUT http://localhost:9000/api/especialidades/64aad696b2513155d1cdd934 HTTP/1.1
+Content-Type: application/json
+
+{
+    "especialidad_nombre": "Odontologia",
+    "id_usuario_eliminacion" : null,
+    "fechaeliminacion" : null,
+    "created_at": "2021-05-06T00:00:00Z",
+    "updated_at" : "2021-05-06T00:00:00Z"
+}
+
+
+//peticion eliminar
+###
+DELETE http://localhost:9000/api/especialidades/64aad696b2513155d1cdd934 HTTP/1.1
+
+
+
+
+
+
+// examenes_fisicos
+###
+
+POST http://localhost:9000/api/examen_fisicos HTTP/1.1
+Content-Type: application/json
+
+{
+    "parterial_exfisico": "Odontologia",
+    "temperatura_exfisico" : "Hola",
+    "frespiratoria_exfisico" : "Hola",
+    "fcardiaca_exfisico" : "Hola",
+    "peso_exfisico" : "Hola",
+    "altura_exfisico" : "Hola",
+    "altura_exfisico" : "Hola",
+    "fechaeliminacion" : null,
+    "id_paciente" : null,
+    "id_usuario_eliminacion" : null,
+    "created_at": "2021-05-06T00:00:00Z",
+    "updated_at" : "2021-05-06T00:00:00Z"
+}
+
+//peticion para conseguir una examen_fisico especifico
+###
+GET http://localhost:9000/api/examen_fisicos/64aad9a2452e6b22da8237f9 HTTP/1.1
+
+//peticion para actualizar
+###
+PUT http://localhost:9000/api/examen_fisicos/64aad9a2452e6b22da8237f9 HTTP/1.1
+Content-Type: application/json
+
+{
+    "parterial_exfisico": "Odontologia",
+    "temperatura_exfisico" : "nooo",
+    "frespiratoria_exfisico" : "Hola",
+    "fcardiaca_exfisico" : "Hola",
+    "peso_exfisico" : "Hola",
+    "altura_exfisico" : "Hola",
+    "altura_exfisico" : "Hola",
+    "fechaeliminacion" : null,
+    "id_paciente" : null,
+    "id_usuario_eliminacion" : null,
+    "created_at": "2021-05-06T00:00:00Z",
+    "updated_at" : "2021-05-06T00:00:00Z"
+}   
+
+
+//peticion eliminar
+###
+DELETE http://localhost:9000/api/examen_fisicos/64aad9a2452e6b22da8237f9 HTTP/1.1
+
+
+
+// medicos
+###
+
+POST http://localhost:9000/api/medicos HTTP/1.1
+Content-Type: application/json
+
+{
+    "apellidop_medico": "Villa",
+    "apellidom_medico" : "Labrador",
+    "nombre_medico" : "Yenifer",
+    "cedula_medico" : "32465258",
+    "tlf_medico" : "04143795613",
+    "id_usuario" : 5,
+    "id_usuario_eliminacion" : null,
+    "fechaeliminacion" : null,
+    "id_especialidad" : 2,
+    "created_at": "2021-05-06T00:00:00Z",
+    "updated_at" : "2021-05-06T00:00:00Z"
+}
+
+//peticion para conseguir un medico especifico
+###
+GET http://localhost:9000/api/medicos/64aadc5906fb22c710b13a87 HTTP/1.1
+
+//peticion para actualizar
+###
+PUT http://localhost:9000/api/medicos/64aadc5906fb22c710b13a87 HTTP/1.1
+Content-Type: application/json
+
+{
+    "apellidop_medico": "Villa2",
+    "apellidom_medico" : "Labrador",
+    "nombre_medico" : "Kevin",
+    "cedula_medico" : "27815919",
+    "tlf_medico" : "04147217216",
+    "id_usuario" : 5,
+    "id_usuario_eliminacion" : null,
+    "fechaeliminacion" : null,
+    "id_especialidad" : 2,
+    "created_at": "2021-05-06T00:00:00Z",
+    "updated_at" : "2021-05-06T00:00:00Z"
+}
+
+
+//peticion eliminar
+###
+DELETE http://localhost:9000/api/medicos/64aadc5906fb22c710b13a87 HTTP/1.1
+
+
+
+
+
+// pacientes
+###
+
+POST http://localhost:9000/api/pacientes HTTP/1.1
+Content-Type: application/json
+
+{
+    "apellidop_paciente ": "Villa",
+    "apellidom_paciente" : "Labrador",
+    "nombre_paciente" : "Kevin",
+    "fechanac_paciente" : "2001-07-20T00:00:00Z",
+    "ecivil_paciente" : "Casado",
+    "tlf_paciente" : "04147217216",
+    "ocupacion_paciente" : "Empleado",
+    "resid_paciente" : "tariba",
+    "nhistoria_paciente" : 2,
+    "cedula_paciente" : "2781591",
+    "id_usuario_eliminacion " : null,
+    "fechaeliminacion " : null,
+    "created_at": "2021-05-06T00:00:00Z",
+    "updated_at" : "2021-05-06T00:00:00Z"
+}
+
+//peticion para conseguir un paciente especifico
+###
+GET http://localhost:9000/api/pacientes/64aadff660e79c83795af1ac HTTP/1.1
+
+//peticion para actualizar
+###
+PUT http://localhost:9000/api/pacientes/64aadff660e79c83795af1ac HTTP/1.1
+Content-Type: application/json
+
+{
+    "apellidop_paciente ": "Villa",
+    "apellidom_paciente" : "Labrador",
+    "nombre_paciente" : "Kevin",
+    "fechanac_paciente" : "2001-07-20T00:00:00Z",
+    "ecivil_paciente" : "Casado",
+    "tlf_paciente" : "04147217216",
+    "ocupacion_paciente" : "Empleado",
+    "resid_paciente" : "tariba2",
+    "nhistoria_paciente" : 23,
+    "cedula_paciente" : "2781591",
+    "id_usuario_eliminacion " : null,
+    "fechaeliminacion " : null,
+    "created_at": "2021-05-06T00:00:00Z",
+    "updated_at" : "2021-05-06T00:00:00Z"
+}
+
+
+//peticion eliminar
+###
+DELETE http://localhost:9000/api/pacientes/64aadff660e79c83795af1ac HTTP/1.1
+
+
+
+
+
+// recetas
+###
+
+POST http://localhost:9000/api/recetas HTTP/1.1
+Content-Type: application/json
+
+{
+    "id_paciente": 3,
+    "id_medico" : 5,
+    "created_at": "2021-05-06T00:00:00Z",
+    "updated_at" : "2021-05-06T00:00:00Z"
+}
+
+//peticion para conseguir un paciente especifico
+###
+GET http://localhost:9000/api/recetas/64aae2e6179c18f083019b3d HTTP/1.1
+
+//peticion para actualizar
+###
+PUT http://localhost:9000/api/recetas/64aae2e6179c18f083019b3d HTTP/1.1
+Content-Type: application/json
+
+{
+    "id_paciente": 3,
+    "id_medico" : 5,
+    "created_at": "2023-05-06T00:00:00Z",
+    "updated_at" : "2023-05-06T00:00:00Z"
+}
+
+
+//peticion eliminar
+###
+DELETE http://localhost:9000/api/recetas/64aae2e6179c18f083019b3d HTTP/1.1
+
+
+
+
+// recetas_detalles
+###
+
+POST http://localhost:9000/api/receta_detalles HTTP/1.1
+Content-Type: application/json
+
+{
+    "medicamento_receta": "loratadina",
+    "presentacion_receta" : "5 mg",
+    "dosis_receta" : "2",
+    "duracion_receta" : "8 dias",
+    "cantidad_receta" : "2",
+    "uso_receta" : "oral",
+    "id_receta" : 2,
+    "created_at": "2021-05-06T00:00:00Z",
+    "updated_at" : "2021-05-06T00:00:00Z"
+}
+
+//peticion para conseguir un paciente especifico
+###
+GET http://localhost:9000/api/receta_detalles/64aae59b0c4848f2758b3cb9 HTTP/1.1
+
+//peticion para actualizar
+###
+PUT http://localhost:9000/api/receta_detalles/64aae59b0c4848f2758b3cb9 HTTP/1.1
+Content-Type: application/json
+
+
+{
+    "medicamento_receta": "loratadina",
+    "presentacion_receta" : "10 mg",
+    "dosis_receta" : "2",
+    "duracion_receta" : "8 dias",
+    "cantidad_receta" : "2",
+    "uso_receta" : "oral",
+    "id_receta" : 2,
+    "created_at": "2021-05-06T00:00:00Z",
+    "updated_at" : "2021-05-06T00:00:00Z"
+}
+
+
+//peticion eliminar
+###
+DELETE http://localhost:9000/api/receta_detalles/64aae59b0c4848f2758b3cb9 HTTP/1.1
+
+###
+GET http://localhost:9000/api/pacientes/27815919 HTTP/1.1 HTTP/1.1

@@ -15,6 +15,7 @@ from screen.questions_screen import QuestionsScreen
 from screen.about_screen import AboutScreen
 from conection import Database
 from kivymd.uix.dialog import MDDialog
+from kivy.network.urlrequest import UrlRequest
 from kivymd.uix.button import MDFlatButton
 import re
 import datetime
@@ -39,8 +40,7 @@ class MainApp(MDApp):
         screen_manager.add_widget(RootScreen(name='root'))
         screen_manager.add_widget(RequirementsScreen(name='requirements'))
         screen_manager.add_widget(DonateScreen(name='donate'))
-        screen_manager.add_widget(
-            PacienteBasantranfsScreen(name='paciente_basantranfs'))
+        screen_manager.add_widget(PacienteBasantranfsScreen(name='paciente_basantranfs'))
 
         '''
         screen_manager.add_widget(NeedDonateScreen(name='need'))
@@ -66,7 +66,7 @@ class MainApp(MDApp):
         Clock.schedule_once(self.login, 3)
 
     def login(self, *args):
-        screen_manager.current = 'root'
+        screen_manager.current = 'login'
 
     #################################################
     #            VALIDACION LOGIN
@@ -87,88 +87,49 @@ class MainApp(MDApp):
             self.show_dialog("Error", "Por favor, complete todos los campos.")
             return
 
-        # Realizar la solicitud de inicio de sesión a la API
+        import requests
+
         data = {
             "email": username,
             "password": password
         }
 
-        response = requests.post("http://localhost:5000/login", json=data)
-        print(response)
+        url = 'http://localhost:9000/api/users/'
+        response = requests.get(url, params=data)
 
         if response.status_code == 200:
-            self.show_dialog("Bienvenido", "¡Bienvenido!")
-            screen_manager.current = "root"
-
-            # Obtener el user_id del usuario actual de la respuesta JSON
-            user_id = response.json().get('user_id')
-
-            print("El user_id del usuario actual es:", user_id)
-
-            # Obtener la colección de usuarios
-            # users_collection = self.db.get_collection('users')
-
-            # Buscar al usuario en la base de datos
-            # user = users_collection.find_one({'email': username, 'password': password})
-
-            # Verificar si el usuario fue encontrado o no
-            # if user is not None:
-            #    self.show_dialog("Error", "Usuario o contraseña incorrecto.")
-
-            # return jsonify(response), 200
-
+            user = response.json()
+            print("este es el usuario", user)
+            print("este es el id_usuario", user["_id"])
+            id_usuario = user["_id"]
         else:
-            self.show_dialog("Error", "Usuario o contraseña incorrecto.")
+            print("Error al obtener el usuario. Código de estado:",
+                  response.status_code)
+            # busquedapaciente
+            # def busquedapaciente(id_usuario):
+            # print("la cedula buscada es:", id_usuario)
+        url = f'http://localhost:9000/api/pacientes/{id_usuario}'
+        req = UrlRequest(url, on_success=lambda req, result: self.request_success(
+            req, result, id_usuario), on_error=self.request_error)
 
+    def request_success(self, req, result, id_usuario):
+        if result is None:
+            print("No se encontraron datos", id_usuario)
+            # app.show_alert_dialog(cedula_str)
+            return
+        if len(result) >= 1:
+            print("Si encontro", result)
+            self.show_dialog(f"Bienvenido! {str(result)}")
+            screen_manager.current = 'root'
+            # app.show_alert_dialog_cita(cedula_str)
+        else:
+            print("no")
+
+    def request_error(req, error):
+        print("Error en la solicitud:", error)
     #################################################
     #            VALIDACION REGISTRO
     #################################################
-
-    # Validar el formato del email
-    def validar_email(self, email):
-        pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
-        return re.match(pattern, email) is not None
-
-    # Valida solo números
-    def solo_numeros(self, text, mensaje_numero):
-        if text.isdigit():
-            mensaje_numero.opacity = 0
-            return text
-        else:
-            mensaje_numero.opacity = 1
-            return ""
-
-    # Valida solo letras
-    def solo_letras(self, text, mensaje_nombre):
-        if text.isalpha():
-            mensaje_nombre.opacity = 0
-            return text
-        else:
-            mensaje_nombre.opacity = 1
-            return ""
-
-    # Valida el formato de fecha
-    def on_text(self, instance, value):
-        if value == "":
-            self.helper_text = "dd/mm/yyyy"
-        else:
-            self.helper_text = ""
-
-    def validate_date(self, text):
-        parts = text.split('/')
-        if len(parts) == 3 and all(part.isdigit() for part in parts):
-            day, month, year = map(int, parts)
-            if 1 <= day <= 31 and 1 <= month <= 12:
-                current_year = datetime.datetime.now().year
-                age = current_year - year
-                if age >= 18:
-                    return True
-                else:
-                    return "No eres mayor de edad."
-            else:
-                return "Fecha de nacimiento inválida."
-        else:
-            return "Formato de fecha de nacimiento incorrecto (dd/mm/yyyy)."
 
     def validacionRegistro(self):
         registre_screen = screen_manager.get_screen('signup')
@@ -195,21 +156,21 @@ class MainApp(MDApp):
         if not cedula:
             campo_vacio.append("cedula")
         if not p_apellido:
-            campo_vacio.append("p_apellido")
+            campo_vacio.append("primer apellido")
         if not s_apellido:
-            campo_vacio.append("s_apellido")
+            campo_vacio.append("segundo apellido")
         if not p_nombre:
-            campo_vacio.append("p_nombre")
+            campo_vacio.append("primer nombre")
         if not s_nombre:
-            campo_vacio.append("s_nombre")
+            campo_vacio.append("segundo nombre")
         if not n_telefono:
-            campo_vacio.append("n_telefono")
+            campo_vacio.append("numero de telefono")
         if not t_sangre:
-            campo_vacio.append("t_sangre")
+            campo_vacio.append("tipo de sangre")
         if not t_sexo:
-            campo_vacio.append("t_sexo")
+            campo_vacio.append("tipo de sexo")
         if not f_nacimiento:
-            campo_vacio.append("f_nacimiento")
+            campo_vacio.append("fecha de nacimiento")
         if not email:
             campo_vacio.append("email")
         if not password:
@@ -227,10 +188,11 @@ class MainApp(MDApp):
             self.show_dialog("Error", date_validation_result)
             return
 
-        # Convertir la fecha de nacimiento a un objeto de tipo datetime
         try:
+            # Convertir la fecha de nacimiento a un objeto de tipo datetime
             f_nacimiento_dt = datetime.datetime.strptime(
                 f_nacimiento, '%d/%m/%Y').date()
+            # f_nacimiento_formateada = f_nacimiento.strftime("%Y-%m-%dT%H:%M:%SZ")
         except ValueError:
             self.show_dialog(
                 "Error", "Formato de fecha de nacimiento incorrecto (dd/mm/yyyy).")
@@ -241,7 +203,122 @@ class MainApp(MDApp):
             self.show_dialog("Error", "Fecha de nacimiento inválida.")
             return
 
-        # Obtener la colección de pacientes
+        # url = 'http://localhost:5000/registro'
+        # data = {
+        #     'cedula': cedula,
+        #     'p_apellido': p_apellido,
+        #     's_apellido': s_apellido,
+        #     'p_nombre': p_nombre,
+        #     's_nombre': s_nombre,
+        #     'n_telefono': n_telefono,
+        #     't_sangre': t_sangre,
+        #     't_sexo': t_sexo,
+        #     'f_nacimiento': f_nacimiento,
+        #     'email': email,
+        #     'password': password
+        # }
+
+        email_str = str(email)
+        password_str = str(password)
+        cedula_str = str(cedula)
+        p_apellido_str = str(p_apellido)
+        s_apellido_str = str(s_apellido)
+        p_nombre_str = str(p_nombre)
+        s_nombre_str = str(s_nombre)
+        n_telefono_str = str(n_telefono)
+        t_sangre_str = str(t_sangre)
+        t_sexo_str = str(t_sexo)
+        f_nacimiento_str = str(f_nacimiento)
+
+        url3 = f'http://localhost:9000/api/pacientes/cedula/{cedula_str}'
+        response3 = requests.get(url3)
+
+        if response3.status_code == 200:
+            paciente = response3.json()
+
+            if paciente.get("message") != "Paciente no encontrado":
+                print("Alerta: Ya existe un paciente con esta cédula")
+                print(paciente)
+                self.show_dialog("Ya existe la cedula", "Verifica")
+            else:
+                print("Alerta: NO existe un paciente con esta cédula")
+                print(paciente)
+                self.create_paciente_users(email_str, password_str, cedula_str, p_apellido_str, s_apellido_str,
+                                           p_nombre_str, s_nombre_str, n_telefono_str, t_sangre_str, t_sexo_str, f_nacimiento_str)
+
+        else:
+            print("Error en la solicitud:", response3.status_code)
+
+    def create_paciente_users(self, email_str, password_str, cedula_str, p_apellido_str, s_apellido_str, p_nombre_str, s_nombre_str, n_telefono_str, t_sangre_str, t_sexo_str, f_nacimiento_str):
+        url1 = 'http://localhost:9000/api/users'
+        data1 = {
+            'email': email_str,
+            'password': password_str,
+            'rol_id': 2
+        }
+        response = requests.post(url1, json=data1)
+        response_data = response.json()
+        id_usuario = response_data['_id']
+        id_usuario_str = str(id_usuario)
+
+        url2 = 'http://localhost:9000/api/pacientes'
+        data = {
+            'cedula': cedula_str,
+            'p_apellido': p_apellido_str,
+            's_apellido': s_apellido_str,
+            'p_nombre': p_nombre_str,
+            's_nombre': s_nombre_str,
+            'n_telefono': n_telefono_str,
+            't_sangre': t_sangre_str,
+            't_sexo': t_sexo_str,
+            'f_nacimiento': f_nacimiento_str,
+            'user_id': id_usuario_str
+        }
+        response = requests.post(url2, json=data)
+
+        if response.status_code == 200:
+            self.show_dialog("Registro exitoso", "¡Registro exitoso!")
+            screen_manager.current = "login"
+        elif response.status_code == 409:
+            self.show_dialog("Error", "El paciente ya existe.")
+        else:
+            error_message = response.json().get("message", "Error al registrar.")
+            self.show_dialog("Error", error_message)
+            
+    # def request_success(self, req, result):
+    #     if result is None:
+    #         print("No se encontraron datos")
+    #         # app.show_alert_dialog(cedula_str)
+    #         return
+    #     if len(result) >= 1:
+    #         print("Si encontro")
+    #         print("Si encontro", result)
+    #         url2 = f'http://localhost:9000/api/pacientes'
+    #     response = requests.get(url2)
+    #     if response.status_code == 200:
+    #         pacientes = response.json()
+
+    #         # Encontrar el valor máximo de nhistoria_paciente
+    #         max_nhistoria = max(paciente['nhistoria_paciente'] for paciente in pacientes)
+    #         idmaximo = max(paciente['idpaciente'] for paciente in pacientes)
+
+    #         max_nhistoriasuma = str(max_nhistoria + 1)
+    #         idmaximosuma = str(idmaximo + 1)
+    #         # app.show_alert_dialog_cita(cedula_str)
+    #     else:
+    #         print("no")
+
+    # def request_error(req, error):
+    #     print("Error en la solicitud:", error)
+
+        # if response.status_code == 200:
+        #     app.show_alert_dialog_registradoconexito()
+        # else:
+        #     print("Ocurrió un error en la solicitud")
+
+        # response = requests.post('http://localhost:5000/registro', json=data)
+
+        '''# Obtener la colección de pacientes
         pacientes_collection = self.db.get_collection('pacientes')
 
         # Verificar si el paciente ya existe en la base de datos
@@ -301,7 +378,60 @@ class MainApp(MDApp):
                         "Error", "Error al registrar el paciente.")
             except Exception as e:
                 print(f"Error al registrar: {str(e)}")
-                self.show_dialog("Error", "Error al registrar.")
+                self.show_dialog("Error", "Error al registrar.")'''
+
+    # Validar el formato del email
+    def validar_email(self, email):
+        pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
+        return re.match(pattern, email) is not None
+
+    # Valida solo números
+
+    def solo_numeros(self, text, mensaje_numero):
+        if text.isdigit():
+            mensaje_numero.opacity = 0
+            return text
+        else:
+            mensaje_numero.opacity = 1
+            return ""
+
+    # Valida solo letras
+
+    def solo_letras(self, text, mensaje_nombre):
+        if text.isalpha():
+            self.previous_text = text
+            mensaje_nombre.opacity = 0
+            return text
+        else:
+            mensaje_nombre.opacity = 1
+            return self.previous_text
+
+    def on_textinput(self, instance, text, mensaje_nombre):
+        instance.text = self.solo_letras(instance.text, mensaje_nombre)
+
+    # Valida el formato de fecha
+
+    def on_text(self, instance, value):
+        if value == "":
+            self.helper_text = "dd/mm/yyyy"
+        else:
+            self.helper_text = ""
+
+    def validate_date(self, text):
+        parts = text.split('/')
+        if len(parts) == 3 and all(part.isdigit() for part in parts):
+            day, month, year = map(int, parts)
+            if 1 <= day <= 31 and 1 <= month <= 12:
+                current_year = datetime.datetime.now().year
+                age = current_year - year
+                if age >= 18:
+                    return True
+                else:
+                    return "No eres mayor de edad."
+            else:
+                return "Fecha de nacimiento inválida."
+        else:
+            return "Formato de fecha de nacimiento incorrecto (dd/mm/yyyy)."
 
     def show_dialog(self, title, text):
         # Crear y mostrar un cuadro de diálogo

@@ -15,6 +15,7 @@ from screen.questions_screen import QuestionsScreen
 from screen.about_screen import AboutScreen
 from conection import Database
 from kivymd.uix.dialog import MDDialog
+from kivy.network.urlrequest import UrlRequest
 from kivymd.uix.button import MDFlatButton
 import re
 import datetime
@@ -39,8 +40,7 @@ class MainApp(MDApp):
         screen_manager.add_widget(RootScreen(name='root'))
         screen_manager.add_widget(RequirementsScreen(name='requirements'))
         screen_manager.add_widget(DonateScreen(name='donate'))
-        screen_manager.add_widget(
-            PacienteBasantranfsScreen(name='paciente_basantranfs'))
+        screen_manager.add_widget(PacienteBasantranfsScreen(name='paciente_basantranfs'))
 
         '''
         screen_manager.add_widget(NeedDonateScreen(name='need'))
@@ -66,7 +66,7 @@ class MainApp(MDApp):
         Clock.schedule_once(self.login, 3)
 
     def login(self, *args):
-        screen_manager.current = 'root'
+        screen_manager.current = 'login'
 
     #################################################
     #            VALIDACION LOGIN
@@ -86,8 +86,9 @@ class MainApp(MDApp):
         if not username or not password:
             self.show_dialog("Error", "Por favor, complete todos los campos.")
             return
+# Realizar la solicitud de inicio de sesión a la API
+        import requests
 
-        # Realizar la solicitud de inicio de sesión a la API
         data = {
             "email": username,
             "password": password
@@ -120,6 +121,8 @@ class MainApp(MDApp):
         else:
             self.show_dialog("Error", "Usuario o contraseña incorrecto.")
 
+    def request_error(req, error):
+        print("Error en la solicitud:", error)
     #################################################
     #            VALIDACION REGISTRO
     #################################################
@@ -195,21 +198,21 @@ class MainApp(MDApp):
         if not cedula:
             campo_vacio.append("cedula")
         if not p_apellido:
-            campo_vacio.append("p_apellido")
+            campo_vacio.append("primer apellido")
         if not s_apellido:
-            campo_vacio.append("s_apellido")
+            campo_vacio.append("segundo apellido")
         if not p_nombre:
-            campo_vacio.append("p_nombre")
+            campo_vacio.append("primer nombre")
         if not s_nombre:
-            campo_vacio.append("s_nombre")
+            campo_vacio.append("segundo nombre")
         if not n_telefono:
-            campo_vacio.append("n_telefono")
+            campo_vacio.append("numero de telefono")
         if not t_sangre:
-            campo_vacio.append("t_sangre")
+            campo_vacio.append("tipo de sangre")
         if not t_sexo:
-            campo_vacio.append("t_sexo")
+            campo_vacio.append("tipo de sexo")
         if not f_nacimiento:
-            campo_vacio.append("f_nacimiento")
+            campo_vacio.append("fecha de nacimiento")
         if not email:
             campo_vacio.append("email")
         if not password:
@@ -227,8 +230,8 @@ class MainApp(MDApp):
             self.show_dialog("Error", date_validation_result)
             return
 
-        # Convertir la fecha de nacimiento a un objeto de tipo datetime
         try:
+            # Convertir la fecha de nacimiento a un objeto de tipo datetime
             f_nacimiento_dt = datetime.datetime.strptime(
                 f_nacimiento, '%d/%m/%Y').date()
         except ValueError:
@@ -241,67 +244,29 @@ class MainApp(MDApp):
             self.show_dialog("Error", "Fecha de nacimiento inválida.")
             return
 
-        # Obtener la colección de pacientes
-        pacientes_collection = self.db.get_collection('pacientes')
+        # Insertar el paciente en la colección "pacientes"
+        data = {
+            'cedula': cedula,
+            'p_apellido': p_apellido,
+            's_apellido': s_apellido,
+            'p_nombre': p_nombre,
+            's_nombre': s_nombre,
+            'n_telefono': n_telefono,
+            't_sangre': t_sangre,
+            't_sexo': t_sexo,
+            'f_nacimiento': f_nacimiento,
+            'email': email,
+            'password': password
+        }
 
-        # Verificar si el paciente ya existe en la base de datos
-        existing_paciente = pacientes_collection.find_one({'cedula': cedula})
-        if existing_paciente:
-            self.show_dialog("Error", "El paciente ya existe.")
+        response = requests.post('http://localhost:5000/registro', json=data)
+        if response.status_code == 201:
+            self.show_dialog("Registro exitoso!")
+            screen_manager.current = "login"
+        elif response.status_code == 409:
+            self.show_dialog("Error", "Paciente ya existe.")
         else:
-            try:
-                # Insertar el paciente en la colección "pacientes"
-                paciente_id = pacientes_collection.insert_one({
-                    'cedula': cedula,
-                    'p_apellido': p_apellido,
-                    's_apellido': s_apellido,
-                    'p_nombre': p_nombre,
-                    's_nombre': s_nombre,
-                    'n_telefono': n_telefono,
-                    't_sangre': t_sangre,
-                    't_sexo': t_sexo,
-                    'f_nacimiento': f_nacimiento
-                }).inserted_id
-
-                if paciente_id:
-                    # Obtener la colección de roles
-                    roles_collection = self.db.get_collection('roles')
-
-                    # Buscar el rol "paciente"
-                    paciente_role = roles_collection.find_one(
-                        {'nombre': 'paciente'})
-
-                    if not paciente_role:
-                        # Si el rol "paciente" no existe, se crea
-                        paciente_role_id = roles_collection.insert_one(
-                            {'nombre': 'paciente'}).inserted_id
-                    else:
-                        paciente_role_id = paciente_role['_id']
-
-                    # Obtener la colección de usuarios
-                    users_collection = self.db.get_collection('users')
-
-                    hashed_password = generate_password_hash(password)
-
-                    # Insertar el usuario en la colección "users" con referencia al paciente correspondiente
-                    user_id = users_collection.insert_one({
-                        'email': email,
-                        'password': hashed_password,
-                        'paciente_id': paciente_id,
-                        'role_id': paciente_role_id
-                    }).inserted_id
-
-                    if user_id:
-                        # self.show_dialog("Bienvenido", f"Bienvenido, {p_nombre}.")
-                        screen_manager.current = "login"
-                    else:
-                        self.show_dialog("Error", "Error al registrar.")
-                else:
-                    self.show_dialog(
-                        "Error", "Error al registrar el paciente.")
-            except Exception as e:
-                print(f"Error al registrar: {str(e)}")
-                self.show_dialog("Error", "Error al registrar.")
+            self.show_dialog("Error", "Error al registrar")
 
     def show_dialog(self, title, text):
         # Crear y mostrar un cuadro de diálogo

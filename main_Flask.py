@@ -34,13 +34,19 @@ def login():
             
             # Guardar el user_id en la sesión
             session['user_id'] = user_id
-            
-            response = {
-                'user_id': user_id,
-                'email': user['email'],
-                'password': user['password']
-            }
-            return jsonify(response), 200
+            # Buscar el paciente relacionado con el usuario
+            paciente_id = user.get('paciente_id')
+            if paciente_id:
+                paciente = mongo.db.pacientes.find_one({'_id': paciente_id})
+                print("Datos del paciente:")
+                print("Nombre:", paciente['p_nombre'])
+                print("Tipo de sangre:", paciente['t_sangre'])
+                response = {
+                    'user_id': user_id,
+                    'email': user['email'],
+                    'password': user['password']
+                }
+                return jsonify(response), 200
         
     return jsonify({'message': 'Usuario o contraseña incorrecto.'}), 401
 

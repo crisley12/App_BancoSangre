@@ -66,7 +66,7 @@ class MainApp(MDApp):
         Clock.schedule_once(self.login, 3)
 
     def login(self, *args):
-        screen_manager.current = 'login'
+        screen_manager.current = 'donate'
 
     #################################################
     #            VALIDACION LOGIN

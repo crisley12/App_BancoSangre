@@ -4,12 +4,13 @@ from kivymd.uix.dialog import MDDialog
 
 
 class DonateScreen(MDScreen):
+
+    respuesta = {}  # Variable global para almacenar las respuestas
+
     def __init__(self, **kwargs) -> None:
         Builder.load_file('screen_Kv/donate_screen.kv')
         super(DonateScreen, self).__init__(**kwargs)
         # self.respuestas = {}  # Diccionario para almacenar las respuestas
-
-    respuesta = {}
 
     def show_dialog(self, title, message):
         dialog = MDDialog(
@@ -22,7 +23,6 @@ class DonateScreen(MDScreen):
 ######################################################
 #           PRIMERA PANTALLA
 #######################################################
-
 
     def next(self):
         self.next_donate = self.ids.carusel.load_next(mode="next")
@@ -44,53 +44,68 @@ class DonateScreen(MDScreen):
 #           SEGUNDA PANTALLA
 #######################################################
 
-
     def next2(self):
+        pregunta = "En los últimos 30 días has sido vacunado contra"
+        respuestas = {}
 
-        selected_button_ids = ["fiebre_amarilla", "rubeola", "varicela",
-                               "fiebre_tifoidea", "hacerepatitis", "influenza", "no_vacunado"]
-        # no_vacunado =
-
-        selected_buttons = [
-            button_id for button_id in selected_button_ids if self.ids[button_id].state == "down"]
-
-        if selected_buttons == "no_vacunado":
-            # Guardar la respuesta en el diccionario global respuesta
-            self.respuesta["En los últimos 30 días has sido vacunado contra:"] = "no_vacunado"
-            print(selected_buttons)
-            # Continuar con la siguiente pantalla
-            self.next_donate = self.ids.carusel.load_next(mode="next")
-            self.ids.label2.text_color = [1, 0, 0, 1]
-            self.ids.progress2.value = 100
-            self.ids.progress2.bar_color = [1, 0, 0, 1]
-            self.icon_donate = self.ids.icon2.text_color = [1, 0, 0, 1]
-            self.ids.icon2.icon = "check-circle"
+        # Verificar si el botón "no_vacunado" está seleccionado
+        if self.ids.no_vacunado.state == "down":
+            respuesta_no_vacunado = self.ids.no_vacunado.text
+            respuestas[pregunta] = respuesta_no_vacunado
         else:
-            self.show_dialog("No apto para donar",
-                             "No puede estar vacunado contra esas enfermedades")
-            self.ids.carusel.load_previous()
-            print(selected_buttons)
+            self.show_dialog(
+                "No apto para donar", "No puede estar vacunado contra esas enfermedades. LEA LOS REQUISITOS!")
+            return
+
+        # Guardar respuestas en el diccionario global
+        self.respuesta.update(respuestas)
+        print(respuestas)
+        # Continuar con la siguiente pantalla
+        self.next_donate = self.ids.carusel.load_next(mode="next")
+        self.ids.label2.text_color = [1, 0, 0, 1]
+        self.ids.progress2.value = 100
+        self.ids.progress2.bar_color = [1, 0, 0, 1]
+        self.icon_donate = self.ids.icon2.text_color = [1, 0, 0, 1]
+        self.ids.icon2.icon = "check-circle"
 
 
 #  Cambia devuelta al color inicial
 
+
     def previous2(self):
+
         self.previous_donate = self.ids.carusel.load_previous()
         self.ids.label2.text_color = [0, 0, 0, 1]
         self.ids.icon2.text_color = [0, 0, 0, 1]
         self.ids.progress2.value = 0
         self.ids.icon2.icon = "numeric-2-circle"
 
-
 ######################################################
 #           TERCERA PANTALLA
 #######################################################
 
     def next3(self):
-        # pregunta_actual = self.ids.carusel.current_slide.name
-        # respuesta = self.get_selected_answer(pregunta_actual)
-        # if respuesta is not None:
-        # self.respuestas[pregunta_actual] = respuesta
+        pregunta = "Tomaste algunos de los siguientes medicamento en los últimos 7 días"
+        respuestas = {}
+
+        if self.ids.no_medicamentos.state == "down":
+            respuesta_no_medicamentos = self.ids.no_medicamentos.text
+            respuestas[pregunta] = respuesta_no_medicamentos
+        else:
+            self.show_dialog(
+                "No apto para donar", "No puede tomar medicamentos contra enfermedades días antes. LEA LOS REQUISITOS!")
+            return
+
+        self.respuesta.update(respuestas)
+        print(respuestas)
+
+        self.next_donate = self.ids.carusel.load_next(mode="next")
+        self.ids.label3.text_color = [1, 0, 0, 1]
+        self.ids.progress3.value = 100
+        self.ids.progress3.bar_color = [1, 0, 0, 1]
+        self.icon_donate = self.ids.icon3.text_color = [1, 0, 0, 1]
+        self.ids.icon3.icon = "check-circle"
+        print(self.respuesta)
 
         self.next_donate = self.ids.carusel.load_next(mode="next")
         self.ids.label3.text_color = [1, 0, 0, 1]
@@ -111,10 +126,20 @@ class DonateScreen(MDScreen):
 #######################################################
 
     def next4(self):
-        # pregunta_actual = self.ids.carusel.current_slide.name
-        # respuesta = self.get_selected_answer(pregunta_actual)
-        # if respuesta is not None:
-        # self.respuestas[pregunta_actual] = respuesta
+
+        pregunta = "Padeces de alguna infección o enfermedad actualmente"
+        respuestas = {}
+
+        if self.ids.no_infeccion.state == "down":
+            respuesta_no_infeccion = self.ids.no_infeccion.text
+            respuestas[pregunta] = respuesta_no_infeccion
+        else:
+            self.show_dialog(
+                "No apto para donar", "No puede tener alguna infección u enfermedad grave para donar. LEA LOS REQUISITOS!")
+            return
+
+        self.respuesta.update(respuestas)
+        print(respuestas)
 
         self.next_donate = self.ids.carusel.load_next(mode="next")
         self.ids.label4.text_color = [1, 0, 0, 1]
@@ -122,6 +147,7 @@ class DonateScreen(MDScreen):
         self.ids.progress4.bar_color = [1, 0, 0, 1]
         self.icon_donate = self.ids.icon4.text_color = [1, 0, 0, 1]
         self.ids.icon4.icon = "check-circle"
+        print(self.respuesta)
 
     def previous4(self):
         self.previous_donate = self.ids.carusel.load_previous()
@@ -135,11 +161,21 @@ class DonateScreen(MDScreen):
 #           QUINTA PANTALLA
 #######################################################
 
+
     def next5(self):
-        # pregunta_actual = self.ids.carusel.current_slide.name
-        # respuesta = self.get_selected_answer(pregunta_actual)
-        # if respuesta is not None:
-        # self.respuestas[pregunta_actual] = respuesta
+        pregunta = "Has padecido alguna de las siguientes enfermedades graves"
+        respuestas = {}
+
+        if self.ids.no_enfermedades.state == "down":
+            respuesta_no_enfermedades = self.ids.no_enfermedades.text
+            respuestas[pregunta] = respuesta_no_enfermedades
+        else:
+            self.show_dialog(
+                "No apto para donar", "No puedes tener o haber tenido esas enfermades. LEA LOS REQUISITOS!")
+            return
+
+        self.respuesta.update(respuestas)
+        print(respuestas)
 
         self.next_donate = self.ids.carusel.load_next(mode="next")
         self.ids.label5.text_color = [1, 0, 0, 1]
@@ -147,6 +183,7 @@ class DonateScreen(MDScreen):
         self.ids.progress5.bar_color = [1, 0, 0, 1]
         self.icon_donate = self.ids.icon5.text_color = [1, 0, 0, 1]
         self.ids.icon5.icon = "check-circle"
+        print(self.respuesta)
 
     def previous5(self):
         self.previous_donate = self.ids.carusel.load_previous()
@@ -160,11 +197,21 @@ class DonateScreen(MDScreen):
 #           SEXTA PANTALLA
 #######################################################
 
+
     def next6(self):
-        # pregunta_actual = self.ids.carusel.current_slide.name
-        # respuesta = self.get_selected_answer(pregunta_actual)
-        # if respuesta is not None:
-        # self.respuestas[pregunta_actual] = respuesta
+        pregunta = "Consumiste alguna bebida alcoholica en los últimos 3 días"
+        respuestas = {}
+
+        if self.ids.no_beber.state == "down":
+            respuesta_no_beber = self.ids.no_beber.text
+            respuestas[pregunta] = respuesta_no_beber
+        else:
+            self.show_dialog(
+                "No apto para donar", "No beber ni fumar antes de donar por lo menos el intervalo debe ser de 24 hrs. LEA LOS REQUISITOS!")
+            return
+
+        self.respuesta.update(respuestas)
+        print(respuestas)
 
         self.next_donate = self.ids.carusel.load_next(mode="next")
         self.ids.label6.text_color = [1, 0, 0, 1]
@@ -172,6 +219,7 @@ class DonateScreen(MDScreen):
         self.ids.progress6.bar_color = [1, 0, 0, 1]
         self.icon_donate = self.ids.icon6.text_color = [1, 0, 0, 1]
         self.ids.icon6.icon = "check-circle"
+        print(self.respuesta)
 
     def previous6(self):
         self.previous_donate = self.ids.carusel.load_previous()
@@ -185,19 +233,32 @@ class DonateScreen(MDScreen):
 #           SEPTIMA PANTALLA
 #######################################################
 
-
     def next7(self):
-        # pregunta_actual = self.ids.carusel.current_slide.name
-        # respuesta = self.get_selected_answer(pregunta_actual)
-        # if respuesta is not None:
-        # self.respuestas[pregunta_actual] = respuesta
+        pregunta = "Posees tatuajes o perforaciones hechos recientemente"
+        respuestas = {}
 
+        if self.ids.tatoo_mas.state == "down":
+            respuesta_tatoo_mas = self.ids.tatoo_mas.text
+            respuestas[pregunta] = respuesta_tatoo_mas
+
+        if self.ids.no_tatoo.state == "down":
+            respuesta_no_tatoo = self.ids.no_tatoo.text
+            respuestas[pregunta] = respuesta_no_tatoo
+
+        if not respuestas:
+            self.show_dialog(
+                "No apto para donar", "Por lo menos tienes que esperar un año despues de realizarte el tatuaje o perforación para poder donar. LEA LOS REQUISITOS!")
+            return
+
+        self.respuesta.update(respuestas)
+        print(respuestas)
         self.next_donate = self.ids.carusel.load_next(mode="next")
         self.ids.label7.text_color = [1, 0, 0, 1]
         self.ids.progress7.value = 100
         self.ids.progress7.bar_color = [1, 0, 0, 1]
         self.icon_donate = self.ids.icon7.text_color = [1, 0, 0, 1]
         self.ids.icon7.icon = "check-circle"
+        print(self.respuesta)
 
     def previous7(self):
         self.previous_donate = self.ids.carusel.load_previous()
@@ -211,13 +272,25 @@ class DonateScreen(MDScreen):
 #           OCTAVA PANTALLA
 #######################################################
 
-
     def next8(self):
-        # pregunta_actual = self.ids.carusel.current_slide.name
-        # respuesta = self.get_selected_answer(pregunta_actual)
-        # if respuesta is not None:
-        # self.respuestas[pregunta_actual] = respuesta
+        pregunta = "Has donado anteriormente"
+        respuestas = {}
 
+        if self.ids.donacion_mas.state == "down":
+            respuesta_donacion_mas = self.ids.donacion_mas.text
+            respuestas[pregunta] = respuesta_donacion_mas
+
+        if self.ids.donacion_no.state == "down":
+            respuesta_donacion_no = self.ids.donacion_no.text
+            respuestas[pregunta] = respuesta_donacion_no
+
+        if not respuestas:
+            self.show_dialog(
+                "No apto para donar", "Por lo menos tienes que esperar un año despues de realizarte el tatuaje o perforación para poder donar. LEA LOS REQUISITOS!")
+            return
+
+        self.respuesta.update(respuestas)
+        print(respuestas)
         self.next_donate = self.ids.carusel.load_next(mode="next")
         self.ids.label8.text_color = [1, 0, 0, 1]
         self.ids.progress8.value = 100
@@ -226,11 +299,41 @@ class DonateScreen(MDScreen):
         self.ids.icon8.icon = "check-circle"
 
     def previous8(self):
-        self.previous_donate = self.ids.carusel.load_previous()
         self.ids.label8.text_color = [0, 0, 0, 1]
         self.ids.icon8.text_color = [0, 0, 0, 1]
         self.ids.progress8.value = 0
         self.ids.icon8.icon = "numeric-8-circle"
+        self.ids.label7.text_color = [0, 0, 0, 1]
+        self.ids.icon7.text_color = [0, 0, 0, 1]
+        self.ids.progress7.value = 0
+        self.ids.icon7.icon = "numeric-7-circle"
+        self.ids.label6.text_color = [0, 0, 0, 1]
+        self.ids.icon6.text_color = [0, 0, 0, 1]
+        self.ids.progress6.value = 0
+        self.ids.icon6.icon = "numeric-6-circle"
+        self.ids.label5.text_color = [0, 0, 0, 1]
+        self.ids.icon5.text_color = [0, 0, 0, 1]
+        self.ids.progress5.value = 0
+        self.ids.icon5.icon = "numeric-5-circle"
+        self.ids.label4.text_color = [0, 0, 0, 1]
+        self.ids.icon4.text_color = [0, 0, 0, 1]
+        self.ids.progress4.value = 0
+        self.ids.icon4.icon = "numeric-4-circle"
+        self.ids.label3.text_color = [0, 0, 0, 1]
+        self.ids.icon3.text_color = [0, 0, 0, 1]
+        self.ids.progress3.value = 0
+        self.ids.icon3.icon = "numeric-3-circle"
+        self.ids.label2.text_color = [0, 0, 0, 1]
+        self.ids.icon2.text_color = [0, 0, 0, 1]
+        self.ids.progress2.value = 0
+        self.ids.icon2.icon = "numeric-2-circle"
+        self.ids.label1.text_color = [0, 0, 0, 1]
+        self.ids.icon1.text_color = [0, 0, 0, 1]
+        self.ids.progress1.value = 0
+        self.ids.icon1.icon = "numeric-1-circle"
+        # Reiniciar el diccionario de respuestas
+        self.respuestas = {}
+        self.ids.carusel.index = 0
 
 
 ######################################################
@@ -255,87 +358,4 @@ class DonateScreen(MDScreen):
         self.ids.icon9.text_color = [0, 0, 0, 1]
         self.ids.progress9.value = 0
         self.ids.icon9.icon = "numeric-9-circle"
-
-
-
-#Obtener la respuesta seleccionada según la pregunta actual
-    def get_selected_answer(self, pregunta):
-            if pregunta == 'pantalla2':
-                if self.ids.less_than_50kg.state == 'down':
-                    return 'menos de 50kg'
-                elif self.ids.from_50kg.state == 'down':
-                    return 'a partir de 50kg'
-                elif self.ids.from_50kg_to_65kg.state == 'down':
-                    return '50kg a 65kg'
-                elif self.ids.from_65kg_to_80kg.state == 'down':
-                    return '65kg a 80kg'
-                elif self.ids.more_than_80kg.state == 'down':
-                    return '+ de 80kg'
-            elif pregunta == 'pantalla3':
-                if self.ids.vaccinated_yes.state == 'down':
-                    return 'Si'
-                elif self.ids.vaccinated_no.state == 'down':
-                    return 'No'
-
-
-# Realizar las validaciones y tomar decisiones según las respuestas almacenadas en self.respuestas
-
-def verificar_apto_para_donar(self):
-        peso = self.respuestas.get('label2', '')
-        vacunado = self.respuestas.get('label3', '')
-
-        if peso == 'menos de 50kg' and vacunado == 'Si':
-            # No apto para donar
-            print("No eres apto para donar sangre.")
-        else:
-            # Apto para donar
-            print("Eres apto para donar sangre.")
-
 '''
-
-
-'''
-    def update_progress(self):
-        pregunta_actual = self.ids.carusel.current_slide.name  # Obtener el nombre de la pregunta actual
-        progreso = int(pregunta_actual[-1]) * 25  # Calcular el progreso actual (25%, 50%, 75%, 100%)
-        self.ids.progress1.value = progreso
-'''
-
-
-'''
- MDTextField:
-                            hint_text: "Firste Name"
-                            size_hint_x: .8
-                            pos_hint: {"center_x": .5, "center_y": .48}
-                        MDTextField:
-                            hint_text: "Last Name"
-                            size_hint_x: .8
-                            pos_hint: {"center_x": .5, "center_y": .36}
-'''
-
-# def get_selected_answer(self, pregunta):
-#   if pregunta == 'pantalla2':
-#       if self.ids.less_than_50kg.state == 'down':
-#           return 'menos de 50kg'
-#       elif self.ids.from_50kg.state == 'down':
-#           return 'a partir de 50kg'
-#       elif self.ids.from_50kg_to_65kg.state == 'down':
-#           return '50kg a 65kg'
-#       elif self.ids.from_65kg_to_80kg.state == 'down':
-#           return '65kg a 80kg'
-#       elif self.ids.more_than_80kg.state == 'down':
-#           return '+ de 80kg'
-#   elif pregunta == 'pantalla3':
-#       if self.ids.vaccinated_yes.state == 'down':
-#           return 'Si'
-#       elif self.ids.vaccinated_no.state == 'down':
-#           return 'No'
-
-# def verificar_apto_para_donar(self):
-#     peso = self.respuestas.get('pantalla2', '')
-#     vacunado = self.respuestas.get('pantalla3', '')
-
-#     if peso != 'No' and vacunado != 'No':
-#         print("Eres apto para donar sangre.")
-#     else:
-#         print("No eres apto para donar sangre.")

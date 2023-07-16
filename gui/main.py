@@ -26,11 +26,20 @@ Window.size = (350, 600)
 
 
 class MainApp(MDApp):
+    # Variable para almacenar los datos del paciente
+    # global nombre_paciente 
+    # global tipo_sangre_paciente
+    # nombre_paciente = {}
+    # tipo_sangre_paciente = {}
+
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.db = Database(database_name='banco_de_sangre')
+        
 
-    # Constructor de la interfaz
+
+    # Constructor de la interfazx
     def build(self):
         global screen_manager
         screen_manager = ScreenManager()
@@ -66,7 +75,7 @@ class MainApp(MDApp):
         Clock.schedule_once(self.login, 3)
 
     def login(self, *args):
-        screen_manager.current = 'donate'
+        screen_manager.current = 'login'
 
     #################################################
     #            VALIDACION LOGIN
@@ -86,13 +95,16 @@ class MainApp(MDApp):
         if not username or not password:
             self.show_dialog("Error", "Por favor, complete todos los campos.")
             return
-# Realizar la solicitud de inicio de sesión a la API
+        # Realizar la solicitud de inicio de sesión a la API
         import requests
 
         data = {
             "email": username,
             "password": password
         }
+
+        
+       
 
         response = requests.post("http://localhost:5000/login", json=data)
         print(response)
@@ -106,23 +118,54 @@ class MainApp(MDApp):
 
             print("El user_id del usuario actual es:", user_id)
 
-            # Obtener la colección de usuarios
-            # users_collection = self.db.get_collection('users')
 
-            # Buscar al usuario en la base de datos
-            # user = users_collection.find_one({'email': username, 'password': password})
+#################################################
+    #            PANTALLA ROOT PACIENTE
+#################################################
 
-            # Verificar si el usuario fue encontrado o no
-            # if user is not None:
-            #    self.show_dialog("Error", "Usuario o contraseña incorrecto.")
+            # Obtener los datos del paciente si están disponibles
+            paciente = response.json().get('paciente')
+            if paciente:
+                nombre_paciente = paciente.get('nombre')
+                apellido_paciente = paciente.get('apellido')
+                tipo_sangre_paciente = paciente.get('tipo_sangre')
 
-            # return jsonify(response), 200
+            #Obtener la pantalla root    
+                root_screen = screen_manager.get_screen('root')
+                root_screen.ids.nombre_user_paciente.text = f"{nombre_paciente} {apellido_paciente}"
+                root_screen.ids.sagre_user_paciente.text = (tipo_sangre_paciente)
+                root_screen.ids.sagre_sangre_paciente.text = (tipo_sangre_paciente)
+                print("Nombre del paciente:", nombre_paciente)
+                print("Nombre del paciente:", apellido_paciente)
+                print("Tipo de sangre del paciente:", tipo_sangre_paciente)
+
+
+                # Definir un diccionario con la información de donación y recepción para cada tipo de sangre
+                datos_tipo_sangre = {
+                  'A+': {'donar': ['A+', 'AB+'], 'recibir': ['A+', 'A-', 'O+', 'O-']},
+                  'A-': {'donar': ['A+', 'A-', 'AB+', 'AB-'], 'recibir': ['A-', 'O-']},
+                  'B+': {'donar': ['B+', 'AB+'], 'recibir': ['B+', 'B-', 'O+', 'O-']},
+                  'B-': {'donar': ['B+', 'B-', 'AB+', 'AB-'], 'recibir': ['B-', 'O-']},
+                  'AB+': {'donar': ['AB+'], 'recibir': ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']},
+                  'AB-': {'donar': ['AB+', 'AB-'], 'recibir': ['A-', 'B-', 'AB-', 'O-']},
+                  'O+': {'donar': ['A+', 'B+', 'AB+', 'O+'], 'recibir': ['O+', 'O-']},
+                  'O-': {'donar': ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'], 'recibir': ['O-']}
+                }
+
+                # Obtener la información de donación y recepción del paciente
+                datos_paciente_sangre = datos_tipo_sangre.get(tipo_sangre_paciente, {'donar': [], 'recibir': []})
+
+                # Mostrar la compatibilidad en los widgets correspondientes
+                root_screen.ids.paciente_donar.text = '  '.join(datos_paciente_sangre['donar'])
+                root_screen.ids.paciente_recibir.text = '  '.join(datos_paciente_sangre['recibir'])
 
         else:
             self.show_dialog("Error", "Usuario o contraseña incorrecto.")
 
-    def request_error(req, error):
-        print("Error en la solicitud:", error)
+    # def request_error(req, error):
+    #     print("Error en la solicitud:", error)
+
+
     #################################################
     #            VALIDACION REGISTRO
     #################################################
@@ -261,7 +304,7 @@ class MainApp(MDApp):
 
         response = requests.post('http://localhost:5000/registro', json=data)
         if response.status_code == 201:
-            self.show_dialog("Registro exitoso!")
+            self.show_dialog("Registro exitoso!", "¡El registro ha sido exitoso!")
             screen_manager.current = "login"
         elif response.status_code == 409:
             self.show_dialog("Error", "Paciente ya existe.")
@@ -286,6 +329,9 @@ class MainApp(MDApp):
  #       PANTALLAS DE ROOT
 #################################################
 
+        
+
+
     # Obtener la instancia de la pantalla MenuScreen desde RootScreen
         # group_blood_screen = root.ids.group_blood_screen
 
@@ -297,6 +343,8 @@ class MainApp(MDApp):
         # Por ejemplo, agregar un nuevo widget según los datos de la base de datos
         # new_widget = CustomWidget()
         # group_blood_screen.add_widget(new_widget)
+
+  
 
 
 if __name__ == '__main__':

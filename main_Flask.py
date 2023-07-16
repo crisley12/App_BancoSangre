@@ -44,7 +44,12 @@ def login():
                 response = {
                     'user_id': user_id,
                     'email': user['email'],
-                    'password': user['password']
+                    'password': user['password'],
+                    'paciente': {
+                        'nombre': paciente['p_nombre'],
+                        'apellido': paciente['p_apellido'],
+                        'tipo_sangre': paciente['t_sangre']
+                        }
                 }
                 return jsonify(response), 200
 

@@ -67,6 +67,8 @@
                         size_hint_y: .30
                         pos_hint: {"top": 1}
                         radius: [0, 0, 50, 50]
+                    FitImage:
+                        source:'asset/img/user4.png'
                     #FitImage:
                         #source: 'asset/img/logo.png'
                         #size_hint: None, None
@@ -77,12 +79,21 @@
                         #x: -dp(20)
                         #y: dp(40)
                 MDLabel:
-                    text: "Crisley Gonzalez"
+                    text: "Basantranfs"
                     font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
                     pos_hint: {"center_x": .5, "center_y": .93}
                     halign: 'center'
                     text_color: get_color_from_hex("#FFFFFF")
-                    font_size: '20sp'
+                    font_size: '25sp'
+                    theme_text_color: 'Custom'
+                MDLabel:
+                    id: nombre_user_paciente
+                    text: ""
+                    font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
+                    pos_hint: {"center_x": .5, "center_y": .80}
+                    halign: 'center'
+                    text_color: get_color_from_hex("#FFFFFF")
+                    font_size: '15sp'
                     theme_text_color: 'Custom'
 
                 MDLabel:
@@ -92,19 +103,20 @@
                     font_name: 'asset/Fuentes/Poppins-SemiBoldItalic.ttf'
                     theme_text_color: "Custom"
                     text_color: get_color_from_hex("#FFFFFF")
-                    pos_hint: {"center_x": .40, "center_y": .85}
+                    pos_hint: {"center_x": .40, "center_y": .73}
                     halign: "center"
                     #x: "15dp"
                     line_height: .6
 
                 MDLabel:
-                    text: "AB+"
+                    id: sagre_user_paciente
+                    text: ""
                     #bold: True
                     font_size: "18sp"
                     font_name: 'asset/Fuentes/Poppins-SemiBoldItalic.ttf'
                     theme_text_color: "Custom"
                     text_color: get_color_from_hex("#FFFFFF")
-                    pos_hint: {"center_x": .60, "center_y": .85}
+                    pos_hint: {"center_x": .60, "center_y": .73}
                     halign: "center"
                     #x: "270dp"
                     line_height: .6
@@ -114,17 +126,17 @@
                     id: cards_box
                     cols: 2
                     rows: 3
-                    spacing: "18dp"
-                    padding: "25dp"
+                    spacing: "15dp"
+                    padding: "35dp"
                     size_hint_y: None
-                    height: root.height / 1.4
+                    height: root.height / 1.6
 
                     MDCard:
                         orientation: "vertical"
                         radius: 12
                         padding: "12dp", "5dp", "12dp", "12dp"
                         ripple_behavior: True
-                        md_bg_color: get_color_from_hex("#ECECEC")
+                        md_bg_color: get_color_from_hex("#FAFAFA")
                         on_release: 
                             app.root.transition.direction = "left" 
                             app.root.current = 'requirements'
@@ -145,7 +157,7 @@
                         radius: 12
                         padding: "12dp", 0, "12dp", "24dp"
                         ripple_behavior: True
-                        md_bg_color: get_color_from_hex("#ECECEC")
+                        md_bg_color: get_color_from_hex("#FAFAFA")
                         on_release:  
                             app.root.transition.direction = "left" 
                             app.root.current = 'donate'
@@ -167,7 +179,7 @@
                         radius: 12
                         padding: "12dp", 0, "12dp", "24dp"
                         ripple_behavior: True
-                        md_bg_color: get_color_from_hex("#ECECEC")
+                        md_bg_color: get_color_from_hex("#FAFAFA")
                         MDIconButton:
                             icon: "book-heart-outline"
                             halign: "center"
@@ -186,7 +198,7 @@
                         radius: 12
                         padding: "12dp", 0, "12dp", "24dp"
                         ripple_behavior: True
-                        md_bg_color: get_color_from_hex("#ECECEC")
+                        md_bg_color: get_color_from_hex("#FAFAFA")
                         MDIconButton:
                             icon: "heart-plus-outline"
                             pos_hint: {"center_x": .50, "center_y": .33}
@@ -204,7 +216,7 @@
                         radius: 12
                         padding: "12dp", 0, "12dp", "24dp"
                         ripple_behavior: True
-                        md_bg_color: get_color_from_hex("#ECECEC")
+                        md_bg_color: get_color_from_hex("#FAFAFA")
                         MDIconButton:
                             icon: "help-circle-outline"
                             pos_hint: {"center_x": .50, "center_y": .23}
@@ -222,7 +234,7 @@
                         radius: 12
                         padding: "12dp", 0, "12dp", "24dp"
                         ripple_behavior: True
-                        md_bg_color: get_color_from_hex("#ECECEC")
+                        md_bg_color: get_color_from_hex("#FAFAFA")
                         MDIconButton:
                             icon: "account-group-outline"
                             pos_hint: {"center_x": .50, "center_y": .23}
@@ -240,19 +252,78 @@
 
             MDBottomNavigationItem:
                 name:"group_blood_creen"
-                id: group_blood_screen
                 icon: "water"
-                #text: "location"
-                #GroupBloodScreen:
                 MDScreen:
                     name: 'group_blood_creen'
                 MDFloatLayout:
+                    FitImage:
+                        source:'asset/img/sangre2.png'
                     MDLabel:
                         text: "Grupo de Sangre"
                         font_size: '25sp'
                         font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
-                        #bold: True
-                        pos_hint: {"center_x": .80, "center_y": .90}
+                        halign: 'center'
+                        pos_hint: {"center_x": .50, "center_y": .95}
+                    MDLabel:
+                        id: sagre_sangre_paciente
+                        text: "hola"
+                        font_size: '40sp'
+                        font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
+                        halign: 'center'
+                        pos_hint: {"center_x": .50, "center_y": .83}
+                        text_color: 'red'
+                        theme_text_color: 'Custom'
+                    MDLabel:
+                        text: "Puede donar a:"
+                        font_size: '15sp'
+                        font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
+                        halign: 'center'
+                        pos_hint: {"center_x": .2, "center_y": .60}
+                        text_color: 'white'
+                        theme_text_color: 'Custom'
+                    MDLabel:
+                        id: paciente_donar
+                        text: ""
+                        font_size: '20sp'
+                        font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
+                        halign: 'center'
+                        pos_hint: {"center_x": .50, "center_y": .50}
+                        text_color: 'white'
+                        theme_text_color: 'Custom'
+                    MDLabel:
+                        text: "Puede rebir de:"
+                        font_size: '15sp'
+                        font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
+                        halign: 'center'
+                        pos_hint: {"center_x": .2, "center_y": .40}
+                        text_color: 'white'
+                        theme_text_color: 'Custom'
+                    MDLabel:
+                        id: paciente_recibir
+                        text: ""
+                        font_size: '20sp'
+                        font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
+                        halign: 'center'
+                        pos_hint: {"center_x": .50, "center_y": .30}
+                        text_color: 'white'
+                        theme_text_color: 'Custom'
+                    MDLabel:
+                        text: "Hemoglobina:"
+                        font_size: '15sp'
+                        font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
+                        halign: 'center'
+                        pos_hint: {"center_x": .50, "center_y": .20}
+                        text_color: 'white'
+                        theme_text_color: 'Custom'
+                    MDLabel:
+                        id: donante_hemoglobina
+                        text: "Cuando sea donante de basantranfs\n podrá visualizar su emoglobina aquí!"
+                        font_size: '15sp'
+                        font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
+                        halign: 'center'
+                        pos_hint: {"center_x": .50, "center_y": .10}
+                        text_color: 'white'
+                        theme_text_color: 'Custom'
 #########################################
 #     PANTALLA DE LOCATION
 #########################################
@@ -323,7 +394,6 @@
                                     pos_hint: {"center_x": .7, "center_y": .85}
 
                                 MDIconButton:
-                                    icon: "heart-outlin"
                                     theme_icon_color: "Custom"
                                     icon_color: 1, 0, 0, 1
                                     pos_hint: {"center_x": .1, "center_y": .65}
@@ -336,7 +406,6 @@
                                     pos_hint: {"center_x": .7, "center_y": .65}
 
                                 MDIconButton:
-                                    icon: "heart-outlin"
                                     theme_icon_color: "Custom"
                                     icon_color: 1, 0, 0, 1
                                     pos_hint: {"center_x": .1, "center_y": .45}
@@ -349,7 +418,6 @@
                                     pos_hint: {"center_x": .7, "center_y": .45}
 
                                 MDIconButton:
-                                    icon: "heart-outlin"
                                     theme_icon_color: "Custom"
                                     icon_color: 1, 0, 0, 1
                                     pos_hint: {"center_x": .1, "center_y": .30}
@@ -364,7 +432,6 @@
                                     #halign: "center"
 
                                 MDIconButton:
-                                    icon: "heart-outlin"
                                     theme_icon_color: "Custom"
                                     icon_color: (0.13, 0.72, 0.29, 1)
                                     pos_hint: {"center_x": .3, "center_y": .13}
@@ -372,7 +439,6 @@
                                     icon: "whatsapp"
 
                                 MDIconButton:
-                                    icon: "heart-outlin"
                                     theme_icon_color: "Custom"
                                     icon_color: (0.23, 0.35, 0.60, 1)
                                     pos_hint: {"center_x": .5, "center_y": .13}
@@ -380,7 +446,6 @@
                                     icon: "facebook"
 
                                 MDIconButton:
-                                    icon: "heart-outlin"
                                     theme_icon_color: "Custom"
                                     icon_color: (0.5, 0, 0, 1)
                                     pos_hint: {"center_x": .7, "center_y": .13}

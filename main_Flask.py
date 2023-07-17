@@ -140,9 +140,26 @@ def get_user(id):
     response = json_util.dumps(user)
     return response
 
+
+@app.route('/guardar_respuestas', methods=['POST'])
+def guardar_respuestas():
+    response = request.get_json()
+    respuestas = response.get('respuestas')
+
+    if respuestas:
+        # Guardar las respuestas en la base de datos
+        respuestas_collection = mongo.db.respuestas
+        respuestas_id = respuestas_collection.insert_one(respuestas).inserted_id
+
+        if respuestas_id:
+            return jsonify({'message': 'Respuestas guardadas exitosamente.'}), 200
+        else:
+            return jsonify({'error': 'Error al guardar las respuestas.'}), 500
+    else:
+        return jsonify({'error': 'Respuestas no encontradas en la solicitud.'}), 400
+
+
 # eliminar
-
-
 @app.route('/users/<id>', methods=['DELETE'])
 def delete_user(id):
     mongo.db.users.delete_one({'_id': ObjectId(id)})
@@ -151,8 +168,6 @@ def delete_user(id):
     return response
 
 # actualizar
-
-
 @app.route('/users/<id>', methods=['PUT'])
 def update_user(id):
     username = request.json['username']
@@ -168,6 +183,14 @@ def update_user(id):
         }})
         response = jsonify({'message': 'user' + id + 'fue actualizado'})
         return response
+
+
+@app.route('/obtener_respuestas', methods=['GET'])
+def obtener_respuestas():
+    respuestas_collection = mongo.db.respuestas
+    respuestas = respuestas_collection.find()
+    response = json_util.dumps(respuestas)
+    return Response(response, mimetype='application/json')
 
 
 @app.errorhandler(404)

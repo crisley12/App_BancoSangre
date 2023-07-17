@@ -1,6 +1,7 @@
 from kivymd.uix.screen import MDScreen
 from kivy.lang import Builder
 from kivymd.uix.dialog import MDDialog
+import requests
 
 
 class DonateScreen(MDScreen):
@@ -10,7 +11,7 @@ class DonateScreen(MDScreen):
     def __init__(self, **kwargs) -> None:
         Builder.load_file('screen_Kv/donate_screen.kv')
         super(DonateScreen, self).__init__(**kwargs)
-        # self.respuestas = {}  # Diccionario para almacenar las respuestas
+        self.respuesta = {}
 
     def show_dialog(self, title, message):
         dialog = MDDialog(
@@ -56,10 +57,11 @@ class DonateScreen(MDScreen):
             self.show_dialog(
                 "No apto para donar", "No puede estar vacunado contra esas enfermedades. LEA LOS REQUISITOS!")
             return
-
+        
         # Guardar respuestas en el diccionario global
         self.respuesta.update(respuestas)
         print(respuestas)
+        
         # Continuar con la siguiente pantalla
         self.next_donate = self.ids.carusel.load_next(mode="next")
         self.ids.label2.text_color = [1, 0, 0, 1]
@@ -339,23 +341,33 @@ class DonateScreen(MDScreen):
 ######################################################
 #           NOVENA PANTALLA
 #######################################################
-'''
-    def next9(self):
-        pregunta_actual = self.ids.carusel.current_slide.name 
-        respuesta = self.get_selected_answer(pregunta_actual) 
-        if respuesta is not None:
-            self.respuestas[pregunta_actual] = respuesta   
 
+    def next9(self):
+        pregunta = "Has finalizado el cuestionario. ¿Deseas guardar tus respuestas?"
+        respuestas = {}
+
+        if self.ids.guardar_respuestas.state == "down":
+            respuesta_guardar = self.ids.guardar_respuestas.text
+            respuestas[pregunta] = respuesta_guardar
+        else:
+            self.show_dialog("Información no guardada",
+                            "Tus respuestas no serán guardadas en la base de datos.")
+
+        # Guardar respuestas en la base de datos
+        url = 'http://localhost:5000/guardar_respuestas'
+        response = requests.post(url, json={'respuestas': self.respuesta})
+
+        if response.status_code == 200:
+            print('Respuestas guardadas exitosamente.')
+        else:
+            print('Error al guardar las respuestas:', response.json())
+
+         #Continuar con la siguiente pantalla
         self.next_donate = self.ids.carusel.load_next(mode="")
+
         self.ids.label9.text_color = [1, 0, 0, 1]
+        self.ids.progress9.value = 100
+        self.ids.progress9.bar_color = [1, 0, 0, 1]
         self.icon_donate = self.ids.icon9.text_color = [1, 0, 0, 1]
         self.ids.icon9.icon = "check-circle"
 
-
-    def previous9(self):
-        self.previous_donate = self.ids.carusel.load_previous()
-        self.ids.label9.text_color = [0, 0, 0, 1]
-        self.ids.icon9.text_color = [0, 0, 0, 1]
-        self.ids.progress9.value = 0
-        self.ids.icon9.icon = "numeric-9-circle"
-'''

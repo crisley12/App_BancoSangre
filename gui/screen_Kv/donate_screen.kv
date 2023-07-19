@@ -557,6 +557,7 @@
                     MDFloatLayout:
                         name: 'pantalla9'
                         MDFillRoundFlatButton:
+                            id: guardar_respuestas
                             text: "Verificar"
                             size_hint_x: .3
                             pos_hint: {"center_x": .50, "center_y": .40}
@@ -564,31 +565,11 @@
                             md_bg_color: get_color_from_hex("#F41F05")
                             elevation: None
                             padding: [10]
+                            on_release: root.next9()
                         MDIconButton:
                             icon: "arrow-left"
                             pos_hint: {"center_x": .10, "center_y": .1}
                             on_release: root.previous8()
-
-
-# PANTALLA DE ACEPTADO
-                    #MDFloatLayout:
-                        #MDLabel:
-                            #id: label10
-                            #font_size: '18sp'
-                            #text: "Aceptado"
-                            #size_hint_x: .8
-                            #pos_hint: {"center_x": .55, "center_y": .55}
-                            #theme_text_color: "Custom"
-# PANTALLA DE RECHAZADO 
-                    #MDFloatLayout:
-                        #MDLabel:
-                            #id: label11
-                            #font_size: '18sp'
-                            #text: "Rechazado"
-                            #size_hint_x: .8
-                            #pos_hint: {"center_x": .55, "center_y": .55}
-                            #theme_text_color: "Custom"
-
 
             MDLabel:
                 text: "Custionario"
@@ -776,7 +757,7 @@
                 pos_hint: {"center_x": .90, "center_y": .65}
                 user_font_size: "35sp"
                 theme_text_color: "Custom"
-            #MDProgressBar: 
-                #id: progress9
-                #size_hint_x: .06
-                #pos_hint: {"center_x": .96, "center_y": .65}
+            MDProgressBar: 
+                id: progress9
+                size_hint_x: .06
+                pos_hint: {"center_x": .96, "center_y": .65}

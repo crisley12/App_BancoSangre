@@ -9,44 +9,44 @@
 #########################################
 #     PANTALLA DE MENU
 #########################################
-            MDBottomNavigationItem:
-                name: "menu_screen"
-                icon: "home"
-                #text: "Menu"
-                #MenuScreen:
-                MDScreen:
-                    name: 'menu_screen'
-                MDFloatLayout:
-                    MDCard:
-                        size_hint: .95, .95
-                        pos_hint: {"center_x": .5, "center_y": .5}
-                    MDLabel:
-                        text: "Información"
-                        font_size: '25sp'
-                        font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
-                        #bold: True
-                        pos_hint: {"center_x": .80, "center_y": .90}
-                    MDLabel:
-                        text:"Solo usuarios que ya han realizado una donación en Basantranfs. Con su codigo se verfica la última vez que fue altruista y así llevar un control de sus donaciones"
-                        font_size: '10sp'
-                        halign: "justify"
-                        size_hint_x: .8
-                        font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
-                        #bold: True
-                        pos_hint: {"center_x": .50, "center_y": .75}
-                    MDIconButton:
-                        id: icon1
-                        icon: "alert-circle"
-                        pos_hint: {"center_x": .06, "center_y": .78}
-                        theme_text_color: "Custom"
-                        icon_color: (240/255, 0/255, 0/255)
-                        MDFloatLayout:
-                            MDIconButton:
-                                icon: "arrow-left"
-                                pos_hint: {"center_x": .10, "center_y": .1}
-                                on_release:
-                                    root.manager.transition.direction = "left" 
-                                    app.root.current = 'donate'
+            # MDBottomNavigationItem:
+            #     name: "menu_screen"
+            #     icon: "home"
+            #     #text: "Menu"
+            #     #MenuScreen:
+            #     MDScreen:
+            #         name: 'menu_screen'
+            #     MDFloatLayout:
+            #         MDCard:
+            #             size_hint: .95, .95
+            #             pos_hint: {"center_x": .5, "center_y": .5}
+            #         MDLabel:
+            #             text: "Información"
+            #             font_size: '25sp'
+            #             font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
+            #             #bold: True
+            #             pos_hint: {"center_x": .80, "center_y": .90}
+            #         MDLabel:
+            #             text:"Solo usuarios que ya han realizado una donación en Basantranfs. Con su codigo se verfica la última vez que fue altruista y así llevar un control de sus donaciones"
+            #             font_size: '10sp'
+            #             halign: "justify"
+            #             size_hint_x: .8
+            #             font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
+            #             #bold: True
+            #             pos_hint: {"center_x": .50, "center_y": .75}
+            #         MDIconButton:
+            #             id: icon1
+            #             icon: "alert-circle"
+            #             pos_hint: {"center_x": .06, "center_y": .78}
+            #             theme_text_color: "Custom"
+            #             icon_color: (240/255, 0/255, 0/255)
+            #             MDFloatLayout:
+            #                 MDIconButton:
+            #                     icon: "arrow-left"
+            #                     pos_hint: {"center_x": .10, "center_y": .1}
+            #                     on_release:
+            #                         root.manager.transition.direction = "left" 
+            #                         app.root.current = 'donate'
 
 #########################################
 #     PANTALLA DE USER
@@ -456,19 +456,19 @@
 #     PANTALLA DE ALERT
 #########################################
 
-            MDBottomNavigationItem:
-                name:"alert_screen"
-                icon: "bell"
-                #text: "alert"
-                badge_icon: "numeric-10"
-                #AlertScreen:
-                MDScreen:
-                    name: 'alert_screen'
-                MDFloatLayout:
-                    MDLabel:
-                        text: "Centro de Notificaciones"
-                        font_size: '25sp'
-                        font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
-                        #bold: True
-                        pos_hint: {"center_x": .80, "center_y": .90}
+            # MDBottomNavigationItem:
+            #     name:"alert_screen"
+            #     icon: "bell"
+            #     #text: "alert"
+            #     badge_icon: "numeric-10"
+            #     #AlertScreen:
+            #     MDScreen:
+            #         name: 'alert_screen'
+            #     MDFloatLayout:
+            #         MDLabel:
+            #             text: "Centro de Notificaciones"
+            #             font_size: '25sp'
+            #             font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
+            #             #bold: True
+            #             pos_hint: {"center_x": .80, "center_y": .90}
 

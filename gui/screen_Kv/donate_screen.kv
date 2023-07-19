@@ -569,7 +569,9 @@
                         MDIconButton:
                             icon: "arrow-left"
                             pos_hint: {"center_x": .10, "center_y": .1}
-                            on_release: root.previous8()
+                            on_release:
+                                root.manager.transition.direction = "right" 
+                                app.root.current = 'root'
 
             MDLabel:
                 text: "Custionario"
@@ -757,7 +759,7 @@
                 pos_hint: {"center_x": .90, "center_y": .65}
                 user_font_size: "35sp"
                 theme_text_color: "Custom"
-            MDProgressBar: 
-                id: progress9
-                size_hint_x: .06
-                pos_hint: {"center_x": .96, "center_y": .65}
+            # MDProgressBar: 
+            #     id: progress9
+            #     size_hint_x: .06
+            #     pos_hint: {"center_x": .96, "center_y": .65}

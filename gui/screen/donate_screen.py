@@ -25,6 +25,7 @@ class DonateScreen(MDScreen):
 #           PRIMERA PANTALLA
 #######################################################
 
+
     def next(self):
         self.next_donate = self.ids.carusel.load_next(mode="next")
         self.ids.label1.text_color = [1, 0, 0, 1]
@@ -45,6 +46,7 @@ class DonateScreen(MDScreen):
 #           SEGUNDA PANTALLA
 #######################################################
 
+
     def next2(self):
         pregunta = "En los últimos 30 días has sido vacunado contra"
         respuestas = {}
@@ -57,11 +59,11 @@ class DonateScreen(MDScreen):
             self.show_dialog(
                 "No apto para donar", "No puede estar vacunado contra esas enfermedades. LEA LOS REQUISITOS!")
             return
-        
+
         # Guardar respuestas en el diccionario global
         self.respuesta.update(respuestas)
         print(respuestas)
-        
+
         # Continuar con la siguiente pantalla
         self.next_donate = self.ids.carusel.load_next(mode="next")
         self.ids.label2.text_color = [1, 0, 0, 1]
@@ -72,7 +74,6 @@ class DonateScreen(MDScreen):
 
 
 #  Cambia devuelta al color inicial
-
 
     def previous2(self):
 
@@ -163,7 +164,6 @@ class DonateScreen(MDScreen):
 #           QUINTA PANTALLA
 #######################################################
 
-
     def next5(self):
         pregunta = "Has padecido alguna de las siguientes enfermedades graves"
         respuestas = {}
@@ -199,7 +199,6 @@ class DonateScreen(MDScreen):
 #           SEXTA PANTALLA
 #######################################################
 
-
     def next6(self):
         pregunta = "Consumiste alguna bebida alcoholica en los últimos 3 días"
         respuestas = {}
@@ -234,6 +233,7 @@ class DonateScreen(MDScreen):
 ######################################################
 #           SEPTIMA PANTALLA
 #######################################################
+
 
     def next7(self):
         pregunta = "Posees tatuajes o perforaciones hechos recientemente"
@@ -273,6 +273,7 @@ class DonateScreen(MDScreen):
 ######################################################
 #           OCTAVA PANTALLA
 #######################################################
+
 
     def next8(self):
         pregunta = "Has donado anteriormente"
@@ -342,6 +343,7 @@ class DonateScreen(MDScreen):
 #           NOVENA PANTALLA
 #######################################################
 
+
     def next9(self):
         pregunta = "Has finalizado el cuestionario. ¿Deseas guardar tus respuestas?"
         respuestas = {}
@@ -351,7 +353,7 @@ class DonateScreen(MDScreen):
             respuestas[pregunta] = respuesta_guardar
         else:
             self.show_dialog("Información no guardada",
-                            "Tus respuestas no serán guardadas en la base de datos.")
+                             "Tus respuestas no serán guardadas en la base de datos.")
 
         # Guardar respuestas en la base de datos
         url = 'http://localhost:5000/guardar_respuestas'
@@ -362,12 +364,11 @@ class DonateScreen(MDScreen):
         else:
             print('Error al guardar las respuestas:', response.json())
 
-         #Continuar con la siguiente pantalla
+         # Continuar con la siguiente pantalla
         self.next_donate = self.ids.carusel.load_next(mode="")
 
         self.ids.label9.text_color = [1, 0, 0, 1]
-        self.ids.progress9.value = 100
-        self.ids.progress9.bar_color = [1, 0, 0, 1]
+        # self.ids.progress9.value = 100
+        # self.ids.progress9.bar_color = [1, 0, 0, 1]
         self.icon_donate = self.ids.icon9.text_color = [1, 0, 0, 1]
         self.ids.icon9.icon = "check-circle"
-

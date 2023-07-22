@@ -5,152 +5,28 @@ from kivymd.uix.screen import MDScreen
 from kivymd.uix.scrollview import MDScrollView
 from kivy.uix.anchorlayout import AnchorLayout
 from kivymd.uix.datatables import MDDataTable
+from kivymd.uix.menu import MDDropdownMenu
 from kivy.metrics import dp
 import requests
 
 
+class ContentNavigationDrawer(MDScrollView):
+    screen_manager = ObjectProperty()
+    nav_drawer = ObjectProperty()
+    #root_admin_instance = None
 
 class RootAdmin(MDScreen):
     data_table = ObjectProperty(None)
+    # sexo_medico = ObjectProperty(None)
+    
 
     def __init__(self, **kwargs) -> None:
         Builder.load_file('views_kv/root_admin.kv')
         super().__init__(**kwargs)
+        #ContentNavigationDrawer.root_admin_instance = self 
+        self.create_dropdown3()
+        self.create_dropdown4()
         self.obtener_pacientes()
-
-    def obtener_pacientes(self):
-        urlpacientes = 'http://localhost:5000/obtener_pacientes'
-        response = requests.get(urlpacientes)
-        
-        if response.status_code == 200:
-            pacientes = response.json()
-            paciente_data = []
-            for item in pacientes:
-                if isinstance(item, dict):
-                    row = (
-                        # Obtener el valor correspondiente a cada columna en la fila
-                        item['cedula'],
-                        item['nombre_completo'],
-                        item['fecha_nacimiento'],
-                        item['sexo'],
-                        item['tipo_sangre'],
-                        item['telefono'],
-                    )
-                    paciente_data.append(row)  # Agregar la fila a la lista de datos de filas
-
-            # Crear el MDDataTable con los datos obtenidos
-            self.data_table = MDDataTable(
-                pos_hint={'center_y': 0.5, 'center_x': 0.5},
-                size_hint=(0.9, 0.6),
-                use_pagination=True,
-                check=True,
-                column_data=[
-                    ("Cédula", dp(30)),
-                    ("Nombre", dp(50)),
-                    ("Fecha Nacimiento", dp(30)),
-                    ("Sexo", dp(30)),
-                    ("Tipo Sangre", dp(30)),
-                    ("Telefono", dp(30)),
-                ],
-                row_data=paciente_data,  # Pasar la lista de datos de filas al MDDataTable
-            )
-            self.data_table.bind(on_row_press=self.on_row_press)
-            self.data_table.bind(on_check_press=self.on_check_press)
-
-            # Agregar el MDDataTable al layout
-            self.ids.anchor_layout.add_widget(self.data_table)
-        else:
-            print("Error al obtener los pacientes")
-
-    def on_row_press(self, instance_table, instance_row):
-        print("Se presionó una fila:", instance_row)
-
-    def on_check_press(self, instance_table, current_row):
-        print("Se presionó el checkbox de la fila:", current_row)
-
-
-    # def obtener_pacientes(self):
-    #     urlpacientes = 'http://localhost:5000/obtener_pacientes'
-
-    #     response = requests.get(urlpacientes)
-    #     if response.status_code == 200:
-    #         pacientes = response.json()
-    #         paciente_data = []
-    #         print(pacientes, "data")
-    #         for item in pacientes:
-    #             if isinstance(item, dict):
-    #                 row = (
-    #                     # Obtener el valor correspondiente a cada columna en la fila
-    #                     item['cedula'],
-    #                     item['nombre_completo'],
-    #                     item['fecha_nacimiento'],
-    #                     item['sexo'],
-    #                     item['tipo_sangre'],
-    #                     item['telefono'],
-    #                 )
-    #                 paciente_data.append(row)  # Agregar la fila a la lista de datos de filas
-
-    #       # Crear el MDDataTable con los datos obtenidos
-    #         #layout = AnchorLayout()
-    #         self.data_tables = MDDataTable(
-    #             pos_hint={'center_y': 0.5, 'center_x': 0.5},
-    #             size_hint=(0.9, 0.6),
-    #             use_pagination=True,
-    #             check=True,
-    #             column_data=[
-    #                 ("Cédula", dp(30)),
-    #                 ("Nombre", dp(50)),
-    #                 ("Fecha Naciento", dp(30)),
-    #                 ("Sexo", dp(30)),
-    #                 ("Tipo Sangre", dp(30)),
-    #                 ("Telefono", dp(30)),
-    #             ],
-    #             paciente_data=paciente_data,  # Pasar la lista de datos de filas al MDDataTable
-    #         )
-    #         self.data_tables.bind(on_row_press=self.on_row_press)
-    #         self.data_tables.bind(on_check_press=self.on_check_press)
-    #         self.data_tables.bind(on_check_press=self.on_check_press)
-
-    #         self.data_table.bind(on_row_press=self.on_row_press)
-    #         self.data_table.bind(on_check_press=self.on_check_press)
-
-    #         # Agregar el MDDataTable al AnchorLayout
-    #         anchor_layout = AnchorLayout(
-    #             anchor_x='center', anchor_y='center'
-    #         )
-    #         anchor_layout.add_widget(self.data_table)
-    #         self.add_widget(anchor_layout)
-
-    #         self.checkcomprobar = 6
-    #     else: print("error")
-
-    # def on_enter(self):
-    #         self.obtener_pacientes()
-
-    # def on_row_press(self, instance_table, instance_row):
-    #     '''Called when a table row is clicked.'''
-
-    #     # print(instance_table, instance_row)
-
-    # def on_check_press(self, instance_table, current_row):
-    #     '''Called when the check box in the table row is checked.'''
-    #     selected_rows = [row for row in self.data_tables.get_row_checks()]  # Obtener las filas seleccionadas
-    #     if len(selected_rows) > 1:
-    #         self.checkcomprobar = 2
-    #         print("condicion mas de un check ", self.checkcomprobar)
-    #     elif  len(selected_rows) <= 0:
-    #         self.checkcomprobar = 3
-    #         print("cNo ha marcado nada ", self.checkcomprobar)
-    #     elif  len(selected_rows) == 1:
-    #         print("Solo un checkbox seleccionado")
-    #         self.checkcomprobar = 1
-    #         self.globalselect = current_row
-    #         print("condicion mas de un check ", self.checkcomprobar)
-    #     else:
-    #         self.checkcomprobar = 3
-    # def on_enter(self):
-    #         self.obtener_pacientes()
-
 
 ################################################
 #          LISTA DESPLEGABLE
@@ -237,6 +113,67 @@ class RootAdmin(MDScreen):
             telefono_medico.foreground_color = 0, 0, 0, 1
 
 
-class ContentNavigationDrawer(MDScrollView):
-    screen_manager = ObjectProperty()
-    nav_drawer = ObjectProperty()
+
+#################################################
+#            MOSTRAR PACIENTES
+#################################################
+
+
+
+    def obtener_pacientes(self):
+        urlpacientes = 'http://localhost:5000/obtener_pacientes'
+        response = requests.get(urlpacientes)
+
+        if response.status_code == 200:
+            pacientes = response.json()
+            paciente_data = []
+            for i, item in enumerate(pacientes, start=1):
+                if isinstance(item, dict):
+                    row = (
+                        # Obtener el valor correspondiente a cada columna en la fila
+                        f"{i}",  # Número como cadena
+                        item['cedula'],
+                        item['nombre_completo'],
+                        item['fecha_nacimiento'],
+                        item['sexo'],
+                        item['tipo_sangre'],
+                        item['telefono'],
+                    )
+                    paciente_data.append(row)  # Agregar la fila a la lista de datos de filas
+
+            # Crear el MDDataTable con los datos obtenidos
+            self.data_table = MDDataTable(
+                pos_hint={'center_y': 0.5, 'center_x': 0.5},
+                size_hint=(0.9, 0.6),
+                use_pagination=True,
+                elevation=1,
+                background_color_header="#F41F05",
+                check=True,
+                column_data=[
+                    ("No.", dp(30)),
+                    ("Cédula", dp(30)),
+                    ("Nombre", dp(30)),
+                    ("Fecha Nacimiento", dp(30)),
+                    ("Sexo", dp(30)),
+                    ("Tipo Sangre", dp(30)),
+                    ("Telefono", dp(30)),
+                ],
+                row_data=paciente_data,  # Pasar la lista de datos de filas al MDDataTable
+            )
+            self.data_table.bind(on_row_press=self.on_row_press)
+            self.data_table.bind(on_check_press=self.on_check_press)
+
+            # Agregar el MDDataTable al layout
+            self.ids.anchor_layout.add_widget(self.data_table)
+        else:
+            print("Error al obtener los pacientes")
+
+    def on_row_press(self, instance_table, instance_row):
+        print("Se presionó una fila:", instance_row)
+
+    def on_check_press(self, instance_table, current_row):
+        print("Se presionó el checkbox de la fila:", current_row)
+
+
+
+

@@ -49,8 +49,7 @@ class MainApp(MDApp):
         screen_manager.add_widget(RootAdmin(name='root_admin'))
         screen_manager.add_widget(RequirementsScreen(name='requirements'))
         screen_manager.add_widget(DonateScreen(name='donate'))
-        screen_manager.add_widget(
-            PacienteBasantranfsScreen(name='paciente_basantranfs'))
+        screen_manager.add_widget(PacienteBasantranfsScreen(name='paciente_basantranfs'))
 
         '''
         screen_manager.add_widget(NeedDonateScreen(name='need'))
@@ -319,8 +318,13 @@ class MainApp(MDApp):
 
 
 #################################################
- #       PANTALLAS DE ROOT
+ #       PANTALLA DE ROOT ADMIN
 #################################################
+    # def mostrar_pacientes(self):
+    #     root_admin = screen_manager.get_screen('root_admin')
+    #     root_admin.ids.screen_manager.current = "mostrar_pacientes"
+    #     root_admin.on_enter()
+
 
 
 if __name__ == '__main__':

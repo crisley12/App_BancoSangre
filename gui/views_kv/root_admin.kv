@@ -40,6 +40,7 @@
                             id: anchor_layout
                             anchor_x: "center"
                             anchor_y: "center"
+                            
 
 #########################################
 #            PANTALLa 3
@@ -571,8 +572,10 @@
             icon: "account-box-multiple"
             text: "Pacientes"
             on_release:
-                root.nav_drawer.set_state("close")
+                #root.root_admin_instance.mostrar_pacientes()
                 root.screen_manager.current = "mostrar_pacientes"
+                root.nav_drawer.set_state("close")
+
 
         DrawerClickableItem:
             id: donante_admin
@@ -604,7 +607,7 @@
             text: "Donaciones"
             on_release:
                 root.nav_drawer.set_state("close")
-                root.screen_manager.current = "scr 6"
+                root.screen_manager.current = "crear_medico"
 
         DrawerClickableItem:
             id: inventario_sangre_admin
@@ -612,5 +615,5 @@
             text: "Inventario de Sangre"
             on_release:
                 root.nav_drawer.set_state("close")
-                root.screen_manager.current = "scr 7"
+                root.screen_manager.current = "crear_admin"
 

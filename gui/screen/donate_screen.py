@@ -2,15 +2,22 @@ from kivymd.uix.screen import MDScreen
 from kivy.lang import Builder
 from kivymd.uix.dialog import MDDialog
 import requests
+from kivy.properties import ObjectProperty
+from kivy.uix.screenmanager import Screen
 
 
 class DonateScreen(MDScreen):
+    
+    #guardar_respuestas = ObjectProperty(None)
+    paciente_id = ObjectProperty(None)  # Esta variable almacenará el ID del paciente logueado
+    paciente_nombre = ObjectProperty(None)  # Esta variable almacenará el nombre del paciente logueado
 
     respuesta = {}  # Variable global para almacenar las respuestas
-
+    
     def __init__(self, **kwargs) -> None:
         Builder.load_file('screen_Kv/donate_screen.kv')
         super(DonateScreen, self).__init__(**kwargs)
+        
         self.respuesta = {}
 
     def show_dialog(self, title, message):
@@ -350,15 +357,29 @@ class DonateScreen(MDScreen):
             respuesta_guardar = self.ids.guardar_respuestas.text
             respuestas[pregunta] = respuesta_guardar
         else:
-            self.show_dialog("Información no guardada",
+            return self.show_dialog("Información no guardada",
                             "Tus respuestas no serán guardadas en la base de datos.")
 
+        # Verificar que se tiene la información del paciente logueado
+        if not self.paciente_id or not self.paciente_nombre:
+            self.show_dialog("Error", "No se ha encontrado la información del paciente logueado.")
+            return
+        
+         # Asignar las respuestas a la variable respuesta
+        self.respuesta = respuestas
+        
         # Guardar respuestas en la base de datos
         url = 'http://localhost:5000/guardar_respuestas'
-        response = requests.post(url, json={'respuestas': self.respuesta})
-
+        data ={
+            "paciente_id": self.paciente_id,
+            "paciente_nombre": self.paciente_nombre,
+            "respuestas": self.respuesta
+        }
+        response = requests.post(url, json=data)
+        
         if response.status_code == 200:
             print('Respuestas guardadas exitosamente.')
+            return self.show_dialog("Registro exitoso", "Exitoso")
         else:
             print('Error al guardar las respuestas:', response.json())
 

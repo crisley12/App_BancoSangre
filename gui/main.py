@@ -75,7 +75,7 @@ class MainApp(MDApp):
         Clock.schedule_once(self.login, 3)
 
     def login(self, *args):
-        screen_manager.current = 'root'
+        screen_manager.current = 'login'
 
     #################################################
     #            VALIDACION LOGIN
@@ -96,16 +96,13 @@ class MainApp(MDApp):
             self.show_dialog("Error", "Por favor, complete todos los campos.")
             return
         # Realizar la solicitud de inicio de sesión a la API
-        import requests
+        #import requests
 
         data = {
             "email": username,
             "password": password
         }
-
         
-       
-
         response = requests.post("http://localhost:5000/login", json=data)
         print(response)
 
@@ -119,9 +116,9 @@ class MainApp(MDApp):
             print("El user_id del usuario actual es:", user_id)
 
 
-#################################################
-    #            PANTALLA ROOT PACIENTE
-#################################################
+        #################################################
+            #            PANTALLA ROOT PACIENTE
+        #################################################
 
             # Obtener los datos del paciente si están disponibles
             paciente = response.json().get('paciente')
@@ -129,6 +126,12 @@ class MainApp(MDApp):
                 nombre_paciente = paciente.get('nombre')
                 apellido_paciente = paciente.get('apellido')
                 tipo_sangre_paciente = paciente.get('tipo_sangre')
+                
+                # Establecer los datos del paciente en DonateScreen
+                donate_screen = screen_manager.get_screen('donate')
+                donate_screen.paciente_id = user_id  # O usa el id del paciente si lo tienes
+                donate_screen.paciente_nombre = f"{nombre_paciente} {apellido_paciente}"
+
 
             #Obtener la pantalla root    
                 root_screen = screen_manager.get_screen('root')
@@ -162,13 +165,6 @@ class MainApp(MDApp):
         else:
             self.show_dialog("Error", "Usuario o contraseña incorrecto.")
 
-    # def request_error(req, error):
-    #     print("Error en la solicitud:", error)
-
-
-    #################################################
-    #            VALIDACION REGISTRO
-    #################################################
 
     # Validar el formato del email
     def validar_email(self, email):
@@ -199,6 +195,7 @@ class MainApp(MDApp):
             self.helper_text = "dd/mm/yyyy"
         else:
             self.helper_text = ""
+            
 
     def validate_date(self, text):
         parts = text.split('/')
@@ -216,6 +213,10 @@ class MainApp(MDApp):
         else:
             return "Formato de fecha de nacimiento incorrecto (dd/mm/yyyy)."
 
+
+    #################################################
+    #            VALIDACION REGISTRO
+    #################################################
     def validacionRegistro(self):
         registre_screen = screen_manager.get_screen('signup')
         cedula = registre_screen.ids.cedula.text

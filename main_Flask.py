@@ -3,6 +3,7 @@ from flask_pymongo import PyMongo
 from werkzeug.security import generate_password_hash, check_password_hash
 from bson import json_util
 from bson.objectid import ObjectId
+import datetime
 # import requests
 
 app = Flask(__name__)
@@ -46,6 +47,7 @@ def login():
                     'email': user['email'],
                     'password': user['password'],
                     'paciente': {
+                        'id': str(paciente_id),
                         'nombre': paciente['p_nombre'],
                         'apellido': paciente['p_apellido'],
                         'tipo_sangre': paciente['t_sangre']
@@ -143,21 +145,45 @@ def get_user(id):
 
 @app.route('/guardar_respuestas', methods=['POST'])
 def guardar_respuestas():
-    response = request.get_json()
-    respuestas = response.get('respuestas')
+    data = request.get_json()
 
-    if respuestas:
-        # Guardar las respuestas en la base de datos
+    # Obtener la información del paciente desde la solicitud
+    paciente_id = data.get('paciente_id')
+    paciente_nombre = data.get('paciente_nombre')
+
+    respuestas = data.get('respuestas')
+
+    if respuestas and paciente_id and paciente_nombre:
+        # Insertar los datos en la colección "respuestas"
         respuestas_collection = mongo.db.respuestas
-        respuestas_id = respuestas_collection.insert_one(respuestas).inserted_id
+        documento_respuestas = {
+            "Respuestas": respuestas,
+            "Proceso": None,  # Inicialmente no tiene proceso asignado
+            "Fecha": datetime.datetime.now(),  # Fecha actual del cuestionario
+            'paciente': {
+                'id_paciente': paciente_id,
+                "paciente_nombre": paciente_nombre
+                }
+        }
+        respuestas_id = respuestas_collection.insert_one(documento_respuestas).inserted_id
 
-        if respuestas_id:
-            return jsonify({'message': 'Respuestas guardadas exitosamente.'}), 200
-        else:
-            return jsonify({'error': 'Error al guardar las respuestas.'}), 500
+        # Insertar los datos en la colección "proceso"
+        proceso_collection = mongo.db.proceso
+        documento_proceso = {
+            "Estatus": "proceso",  # Inicialmente el proceso está en "proceso"
+            "Fecha": datetime.datetime.now()  # Fecha actual del proceso
+        }
+        proceso_id = proceso_collection.insert_one(documento_proceso).inserted_id
+
+        # Actualizar el documento en la colección "respuestas" con el ID del proceso asignado
+        respuestas_collection.update_one(
+            {"_id": respuestas_id},
+            {"$set": {"Proceso": proceso_id}}
+        )
+
+        return jsonify({'message': 'Respuestas y datos del paciente guardados exitosamente.'}), 200
     else:
-        return jsonify({'error': 'Respuestas no encontradas en la solicitud.'}), 400
-
+        return jsonify({'error': 'Datos faltantes en la solicitud.'}), 400
 
 # eliminar
 @app.route('/users/<id>', methods=['DELETE'])

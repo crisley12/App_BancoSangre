@@ -384,11 +384,11 @@ class DonateScreen(MDScreen):
             print('Error al guardar las respuestas:', response.json())
 
          #Continuar con la siguiente pantalla
-        self.next_donate = self.ids.carusel.load_next(mode="")
+        self.next_donate = self.ids.carusel.load_next(mode="root")
 
-        self.ids.label9.text_color = [1, 0, 0, 1]
-        self.ids.progress9.value = 100
-        self.ids.progress9.bar_color = [1, 0, 0, 1]
-        self.icon_donate = self.ids.icon9.text_color = [1, 0, 0, 1]
-        self.ids.icon9.icon = "check-circle"
+        #self.ids.label9.text_color = [1, 0, 0, 1]
+        #self.ids.progress9.value = 100
+        #self.ids.progress9.bar_color = [1, 0, 0, 1]
+        #self.icon_donate = self.ids.icon9.text_color = [1, 0, 0, 1]
+        #self.ids.icon9.icon = "check-circle"
 

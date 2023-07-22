@@ -1,0 +1,133 @@
+<RootAdmin>:
+    MDScreen:
+        name: 'root_admin'
+        MDScreen:
+
+            MDTopAppBar:
+                id: title_admin
+                title: "Dashboard"
+                elevation: 2
+                pos_hint: {"top": 1}
+                md_bg_color: "#F41F05"
+                specific_text_color: "#ffffff"
+                left_action_items: [["menu", lambda x: nav_drawer.set_state("open")]]
+
+#########################################
+#            PANTALLAS
+#########################################
+
+            MDNavigationLayout:
+
+                MDScreenManager:
+                    id: screen_manager
+
+  
+
+                    CrearMedico:
+                        id: crear_medico
+                        name: "crear_medico"
+
+                    # EditarMedico:
+                    #     id: editar_medico
+                    #     name: "editar_medico"
+
+                    # CrearAdmin:
+                    #     id: crear_admin
+                    #     name: "crear_admin"
+
+                    # EditarAdmin:
+                    #     id: editar_admin
+                    #     name: "editar_admin"
+
+
+#########################################
+#            ITEMS
+#########################################
+
+
+                MDNavigationDrawer:
+                    id: nav_drawer
+                    radius: (0, 16, 16, 0)
+                    md_bg_color: "#ffffff"
+
+                    ContentNavigationDrawer:
+                        screen_manager: screen_manager
+                        nav_drawer: nav_drawer
+
+
+<DrawerClickableItem@MDNavigationDrawerItem>
+    text_color: "#A8A5A5"
+    icon_color: "#A8A5A5"
+    ripple_color: "#FAFAFA"
+    selected_color: "#F41F05"
+
+<ContentNavigationDrawer>
+
+    MDNavigationDrawerMenu:
+        MDNavigationDrawerHeader:
+            title:''
+            text: "Banco de Sangre\n Basantranfs"
+            text_color: "F41F05"
+            halign: 'center'
+            source: "asset/img/logo.png"
+            spacing: "4dp"
+            padding: "12dp", 0, 0, "12dp"
+
+        MDNavigationDrawerDivider:
+
+        DrawerClickableItem:
+            id: usuario_admin
+            icon: "account-lock-open"
+            text: "Usuarios"
+            on_release:
+                root.nav_drawer.set_state("close")
+                app.root.screen_manager.current = "scr 1"
+
+        DrawerClickableItem:
+            id: pacinte_admin
+            icon: "account-box-multiple"
+            text: "Pacientes"
+            on_release:
+                root.nav_drawer.set_state("close")
+                root.screen_manager.current = "scr 2"
+
+        DrawerClickableItem:
+            id: donante_admin
+            icon: "account-multiple-plus"
+            text: "Donantes"
+            on_release:
+                root.nav_drawer.set_state("close")
+                root.screen_manager.current = "scr 3"
+
+        DrawerClickableItem:
+            id: medico_admin
+            icon: "badge-account-horizontal"
+            text: "Medicos"
+            on_release:
+                root.nav_drawer.set_state("close")
+                root.screen_manager.current = "mostrar_medicos"
+
+        DrawerClickableItem:
+            id: admin_admin
+            icon: "account-key"
+            text: "Administradores"
+            on_release:
+                root.nav_drawer.set_state("close")
+                root.screen_manager.current = "mostrar_admin"
+
+        DrawerClickableItem:
+            id: inventario_sangre_admin
+            icon: "book-heart"
+            text: "Donaciones"
+            on_release:
+                root.nav_drawer.set_state("close")
+                root.screen_manager.current = "scr 6"
+
+        DrawerClickableItem:
+            id: inventario_sangre_admin
+            icon: "blood-bag"
+            text: "Inventario de Sangre"
+            on_release:
+                root.nav_drawer.set_state("close")
+                root.screen_manager.current = "scr 7"
+

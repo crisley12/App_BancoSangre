@@ -1,0 +1,86 @@
+<RootMedico>:
+    MDScreen:
+        name: 'root_medico'
+        MDScreen:
+
+            MDTopAppBar:
+                id: title_medico
+                title: "Medico"
+                elevation: 2
+                pos_hint: {"top": 1}
+                md_bg_color: "#F41F05"
+                specific_text_color: "#ffffff"
+                left_action_items: [["menu", lambda x: nav.set_state("open")]]
+
+            MDNavigationLayout:
+
+                MDScreenManager:
+                    id: screen
+
+                    MDScreen:
+                        name: "scr 1"
+
+                        MDLabel:
+                            text: "Buscar pacientes en proceso"
+                            halign: "center"
+
+                    MDScreen:
+                        name: "scr 2"
+
+                        MDLabel:
+                            text: "Agregar paciente"
+                            halign: "center"
+
+                    MDScreen:
+                        name: "scr 3"
+
+                        MDLabel:
+                            text: "Agregar Donante"
+                            halign: "center"
+
+
+                MDNavigationDrawer:
+                    id: nav
+                    radius: (0, 16, 16, 0)
+                    md_bg_color: "#ffffff"
+
+                    ContentNavigationDrawer:
+                        screen: screen
+                        nav: nav
+
+
+<DrawerClickableItemm@MDNavigationDrawerItem>
+    text_color: "#A8A5A5"
+    icon_color: "#A8A5A5"
+    ripple_color: "#FAFAFA"
+    selected_color: "#F41F05"
+
+<ContentNavigationDrawerr>
+
+    MDNavigationDrawerMenu:
+        MDNavigationDrawerHeader:
+            title:''
+            text: "Banco de Sangre\n Basantranfs"
+            text_color: "F41F05"
+            halign: 'center'
+            source: "asset/img/logo.png"
+            spacing: "4dp"
+            padding: "12dp", 0, 0, "12dp"
+
+        MDNavigationDrawerDivider:
+
+        DrawerClickableItemm:
+            id: search_paciente_medico
+            icon: "account-search"
+            text: "Buscar pacientes en proceso"
+            on_release:
+                root.nav.set_state("close")
+                root.screen.current = "scr 1"
+
+        DrawerClickableItemm:
+            id: create_paciente_medico
+            icon: "account-cog"
+            text: "Crear paciente"
+            on_release:
+                root.nav.set_state("close")
+                root.screen.current = "scr 2"

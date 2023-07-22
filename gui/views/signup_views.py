@@ -12,7 +12,6 @@ class Signup(MDScreen):
     def __init__(self, **kwargs) -> None:
         Builder.load_file("views_kv/signup.kv")
         super(Signup, self).__init__(**kwargs)
-        self.f_nacimiento = self.ids.f_nacimiento
         self.create_dropdown1()
         self.create_dropdown2()
 
@@ -57,7 +56,7 @@ class Signup(MDScreen):
                 "on_release": lambda x=f"{i}": self.set_item2(x),
             } for i in items_2]
         self.sangre = MDDropdownMenu(
-            caller=self.ids.t_sexo,
+            caller=self.ids.t_sangre,
             items=sangre_items,
             position="bottom",
             width_mult=1.5,
@@ -74,7 +73,7 @@ class Signup(MDScreen):
 #            INPUT CEDULA
 #################################################
 
-    Max_c = 10
+    Max_c = 8
 
     def check_length_cedula(self):
         cedula = self.ids.cedula
@@ -100,35 +99,4 @@ class Signup(MDScreen):
             telefono.foreground_color = 0, 0, 0, 1
 
 
-'''
-    def create_dropdown(self):
-        self.dropdown_1 = DropDown()
-        self.dropdown_2 = DropDown()
-      
 
-        items_1 = ['AB+', 'AB-', 'O+', 'O-', 'B+', 'B-', 'A+', 'A-']
-        for item_text in items_1:
-            item = OneLineListItem(text=item_text)
-            item.bind(on_release=self.menu_callback_1)
-            self.dropdown_1.add_widget(item) 
-
-        
-        items_2 = ['F', 'M']
-        for item_text in items_2:
-            item = OneLineListItem(text=item_text)
-            item.bind(on_release=self.menu_callback_2)
-            self.dropdown_2.add_widget(item)
-
-    def menu_callback_1(self, instance) -> None:
-        selected_text = instance.text
-        print(selected_text)
-        self.t_sangre.text = selected_text
-        self.dropdown_1.dismiss()
-
-    def menu_callback_2(self, instance) -> None:
-        selected_text = instance.text
-        print(selected_text)
-        self.t_sexo.text = selected_text
-        self.dropdown_2.dismiss()
-
-'''

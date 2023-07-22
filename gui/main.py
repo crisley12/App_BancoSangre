@@ -6,6 +6,8 @@ from kivy.core.window import Window
 from views.login_views import Login
 from views.signup_views import Signup
 from views.root_screen import RootScreen
+from views.root_admin import RootAdmin
+from views.root_medico import RootMedico
 from screen.requirements_screen import RequirementsScreen
 from screen.donate_screen import DonateScreen
 from screen.paciente_basantranfs_screen import PacienteBasantranfsScreen
@@ -27,19 +29,17 @@ Window.size = (350, 600)
 
 class MainApp(MDApp):
     # Variable para almacenar los datos del paciente
-    # global nombre_paciente 
+    # global nombre_paciente
     # global tipo_sangre_paciente
     # nombre_paciente = {}
     # tipo_sangre_paciente = {}
 
-
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.db = Database(database_name='banco_de_sangre')
-        
-
 
     # Constructor de la interfazx
+
     def build(self):
         global screen_manager
         screen_manager = ScreenManager()
@@ -47,9 +47,12 @@ class MainApp(MDApp):
         screen_manager.add_widget(Login(name='login'))
         screen_manager.add_widget(Signup(name='signup'))
         screen_manager.add_widget(RootScreen(name='root'))
+        screen_manager.add_widget(RootAdmin(name='root_admin'))
+        screen_manager.add_widget(RootMedico(name='root_medico'))
         screen_manager.add_widget(RequirementsScreen(name='requirements'))
         screen_manager.add_widget(DonateScreen(name='donate'))
-        screen_manager.add_widget(PacienteBasantranfsScreen(name='paciente_basantranfs'))
+        screen_manager.add_widget(
+            PacienteBasantranfsScreen(name='paciente_basantranfs'))
 
         '''
         screen_manager.add_widget(NeedDonateScreen(name='need'))
@@ -57,25 +60,16 @@ class MainApp(MDApp):
         screen_manager.add_widget(QuestionsScreen(name='questions'))
         screen_manager.add_widget(AboutScreen(name='about'))
         '''
-
-        '''
-        directory = "gui/root_screen.py"  # Reemplazar con la ruta correcta
-        root_screen = RootScreen(directory, name='root')
-        screen_manager.add_widget(root_screen)
-         Cargar los archivos KV
-        self.load_all_kv_files(self.directory)
-
-        Retornar RootScreen() o usar screen_manager como raíz si es necesario
-        return RootScreen()
-        '''
         return screen_manager
+
+
 
     # Transicion de pantalla de inicio a --> LoginScreen
     def on_start(self):
         Clock.schedule_once(self.login, 3)
 
     def login(self, *args):
-        screen_manager.current = 'login'
+        screen_manager.current = 'root_admin'
 
     #################################################
     #            VALIDACION LOGIN
@@ -103,9 +97,6 @@ class MainApp(MDApp):
             "password": password
         }
 
-        
-       
-
         response = requests.post("http://localhost:5000/login", json=data)
         print(response)
 
@@ -120,7 +111,7 @@ class MainApp(MDApp):
 
 
 #################################################
-    #            PANTALLA ROOT PACIENTE
+#            PANTALLA ROOT PACIENTE
 #################################################
 
             # Obtener los datos del paciente si están disponibles
@@ -130,34 +121,38 @@ class MainApp(MDApp):
                 apellido_paciente = paciente.get('apellido')
                 tipo_sangre_paciente = paciente.get('tipo_sangre')
 
-            #Obtener la pantalla root    
+            # Obtener la pantalla root
                 root_screen = screen_manager.get_screen('root')
                 root_screen.ids.nombre_user_paciente.text = f"{nombre_paciente} {apellido_paciente}"
-                root_screen.ids.sagre_user_paciente.text = (tipo_sangre_paciente)
-                root_screen.ids.sagre_sangre_paciente.text = (tipo_sangre_paciente)
+                root_screen.ids.sagre_user_paciente.text = (
+                    tipo_sangre_paciente)
+                root_screen.ids.sagre_sangre_paciente.text = (
+                    tipo_sangre_paciente)
                 print("Nombre del paciente:", nombre_paciente)
                 print("Nombre del paciente:", apellido_paciente)
                 print("Tipo de sangre del paciente:", tipo_sangre_paciente)
 
-
                 # Definir un diccionario con la información de donación y recepción para cada tipo de sangre
                 datos_tipo_sangre = {
-                  'A+': {'donar': ['A+', 'AB+'], 'recibir': ['A+', 'A-', 'O+', 'O-']},
-                  'A-': {'donar': ['A+', 'A-', 'AB+', 'AB-'], 'recibir': ['A-', 'O-']},
-                  'B+': {'donar': ['B+', 'AB+'], 'recibir': ['B+', 'B-', 'O+', 'O-']},
-                  'B-': {'donar': ['B+', 'B-', 'AB+', 'AB-'], 'recibir': ['B-', 'O-']},
-                  'AB+': {'donar': ['AB+'], 'recibir': ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']},
-                  'AB-': {'donar': ['AB+', 'AB-'], 'recibir': ['A-', 'B-', 'AB-', 'O-']},
-                  'O+': {'donar': ['A+', 'B+', 'AB+', 'O+'], 'recibir': ['O+', 'O-']},
-                  'O-': {'donar': ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'], 'recibir': ['O-']}
+                    'A+': {'donar': ['A+', 'AB+'], 'recibir': ['A+', 'A-', 'O+', 'O-']},
+                    'A-': {'donar': ['A+', 'A-', 'AB+', 'AB-'], 'recibir': ['A-', 'O-']},
+                    'B+': {'donar': ['B+', 'AB+'], 'recibir': ['B+', 'B-', 'O+', 'O-']},
+                    'B-': {'donar': ['B+', 'B-', 'AB+', 'AB-'], 'recibir': ['B-', 'O-']},
+                    'AB+': {'donar': ['AB+'], 'recibir': ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']},
+                    'AB-': {'donar': ['AB+', 'AB-'], 'recibir': ['A-', 'B-', 'AB-', 'O-']},
+                    'O+': {'donar': ['A+', 'B+', 'AB+', 'O+'], 'recibir': ['O+', 'O-']},
+                    'O-': {'donar': ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'], 'recibir': ['O-']}
                 }
 
                 # Obtener la información de donación y recepción del paciente
-                datos_paciente_sangre = datos_tipo_sangre.get(tipo_sangre_paciente, {'donar': [], 'recibir': []})
+                datos_paciente_sangre = datos_tipo_sangre.get(
+                    tipo_sangre_paciente, {'donar': [], 'recibir': []})
 
                 # Mostrar la compatibilidad en los widgets correspondientes
-                root_screen.ids.paciente_donar.text = '  '.join(datos_paciente_sangre['donar'])
-                root_screen.ids.paciente_recibir.text = '  '.join(datos_paciente_sangre['recibir'])
+                root_screen.ids.paciente_donar.text = '  '.join(
+                    datos_paciente_sangre['donar'])
+                root_screen.ids.paciente_recibir.text = '  '.join(
+                    datos_paciente_sangre['recibir'])
 
         else:
             self.show_dialog("Error", "Usuario o contraseña incorrecto.")
@@ -165,12 +160,12 @@ class MainApp(MDApp):
     # def request_error(req, error):
     #     print("Error en la solicitud:", error)
 
-
     #################################################
     #            VALIDACION REGISTRO
     #################################################
 
     # Validar el formato del email
+
     def validar_email(self, email):
         pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
         return re.match(pattern, email) is not None
@@ -304,7 +299,8 @@ class MainApp(MDApp):
 
         response = requests.post('http://localhost:5000/registro', json=data)
         if response.status_code == 201:
-            self.show_dialog("Registro exitoso!", "¡El registro ha sido exitoso!")
+            self.show_dialog("Registro exitoso!",
+                             "¡El registro ha sido exitoso!")
             screen_manager.current = "login"
         elif response.status_code == 409:
             self.show_dialog("Error", "Paciente ya existe.")
@@ -329,22 +325,6 @@ class MainApp(MDApp):
  #       PANTALLAS DE ROOT
 #################################################
 
-        
-
-
-    # Obtener la instancia de la pantalla MenuScreen desde RootScreen
-        # group_blood_screen = root.ids.group_blood_screen
-
-        # Acceder a los IDs de los widgets en MenuScreen
-        # menu_button = group_blood_screen.ids.
-        # menu_label = group_blood_screen.ids.title
-
-        # Realizar acciones con los widgets según los datos de la base de datos
-        # Por ejemplo, agregar un nuevo widget según los datos de la base de datos
-        # new_widget = CustomWidget()
-        # group_blood_screen.add_widget(new_widget)
-
-  
 
 
 if __name__ == '__main__':

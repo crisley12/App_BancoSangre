@@ -12,37 +12,520 @@
                 specific_text_color: "#ffffff"
                 left_action_items: [["menu", lambda x: nav_drawer.set_state("open")]]
 
-#########################################
+########################################################
 #            PANTALLAS
-#########################################
+#########################################################
 
             MDNavigationLayout:
 
                 MDScreenManager:
                     id: screen_manager
 
-  
+#########################################
+#            PANTALLa 1
+#########################################
+                    MDScreen:
+                        name: "scr 1"
 
-                    CrearMedico:
-                        id: crear_medico
-                        name: "crear_medico"
+                        MDLabel:
+                            text: "Usuarios"
+                            halign: "center"
+#########################################
+#            PANTALLa 2
+#########################################
+                    MDScreen:
+                        name: "mostrar_pacientes"
 
-                    # EditarMedico:
-                    #     id: editar_medico
-                    #     name: "editar_medico"
+                        AnchorLayout:
+                            id: anchor_layout
+                            anchor_x: "center"
+                            anchor_y: "center"
 
-                    # CrearAdmin:
-                    #     id: crear_admin
-                    #     name: "crear_admin"
+#########################################
+#            PANTALLa 3
+#########################################
+                    MDScreen:
+                        name: "scr 3"
 
-                    # EditarAdmin:
-                    #     id: editar_admin
-                    #     name: "editar_admin"
+                        MDLabel:
+                            text: "Donantes"
+                            halign: "center"
+
+#########################################
+#            PANTALLa 4
+#########################################
+                    MDScreen:
+                        name: "mostrar_medico"
+
+                        MDLabel:
+                            text: "Medicos"
+                            halign: "center"
+
+#########################################
+#            PANTALLa 5
+#########################################
+                    MDScreen:
+                        name: "scr 5"
+
+                        MDLabel:
+                            text: "Administrador"
+                            halign: "center"
+
+#########################################
+#            PANTALLa 6
+#########################################
+                    MDScreen:
+                        name: "scr 6"
+
+                        MDLabel:
+                            text: "Donaciones"
+                            halign: "center"
+
+#########################################
+#            PANTALLa 7
+#########################################
+                    MDScreen:
+                        name: "scr 7"
+
+                        MDLabel:
+                            text: "Inventario de sangre"
+                            halign: "center"
+
+#########################################
+#            PANTALLa 8
+#########################################
+                    MDScreen:
+                        name: 'crear_medico'
+
+                        MDFloatLayout:
+                            MDLabel:
+                                text: "Crear Usuario Medico"
+                                font_size: '15sp'
+                                font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
+                                pos_hint: {'center_x': .5, 'center_y': .8}
+                                size_hint: (.5, .2)
+                                halign: "center"
+
+#Primera fila
+                            MDFloatLayout:
+                                size_hint: .35, .05
+                                pos_hint: {"center_x": .3, "center_y": .70}
+                                canvas:
+                                    Color:
+                                        rgb: (238/255, 238/255, 1)
+                                    RoundedRectangle:
+                                        size: self.size
+                                        pos: self.pos
+                                        radius: [25]
+                                TextInput:
+                                    id: cedula_medico
+                                    input_filter: 'int'
+                                    prefix: "V-"
+                                    hint_text: "Cédula"
+                                    size_hint: 1, None
+                                    pos_hint: {"center_x": .5, "center_y": .5}
+                                    height: self.minimum_height
+                                    multiline: False
+                                    cursor_color: 0, 0, 0
+                                    cursor_width: '2sp'
+                                    foreground_color: 0, 0, 0
+                                    background_color: 0, 0, 0, 0
+                                    padding: [10]
+                                    font_size: '13sp'
+                                    on_text: 
+                                        root.check_length_cedula_medico()
+                                        self.text = app.solo_numeros(self.text, root.ids.mensaje_numero)
+                                        
+                            MDFloatLayout:
+                                size_hint: .35, .05
+                                pos_hint: {"center_x": .7, "center_y": .70}
+                                canvas:
+                                    Color:
+                                        rgb: (238/255, 238/255, 1)
+                                    RoundedRectangle:
+                                        size: self.size
+                                        pos: self.pos
+                                        radius: [25]
+                                TextInput:
+                                    id: n_telefono_medico
+                                    input_filter: 'int'
+                                    hint_text: "N° Telefono"
+                                    size_hint: 1, None
+                                    pos_hint: {"center_x": .5, "center_y": .5}
+                                    height: self.minimum_height
+                                    multiline: False
+                                    cursor_color: 0, 0, 0
+                                    cursor_width: '2sp'
+                                    foreground_color: 0, 0, 0
+                                    background_color: 0, 0, 0, 0
+                                    padding: [10]
+                                    font_size: '13sp'
+                                    on_text: 
+                                        root.check_length_telefono_medico()
+                                        self.text = app.solo_numeros(self.text, root.ids.mensaje_numero)
+                                    Label:
+                                        id: mensaje_numero
+                                        text: "Solo se permiten números"
+                                        opacity: 0
+
+
+#Segundaa fila
+                            MDFloatLayout:
+                                size_hint: .35, .05
+                                pos_hint: {"center_x": .3, "center_y": .62}
+                                canvas:
+                                    Color:
+                                        rgb: (238/255, 238/255, 1)
+                                    RoundedRectangle:
+                                        size: self.size
+                                        pos: self.pos
+                                        radius: [25]
+                                TextInput:
+                                    id: p_apellido_medico
+                                    hint_text: "Primer Apellido"
+                                    size_hint: 1, None
+                                    pos_hint: {"center_x": .5, "center_y": .5}
+                                    height: self.minimum_height
+                                    multiline: False
+                                    cursor_color: 0, 0, 0
+                                    cursor_width: '2sp'
+                                    foreground_color: 0, 0, 0
+                                    background_color: 0, 0, 0, 0
+                                    padding: [10]
+                                    font_size: '13sp'
+                                    on_text: self.text = app.solo_letras(self.text, root.ids.mensaje_nombre)
+                                    Label:
+                                        id: mensaje_nombre
+                                        text: "Solo se permiten Letras"
+                                        opacity: 0
+
+                            MDFloatLayout:
+                                size_hint: .35, .05
+                                pos_hint: {"center_x": .7, "center_y": .62}
+                                canvas:
+                                    Color:
+                                        rgb: (238/255, 238/255, 1)
+                                    RoundedRectangle:
+                                        size: self.size
+                                        pos: self.pos
+                                        radius: [25]
+                                TextInput:
+                                    id: s_apellido_medico
+                                    hint_text: "Segundo Apellido"
+                                    size_hint: 1, None
+                                    pos_hint: {"center_x": .5, "center_y": .5}
+                                    height: self.minimum_height
+                                    multiline: False
+                                    cursor_color: 0, 0, 0
+                                    cursor_width: '2sp'
+                                    foreground_color: 0, 0, 0
+                                    background_color: 0, 0, 0, 0
+                                    padding: [10]
+                                    font_size: '13sp'
+                                    on_text: self.text = app.solo_letras(self.text, root.ids.mensaje_nombre)
+                                    Label:
+                                        id: mensaje_nombre
+                                        text: "Solo se permiten Letras"
+                                        opacity: 0
+#Tercera fila
+                            MDFloatLayout:
+                                size_hint: .35, .05
+                                pos_hint: {"center_x": .3, "center_y": .54}
+                                canvas:
+                                    Color:
+                                        rgb: (238/255, 238/255, 1)
+                                    RoundedRectangle:
+                                        size: self.size
+                                        pos: self.pos
+                                        radius: [25]
+                                TextInput:
+                                    id: p_nombre_medico
+                                    hint_text: "Primer Nombre"
+                                    size_hint: 1, None
+                                    pos_hint: {"center_x": .5, "center_y": .5}
+                                    height: self.minimum_height
+                                    multiline: False
+                                    cursor_color: 0, 0, 0
+                                    cursor_width: '2sp'
+                                    foreground_color: 0, 0, 0
+                                    background_color: 0, 0, 0, 0
+                                    padding: [10]
+                                    font_size: '13sp'
+                                    on_text: self.text = app.solo_letras(self.text, root.ids.mensaje_nombre)
+                                    Label:
+                                        id: mensaje_nombre
+                                        text: "Solo se permiten Letras"
+                                        opacity: 0
+
+                            MDFloatLayout:
+                                size_hint: .35, .05
+                                pos_hint: {"center_x": .7, "center_y": .54}
+                                canvas:
+                                    Color:
+                                        rgb: (238/255, 238/255, 1)
+                                    RoundedRectangle:
+                                        size: self.size
+                                        pos: self.pos
+                                        radius: [25]
+                                TextInput:
+                                    id: s_nombre_medico
+                                    hint_text: "Segundo Nombre"
+                                    size_hint: 1, None
+                                    pos_hint: {"center_x": .5, "center_y": .5}
+                                    height: self.minimum_height
+                                    multiline: False
+                                    cursor_color: 0, 0, 0
+                                    cursor_width: '2sp'
+                                    foreground_color: 0, 0, 0
+                                    background_color: 0, 0, 0, 0
+                                    padding: [10]
+                                    font_size: '13sp'
+                                    on_text: self.text = app.solo_letras(self.text, root.ids.mensaje_nombre)
+                                    Label:
+                                        id: mensaje_nombre
+                                        text: "Solo se permiten Letras"
+                                        opacity: 0
+
+#Cuarta fila
+                            MDFloatLayout:
+                                orientation: "vertical"
+                                spacing: "5dp"
+                                adaptive_height: True
+                                size_hint_x: .3
+                                pos_hint: {"center_x": .3, "center_y": .46}
+                                MDTextField:
+                                    id: f_nacimiento_medico
+                                    pos_hint: {"center_x": .2, "center_y": .52}
+                                    hint_text: "Fecha"
+                                    helper_text: "dd/mm/yyyy"
+                                    validator: "date"
+                                    date_format: "dd/mm/yyyy" 
+                                    helper_text_mode: "persistent"
+                                    input_filter: lambda text, from_undo: text[:10]
+                                    on_text_validate:
+                                        app.validate_date(self.text)
+
+                            OneLineListItem:
+                            MDScreen
+                                MDTextField:
+                                    id: t_sexo_medico
+                                    pos_hint: {"center_x": .51, "center_y": .46}
+                                    size_hint_x: .2
+                                    width: "100dp"
+                                    hint_text: "Sexo"
+                                    position: "center"
+                                    line_color_focus: "red"
+                                    text_color_focus: "red"
+                                    hint_text_color_focus: "red"
+                                    on_focus: if self.focus: root.sexo_medico.open()
+
+                            OneLineListItem:
+                            MDScreen
+                                MDTextField:
+                                    id: t_sangre_medico
+                                    pos_hint: {"center_x": .75, "center_y": .46}
+                                    size_hint_x: .2
+                                    width: "100dp"
+                                    hint_text: "Sangre"
+                                    position: "center"
+                                    line_color_focus: "red"
+                                    text_color_focus: "red"
+                                    hint_text_color_focus: "red"
+                                    on_focus: if self.focus: root.sangre_medico.open()
+
+#Quinta fila
+                            MDFloatLayout:
+                                size_hint: .60, .05
+                                pos_hint: {"center_x": .5, "center_y": .35}
+                                canvas:
+                                    Color:
+                                        rgb: (238/255, 238/255, 1)
+                                    RoundedRectangle:
+                                        size: self.size
+                                        pos: self.pos
+                                        radius: [25]
+                                TextInput:
+                                    id: email_medico
+                                    hint_text: "Ingrese su Correo"
+                                    size_hint: 1, None
+                                    pos_hint: {"center_x": .5, "center_y": .5}
+                                    height: self.minimum_height
+                                    multiline: False
+                                    cursor_color: 0, 0, 0
+                                    cursor_width: '2sp'
+                                    foreground_color: 0, 0, 0
+                                    background_color: 0, 0, 0, 0
+                                    padding: [10]
+                                    font_size: '13sp'
+
+#Sexta fila
+                            MDFloatLayout:
+                                size_hint: .60, .05
+                                pos_hint: {"center_x": .5, "center_y": .28}
+                                canvas:
+                                    Color:
+                                        rgb: (238/255, 238/255, 1)
+                                    RoundedRectangle:
+                                        size: self.size
+                                        pos: self.pos
+                                        radius: [25]
+                                TextInput:
+                                    id: password_medico
+                                    #font_name: "Poppins"
+                                    hint_text: "Ingrese una Contraseña"
+                                    size_hint: 1, None
+                                    pos_hint: {"center_x": .5, "center_y": .5}
+                                    height: self.minimum_height
+                                    multiline: False
+                                    cursor_color: 0, 0, 0
+                                    cursor_width: '2sp'
+                                    foreground_color: 0, 0, 0
+                                    background_color: 0, 0, 0, 0
+                                    padding: [10]
+                                    font_size: '13sp'
+
+
+
+                            MDFillRoundFlatButton:
+                                text: "Registrar Medico"
+                                font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
+                                font_size: '20sp'
+                                size_hint: .5, .08
+                                pos_hint: {"center_x": .5, "center_y": .15}
+                                text_color: "white"
+                                md_bg_color: get_color_from_hex("#F41F05")
+                                elevation: None
+                                padding: [10]
+                                on_release: app.validacionRegistroMedico()
 
 
 #########################################
+#            PANTALLa 9
+#########################################
+                    MDScreen:
+                        name: "scr 9"
+
+                        MDLabel:
+                            text: "Editar Medico"
+                            halign: "center"
+#########################################
+#            PANTALLa 10
+#########################################
+                    MDScreen:
+                        name: "crear_admin"
+                        MDFloatLayout:
+                            MDLabel:
+                                text: "Crear Usuario Administrador"
+                                font_size: '15sp'
+                                font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
+                                pos_hint: {'center_x': .5, 'center_y': .8}
+                                size_hint: (.5, .2)
+                                halign: "center"
+#Primera Fila
+                        MDFloatLayout:
+                            size_hint: .60, .05
+                            pos_hint: {"center_x": .5, "center_y": .60}
+                            canvas:
+                                Color:
+                                    rgb: (238/255, 238/255, 1)
+                                RoundedRectangle:
+                                    size: self.size
+                                    pos: self.pos
+                                    radius: [25]
+                            TextInput:
+                                id: p_nombre_admin
+                                hint_text: "Primer Nombre"
+                                size_hint: 1, None
+                                pos_hint: {"center_x": .5, "center_y": .5}
+                                height: self.minimum_height
+                                multiline: False
+                                cursor_color: 0, 0, 0
+                                cursor_width: '2sp'
+                                foreground_color: 0, 0, 0
+                                background_color: 0, 0, 0, 0
+                                padding: [10]
+                                font_size: '13sp'
+                                on_text: self.text = app.solo_letras(self.text, root.ids.mensaje_nombre)
+                                Label:
+                                    id: mensaje_nombre
+                                    text: "Solo se permiten Letras"
+                                    opacity: 0
+#Segunda Fila
+                        MDFloatLayout:
+                            size_hint: .60, .05
+                            pos_hint: {"center_x": .5, "center_y": .50}
+                            canvas:
+                                Color:
+                                    rgb: (238/255, 238/255, 1)
+                                RoundedRectangle:
+                                    size: self.size
+                                    pos: self.pos
+                                    radius: [25]
+                            TextInput:
+                                id: email_admin
+                                hint_text: "Ingrese su Correo"
+                                size_hint: 1, None
+                                pos_hint: {"center_x": .5, "center_y": .5}
+                                height: self.minimum_height
+                                multiline: False
+                                cursor_color: 0, 0, 0
+                                cursor_width: '2sp'
+                                foreground_color: 0, 0, 0
+                                background_color: 0, 0, 0, 0
+                                padding: [10]
+                                font_size: '13sp'
+
+#Tercera fila
+                        MDFloatLayout:
+                            size_hint: .60, .05
+                            pos_hint: {"center_x": .5, "center_y": .40}
+                            canvas:
+                                Color:
+                                    rgb: (238/255, 238/255, 1)
+                                RoundedRectangle:
+                                    size: self.size
+                                    pos: self.pos
+                                    radius: [25]
+                            TextInput:
+                                id: password_admin
+                                hint_text: "Ingrese una Contraseña"
+                                size_hint: 1, None
+                                pos_hint: {"center_x": .5, "center_y": .5}
+                                height: self.minimum_height
+                                multiline: False
+                                cursor_color: 0, 0, 0
+                                cursor_width: '2sp'
+                                foreground_color: 0, 0, 0
+                                background_color: 0, 0, 0, 0
+                                padding: [10]
+                                font_size: '13sp'
+
+                        MDFillRoundFlatButton:
+                            text: "Registrar Admin"
+                            font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
+                            font_size: '20sp'
+                            size_hint: .5, .08
+                            pos_hint: {"center_x": .5, "center_y": .20}
+                            text_color: "white"
+                            md_bg_color: get_color_from_hex("#F41F05")
+                            elevation: None
+                            padding: [10]
+                            on_release: app.validacionRegistroAdmin()
+
+
+#########################################
+#            PANTALLa 11
+#########################################
+                    MDScreen:
+                        name: "scr 11"
+
+                        MDLabel:
+                            text: "Editar Admin"
+                            halign: "center"
+
+################################################################
 #            ITEMS
-#########################################
+#################################################################
 
 
                 MDNavigationDrawer:
@@ -81,7 +564,7 @@
             text: "Usuarios"
             on_release:
                 root.nav_drawer.set_state("close")
-                app.root.screen_manager.current = "scr 1"
+                root.screen_manager.current = "scr 1"
 
         DrawerClickableItem:
             id: pacinte_admin
@@ -89,7 +572,7 @@
             text: "Pacientes"
             on_release:
                 root.nav_drawer.set_state("close")
-                root.screen_manager.current = "scr 2"
+                root.screen_manager.current = "mostrar_pacientes"
 
         DrawerClickableItem:
             id: donante_admin
@@ -102,10 +585,10 @@
         DrawerClickableItem:
             id: medico_admin
             icon: "badge-account-horizontal"
-            text: "Medicos"
+            text: "Medicos sc4"
             on_release:
                 root.nav_drawer.set_state("close")
-                root.screen_manager.current = "mostrar_medicos"
+                root.screen_manager.current = 'mostrar_medico'
 
         DrawerClickableItem:
             id: admin_admin
@@ -113,7 +596,7 @@
             text: "Administradores"
             on_release:
                 root.nav_drawer.set_state("close")
-                root.screen_manager.current = "mostrar_admin"
+                root.screen_manager.current = "mostar_admin"
 
         DrawerClickableItem:
             id: inventario_sangre_admin

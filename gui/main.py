@@ -7,7 +7,6 @@ from views.login_views import Login
 from views.signup_views import Signup
 from views.root_screen import RootScreen
 from views.root_admin import RootAdmin
-from views.root_medico import RootMedico
 from screen.requirements_screen import RequirementsScreen
 from screen.donate_screen import DonateScreen
 from screen.paciente_basantranfs_screen import PacienteBasantranfsScreen
@@ -48,7 +47,6 @@ class MainApp(MDApp):
         screen_manager.add_widget(Signup(name='signup'))
         screen_manager.add_widget(RootScreen(name='root'))
         screen_manager.add_widget(RootAdmin(name='root_admin'))
-        screen_manager.add_widget(RootMedico(name='root_medico'))
         screen_manager.add_widget(RequirementsScreen(name='requirements'))
         screen_manager.add_widget(DonateScreen(name='donate'))
         screen_manager.add_widget(
@@ -62,9 +60,8 @@ class MainApp(MDApp):
         '''
         return screen_manager
 
-
-
     # Transicion de pantalla de inicio a --> LoginScreen
+
     def on_start(self):
         Clock.schedule_once(self.login, 3)
 
@@ -324,7 +321,6 @@ class MainApp(MDApp):
 #################################################
  #       PANTALLAS DE ROOT
 #################################################
-
 
 
 if __name__ == '__main__':

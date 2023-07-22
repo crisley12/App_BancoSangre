@@ -97,6 +97,3 @@ class Signup(MDScreen):
             telefono.foreground_color = 1, 0, 0, 1
         else:
             telefono.foreground_color = 0, 0, 0, 1
-
-
-

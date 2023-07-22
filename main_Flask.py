@@ -131,6 +131,30 @@ def registro():
                 return jsonify({'error': 'Error al registrar.'}), 500
     else:
         return jsonify({'error': 'Datos insuficientes.'}), 400
+    
+
+
+@app.route('/obtener_pacientes', methods=['GET'])
+def obtener_pacientes():
+    pacientes_collection = mongo.db.pacientes
+    pacientes = pacientes_collection.find()
+    
+    # Crear una lista para almacenar los datos de los pacientes
+    datos_pacientes = []
+    for paciente in pacientes:
+        datos_paciente = {
+            'cedula': paciente['cedula'],
+            'nombre_completo': f"{paciente['p_apellido']} {paciente['p_nombre']}",
+            'fecha_nacimiento': paciente['f_nacimiento'],
+            'sexo': paciente['t_sexo'],
+            'tipo_sangre': paciente['t_sangre'],
+            'telefono': paciente['n_telefono']
+        }
+        datos_pacientes.append(datos_paciente)
+
+    return jsonify(datos_pacientes), 200
+
+
 
 
 # mostrar

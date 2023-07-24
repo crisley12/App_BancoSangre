@@ -568,13 +568,13 @@
                 root.screen_manager.current = "scr 1"
 
         DrawerClickableItem:
-            id: pacinte_admin
+            id: paciente_admin
             icon: "account-box-multiple"
             text: "Pacientes"
             on_release:
-                #root.root_admin_instance.mostrar_pacientes()
                 root.screen_manager.current = "mostrar_pacientes"
                 root.nav_drawer.set_state("close")
+                root.root_admin_instance.mostrar_pacientes()
 
 
         DrawerClickableItem:

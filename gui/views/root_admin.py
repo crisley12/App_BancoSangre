@@ -5,6 +5,7 @@ from kivymd.uix.screen import MDScreen
 from kivymd.uix.scrollview import MDScrollView
 from kivy.uix.anchorlayout import AnchorLayout
 from kivymd.uix.datatables import MDDataTable
+from datetime import datetime
 from kivymd.uix.menu import MDDropdownMenu
 from kivy.metrics import dp
 import requests
@@ -13,20 +14,23 @@ import requests
 class ContentNavigationDrawer(MDScrollView):
     screen_manager = ObjectProperty()
     nav_drawer = ObjectProperty()
-    #root_admin_instance = None
+    root_admin_instance = None
 
 class RootAdmin(MDScreen):
     data_table = ObjectProperty(None)
+    globalselect = []
+    checkcomprobar = 5
+    
     # sexo_medico = ObjectProperty(None)
     
 
     def __init__(self, **kwargs) -> None:
         Builder.load_file('views_kv/root_admin.kv')
         super().__init__(**kwargs)
-        #ContentNavigationDrawer.root_admin_instance = self 
+        ContentNavigationDrawer.root_admin_instance = self 
         self.create_dropdown3()
         self.create_dropdown4()
-        self.obtener_pacientes()
+        #self.obtener_pacientes()
 
 ################################################
 #          LISTA DESPLEGABLE
@@ -134,6 +138,7 @@ class RootAdmin(MDScreen):
                         f"{i}",  # Número como cadena
                         item['cedula'],
                         item['nombre_completo'],
+                        item['apellido_completo'],
                         item['fecha_nacimiento'],
                         item['sexo'],
                         item['tipo_sangre'],
@@ -153,6 +158,7 @@ class RootAdmin(MDScreen):
                     ("No.", dp(30)),
                     ("Cédula", dp(30)),
                     ("Nombre", dp(30)),
+                    ("Apellido", dp(30)),
                     ("Fecha Nacimiento", dp(30)),
                     ("Sexo", dp(30)),
                     ("Tipo Sangre", dp(30)),
@@ -162,9 +168,9 @@ class RootAdmin(MDScreen):
             )
             self.data_table.bind(on_row_press=self.on_row_press)
             self.data_table.bind(on_check_press=self.on_check_press)
-
             # Agregar el MDDataTable al layout
             self.ids.anchor_layout.add_widget(self.data_table)
+            self.checkcomprobar = 5
         else:
             print("Error al obtener los pacientes")
 
@@ -173,6 +179,96 @@ class RootAdmin(MDScreen):
 
     def on_check_press(self, instance_table, current_row):
         print("Se presionó el checkbox de la fila:", current_row)
+        selected_rows = [row for row in self.data_tables.get_row_checks()]  # Obtener las filas seleccionadas
+        if len(selected_rows) > 1:
+          self.checkcomprobar = 2
+          print("condicion mas de un check ", self.checkcomprobar)
+        elif  len(selected_rows) <= 0:
+          self.checkcomprobar = 3
+          print("No ha marcado nada ", self.checkcomprobar)
+        elif  len(selected_rows) == 1:
+          print("Solo un checkbox seleccionado")
+          self.checkcomprobar = 1
+          self.globalselect = current_row
+          print("condicion mas de un check ", self.checkcomprobar)
+        else: 
+          self.checkcomprobar = 3
+
+    def mostrar_pacientes (self):
+        self.obtener_pacientes()
+
+
+
+    def borrar(self):
+        app = self.app
+        if self.checkcomprobar == 1:
+            id_paciente = self.globalselect[-1]
+            url_paciente = f'http://localhost:9000/api/pacientes/{id_paciente}'
+            response_paciente = requests.get(url_paciente)
+            if response_paciente.status_code == 200:
+                datapaciente = response_paciente.json()
+                id_usuario = datapaciente["paciente_id"]["$oid"]
+                fecha_actual = datetime.now()
+                
+                # Datos para eliminar al paciente
+                dataeliminar = {
+                    'cedula': datapaciente['cedula'],
+                    'p_apellido': datapaciente["p_apellido"],
+                    's_apellido': datapaciente["s_apellido"],
+                    'p_nombre': datapaciente["p_nombre"],
+                    's_nombre': datapaciente["s_nombre"],
+                    't_sexo': datapaciente['t_sexo'],
+                    't_sangre': datapaciente['t_sangre'],
+                    'f_nacimiento': datapaciente["f_nacimiento"],
+                    'n_telefono': datapaciente['n_telefono'],
+                    # cambio
+                    "id_usuario_eliminacion": "",
+                    "fechaeliminacion": fecha_actual.strftime("%Y-%m-%dT%H:%M:%SZ"),
+                    "created_at": fecha_actual.strftime("%Y-%m-%dT%H:%M:%SZ"),
+                    "updated_at": fecha_actual.strftime("%Y-%m-%dT%H:%M:%SZ")
+                }
+
+                # Eliminar al paciente en la API
+                response_delete_paciente = requests.delete(url_paciente)
+                if response_delete_paciente.status_code == 200:
+                    print("Paciente eliminado exitosamente")
+                    
+                    # Obtener datos del usuario relacionado al médico
+                    url_usuario = f'http://localhost:9000/api/users/{id_usuario}'
+                    response_usuario = requests.get(url_usuario)
+                    if response_usuario.status_code == 200:
+                        datausuario = response_usuario.json()
+                        data_usuario = {
+                            "name": datausuario["name"],
+                            "email": datausuario["email"],
+                            "password": datausuario["password"],
+                            "rol": 2,
+                            "id_usuario_eliminacion": "",
+                            "fechaeliminacion": fecha_actual.strftime("%Y-%m-%dT%H:%M:%SZ")
+                        }
+                        # Actualizar el usuario en la API con los datos de eliminación
+                        response_update_usuario = requests.put(url_usuario, json=data_usuario)
+                        if response_update_usuario.status_code == 200:
+                            self.load_table()
+                            app.show_alert_dialog_eliminado()
+                        else:
+                            app.show_alert_dialog_eliminado()
+                            print("Error al actualizar el usuario")
+                    else:
+                        app.show_alert_dialog_eliminado()
+                        print("Error en búsqueda de usuario")
+                else:
+                    print("Error al eliminar al paciente")
+            else:
+                print("Error al obtener al paciente")
+        elif self.checkcomprobar == 2:
+            app.show_alert_dialog_varioscheck()
+        elif self.checkcomprobar == 3:
+            app.show_alert_dialog_noselectcheck()
+        elif self.checkcomprobar == 5:
+            app.show_alert_dialog_noselectcheck()
+        else:
+            print("Error")
 
 
 

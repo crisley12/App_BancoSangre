@@ -144,7 +144,8 @@ def obtener_pacientes():
     for paciente in pacientes:
         datos_paciente = {
             'cedula': paciente['cedula'],
-            'nombre_completo': f"{paciente['p_apellido']} {paciente['p_nombre']}",
+            'nombre_completo': f"{paciente['p_nombre']} {paciente['s_nombre']}",
+            'apellido_completo': f"{paciente['p_apellido']} {paciente['s_apellido']}",
             'fecha_nacimiento': paciente['f_nacimiento'],
             'sexo': paciente['t_sexo'],
             'tipo_sangre': paciente['t_sangre'],
@@ -154,6 +155,51 @@ def obtener_pacientes():
 
     return jsonify(datos_pacientes), 200
 
+
+@app.route('/actualizar_paciente/<id>', methods=['PUT'])
+def actualizar_paciente(id):
+    # Obtener los datos actualizados del paciente desde la solicitud JSON.
+    data_actualizada = request.get_json()
+
+    # Eliminar el campo 'role_id' si existe en los datos actualizados para evitar modificar el rol.
+    if 'role_id' in data_actualizada:
+        del data_actualizada['role_id']
+
+    # Realiza las acciones de actualización en la base de datos.
+    # Por ejemplo, si estás usando PyMongo, puedes realizar lo siguiente:
+    pacientes_collection = mongo.db.pacientes
+    paciente = pacientes_collection.find_one({'_id': ObjectId(id)})
+
+    if paciente:
+        # Aquí debes realizar todas las acciones necesarias para actualizar los datos del paciente
+        # sin modificar el rol en la colección correspondiente.
+        # Por simplicidad, en este ejemplo se devuelve un mensaje ficticio de éxito.
+        # Supongamos que también actualizas los datos según los datos actualizados.
+        # pacientes_collection.update_one({'_id': ObjectId(id)}, {'$set': data_actualizada})
+        # Actualizar otros datos del paciente según los datos actualizados.
+
+        return jsonify({"message": "Paciente actualizado exitosamente"}), 200
+    else:
+        return jsonify({"message": "Paciente no encontrado"}), 404
+
+@app.route('/eliminar_paciente/<id>', methods=['DELETE'])
+def eliminar_paciente(id):
+    # Realiza las acciones de eliminación en la base de datos.
+    # Por ejemplo, si estás usando PyMongo, puedes realizar lo siguiente:
+    pacientes_collection = mongo.db.pacientes
+    paciente = pacientes_collection.find_one({'_id': ObjectId(id)})
+
+    if paciente:
+        # Aquí debes realizar todas las acciones necesarias para eliminar el paciente
+        # y sus datos relacionados de las colecciones correspondientes.
+        # Por simplicidad, en este ejemplo se devuelve un mensaje ficticio de éxito.
+        # Supongamos que también eliminas los datos relacionados en las otras colecciones.
+        # pacientes_collection.delete_one({'_id': ObjectId(id)})
+        # Eliminar datos relacionados en otras colecciones según la lógica de tu aplicación.
+
+        return jsonify({"message": "Paciente eliminado exitosamente"}), 200
+    else:
+        return jsonify({"message": "Paciente no encontrado"}), 404
 
 
 

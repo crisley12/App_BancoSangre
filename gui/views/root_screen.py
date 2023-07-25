@@ -4,11 +4,24 @@ import os
 import webbrowser
 from kivy.utils import platform
 
+
+class LocationScreen(MDScreen):
+    pass
+
+
+class GroupSangre(MDScreen):
+    pass
+
+
+class UserScreen(MDScreen):
+    pass
+
+
 class RootScreen(MDScreen):
     def __init__(self, **kwargs) -> None:
         Builder.load_file('views_kv/root_screen.kv')
         super().__init__(**kwargs)
-        
+
     def open_google_maps(self, instance):
 
         url = "https://maps.app.goo.gl/6E72o1oQS66Fv67H8"
@@ -53,7 +66,6 @@ class RootScreen(MDScreen):
         else:
             webbrowser.open(url)
 
-        
     '''
     def __init__(self, directory, **kwargs):
         super(RootScreen, self).__init__(**kwargs)

@@ -11,7 +11,7 @@
                         MDLabel:
                             id: label1
                             font_size: '18sp'
-                            text: "¿Eres donador de Basantranfs?"
+                            text: "¿Deseas Realizar el Cuestionario?"
                             halign: "center"
                             size_hint_x: .8
                             pos_hint: {"center_x": .55, "center_y": .55}
@@ -24,7 +24,7 @@
                             md_bg_color: get_color_from_hex("#F41F05")
                             elevation: None
                             padding: [10]
-                            on_release: app.root.current = 'paciente_basantranfs'
+                            on_release: root.next()
                         MDFillRoundFlatButton:
                             text: "No"
                             size_hint_x: .3
@@ -33,7 +33,7 @@
                             md_bg_color: get_color_from_hex("#F41F05")
                             elevation: None
                             padding: [10]
-                            on_release: root.next()
+                            on_release: app.root.current = 'root'
                         MDIconButton:
                             icon: "arrow-left"
                             pos_hint: {"center_x": .10, "center_y": .1}
@@ -146,10 +146,6 @@
                             elevation: None
                             padding: [10]
                             on_release: root.next2()
-                        # MDIconButton:
-                        #     icon: "arrow-left"
-                        #     pos_hint: {"center_x": .10, "center_y": .1}
-                        #     on_release: root.previous1()
 
 
 
@@ -229,10 +225,6 @@
                             elevation: None
                             padding: [10]
                             on_release: root.next3()
-                        # MDIconButton:
-                        #     icon: "arrow-left"
-                        #     pos_hint: {"center_x": .10, "center_y": .1}
-                        #     on_release: root.previous2()
 
 
 
@@ -271,10 +263,6 @@
                             elevation: None
                             padding: [10]
                             on_release: root.next4()
-                        # MDIconButton:
-                        #     icon: "arrow-left"
-                        #     pos_hint: {"center_x": .10, "center_y": .1}
-                        #     on_release: root.previous3()
 
 
 
@@ -378,10 +366,7 @@
                             elevation: None
                             padding: [10]
                             on_release: root.next5()
-                        # MDIconButton:
-                        #     icon: "arrow-left"
-                        #     pos_hint: {"center_x": .10, "center_y": .04}
-                        #     on_release: root.previous4()
+
 
 
 #Sexto  paso
@@ -419,10 +404,6 @@
                             elevation: None
                             padding: [10]
                             on_release: root.next6()
-                        # MDIconButton:
-                        #     icon: "arrow-left"
-                        #     pos_hint: {"center_x": .10, "center_y": .1}
-                        #     on_release: root.previous5()
 
 
 #Septimo paso
@@ -483,10 +464,6 @@
                             elevation: None
                             padding: [10]
                             on_release: root.next7()
-                        # MDIconButton:
-                        #     icon: "arrow-left"
-                        #     pos_hint: {"center_x": .10, "center_y": .1}
-                        #     on_release: root.previous6()
 
 
 
@@ -548,10 +525,6 @@
                             elevation: None
                             padding: [10]
                             on_release: root.next8()
-                        # MDIconButton:
-                        #     icon: "arrow-left"
-                        #     pos_hint: {"center_x": .10, "center_y": .1}
-                        #     on_release: root.previous7()
 #Noveno paso
 
                     MDFloatLayout:
@@ -565,13 +538,16 @@
                             md_bg_color: get_color_from_hex("#F41F05")
                             elevation: None
                             padding: [10]
-                            on_release: root.next9()
+                            on_release: 
+                                root.next9()
+                                root.previous8()
                         MDIconButton:
                             icon: "arrow-left"
                             pos_hint: {"center_x": .10, "center_y": .1}
                             on_release:
                                 root.manager.transition.direction = "right" 
                                 app.root.current = 'root'
+                                root.previous8()
 
             MDLabel:
                 text: "Custionario"
@@ -759,7 +735,3 @@
                 pos_hint: {"center_x": .90, "center_y": .65}
                 user_font_size: "35sp"
                 theme_text_color: "Custom"
-            # MDProgressBar: 
-            #     id: progress9
-            #     size_hint_x: .06
-            #     pos_hint: {"center_x": .96, "center_y": .65}

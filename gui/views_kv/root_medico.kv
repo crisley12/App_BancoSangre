@@ -1,52 +1,237 @@
 <RootMedico>:
     MDScreen:
         name: 'root_medico'
-        MDScreen:
 
-            MDTopAppBar:
-                id: title_medico
-                title: "Medico"
-                elevation: 2
-                pos_hint: {"top": 1}
-                md_bg_color: "#F41F05"
-                specific_text_color: "#ffffff"
-                left_action_items: [["menu", lambda x: nav.set_state("open")]]
+        MDTopAppBar:
+            id: title_medico
+            title: "Medico"
+            elevation: 2
+            pos_hint: {"top": 1}
+            md_bg_color: "#F41F05"
+            specific_text_color: "#ffffff"
+            left_action_items: [["menu", lambda x: nav.set_state("open")]]
 
-            MDNavigationLayout:
+        MDNavigationLayout:
 
-                MDScreenManager:
-                    id: screen
+            MDScreenManager:
+                id: screen
 
-                    MDScreen:
-                        name: "scr 1"
-
+                BuscarPacientes:
+                    name: "buscar_pacientes"
+                    MDFloatLayout:
                         MDLabel:
-                            text: "Buscar pacientes en proceso"
+                            text: "Buscar Paciente en Nomina"
+                            font_size: '15sp'
+                            font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
+                            pos_hint: {'center_x': .5, 'center_y': .8}
+                            size_hint: (.5, .2)
                             halign: "center"
+                    MDFloatLayout:
+                        size_hint: .60, .07
+                        pos_hint: {"center_x": .5, "center_y": .5}
+                        canvas:
+                            Color:
+                                rgb: (238/255, 238/255, 1)
+                            RoundedRectangle:
+                                size: self.size
+                                pos: self.pos
+                                radius: [25]
+                        TextInput:
+                            id: cedula_buscar
+                            hint_text: "Buscat Paciente"
+                            size_hint: 1, None
+                            pos_hint: {"center_x": .5, "center_y": .5}
+                            height: self.minimum_height
+                            multiline: False
+                            cursor_color: 0, 0, 0
+                            cursor_width: '2sp'
+                            foreground_color: 0, 0, 0
+                            background_color: 0, 0, 0, 0
+                            padding: [10]
+                            font_size: '18sp'
+                            on_text: 
+                                root.check_length_cedula_buscar()
+                                self.text = app.solo_numeros(self.text, root.ids.mensaje_numero)
+                            Label:
+                                id: mensaje_numero
+                                text: "Solo se permiten números"
+                                opacity: 0
 
-                    MDScreen:
-                        name: "scr 2"
+                    MDFloatingActionButton:
+                        icon: "magnify"
+                        adaptive_size: True
+                        pos_hint: {"center_x": .8, "center_y": .5}
+                        icon_color: "white"
+                        elevation: None
+                        md_bg_color: get_color_from_hex("#F41F05")
+                        on_release: root.buscarPacientes()
 
+
+                CrearPaciente:
+                    name: "crear_paciente"
+
+                    MDLabel:
+                        text: "Agregar paciente"
+                        halign: "center"
+
+                MostrarPacientesMedico:
+                    name: "mostrar_paciente"
+                    MDFloatLayout:
                         MDLabel:
-                            text: "Agregar paciente"
+                            text: "Pacientes en Nomina"
+                            font_size: '15sp'
+                            font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
+                            pos_hint: {'center_x': .5, 'center_y': .8}
+                            size_hint: (.5, .2)
                             halign: "center"
+                    AnchorLayout:
+                        id: anchor_layout_pacientes
+                        anchor_x: "center"
+                        anchor_y: "center"
+                        pos_hint: {'center_x': .5, 'center_y': .5}
 
-                    MDScreen:
-                        name: "scr 3"
-
+                CrearDonacion:
+                    name: 'crear_donacion'
+                    MDFloatLayout:
                         MDLabel:
-                            text: "Agregar Donante"
+                            text: "Crear Donación"
+                            font_size: '15sp'
+                            font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
+                            pos_hint: {'center_x': .5, 'center_y': .75}
+                            size_hint: (.5, .2)
                             halign: "center"
+#Primera fila
+                        MDFloatLayout:
+                            size_hint: .60, .05
+                            pos_hint: {"center_x": .5, "center_y": .6}
+                            canvas:
+                                Color:
+                                    rgb: (238/255, 238/255, 1)
+                                RoundedRectangle:
+                                    size: self.size
+                                    pos: self.pos
+                                    radius: [25]
+                            MDLabel:
+                                id: banco
+                                text: "Banco de Sangre Basantranfs"
+                                size_hint: 1, None
+                                pos_hint: {"center_x": .5, "center_y": .5}
+                                font_size: '13sp'
+                                padding: [10]
+#Segundaa fila
+                        MDFloatLayout:
+                            size_hint: .60, .05
+                            pos_hint: {"center_x": .5, "center_y": .5}
+                            canvas:
+                                Color:
+                                    rgb: (238/255, 238/255, 1)
+                                RoundedRectangle:
+                                    size: self.size
+                                    pos: self.pos
+                                    radius: [25]
+                            TextInput:
+                                id: bolsa
+                                input_filter: 'int'
+                                hint_text: "N° de bolsa"
+                                size_hint: 1, None
+                                pos_hint: {"center_x": .5, "center_y": .5}
+                                height: self.minimum_height
+                                multiline: False
+                                cursor_color: 0, 0, 0
+                                cursor_width: '2sp'
+                                foreground_color: 0, 0, 0
+                                background_color: 0, 0, 0, 0
+                                padding: [10]
+                                font_size: '13sp'
+                                on_text: 
+                                    self.text = app.solo_numeros(self.text, root.ids.mensaje_numero)
+
+                        MDFloatLayout:
+                            size_hint: .60, .05
+                            pos_hint: {"center_x": .5, "center_y": .4}
+                            canvas:
+                                Color:
+                                    rgb: (238/255, 238/255, 1)
+                                RoundedRectangle:
+                                    size: self.size
+                                    pos: self.pos
+                                    radius: [25]
+                            TextInput:
+                                id: hemoglobina
+                                hint_text: "Hemoglobina"
+                                size_hint: 1, None
+                                pos_hint: {"center_x": .5, "center_y": .5}
+                                height: self.minimum_height
+                                multiline: False
+                                cursor_color: 0, 0, 0
+                                cursor_width: '2sp'
+                                foreground_color: 0, 0, 0
+                                background_color: 0, 0, 0, 0
+                                padding: [10]
+                                font_size: '13sp'
+
+#Tercera fila
+                        MDFloatLayout:
+                            size_hint: .60, .05
+                            pos_hint: {"center_x": .5, "center_y": .3}
+                            canvas:
+                                Color:
+                                    rgb: (238/255, 238/255, 1)
+                                RoundedRectangle:
+                                    size: self.size
+                                    pos: self.pos
+                                    radius: [25]
+                            TextInput:
+                                id: volumen
+                                hint_text: "Volumen"
+                                size_hint: 1, None
+                                pos_hint: {"center_x": .5, "center_y": .5}
+                                height: self.minimum_height
+                                multiline: False
+                                cursor_color: 0, 0, 0
+                                cursor_width: '2sp'
+                                foreground_color: 0, 0, 0
+                                background_color: 0, 0, 0, 0
+                                padding: [10]
+                                font_size: '13sp'
+
+                        MDFillRoundFlatButton:
+                            text: "Registar Donación"
+                            font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
+                            font_size: '20sp'
+                            size_hint: .5, .08
+                            pos_hint: {"center_x": .5, "center_y": .15}
+                            text_color: "white"
+                            md_bg_color: get_color_from_hex("#F41F05")
+                            elevation: None
+                            padding: [10]
+                            on_release: root.guardarDonacion()
+
+                MostrarDonaciones:
+                    name: "donaciones"
+                    MDFloatLayout:
+                        MDLabel:
+                            text: "Donaciones Relizadas"
+                            font_size: '15sp'
+                            font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
+                            pos_hint: {'center_x': .5, 'center_y': .8}
+                            size_hint: (.5, .2)
+                            halign: "center"
+                    AnchorLayout:
+                        id: anchor_layout_donaciones
+                        anchor_x: "center"
+                        anchor_y: "center"
+                        pos_hint: {'center_x': .5, 'center_y': .5}
 
 
-                MDNavigationDrawer:
-                    id: nav
-                    radius: (0, 16, 16, 0)
-                    md_bg_color: "#ffffff"
+            MDNavigationDrawer:
+                id: nav
+                radius: (0, 16, 16, 0)
+                md_bg_color: "#ffffff"
 
-                    ContentNavigationDrawer:
-                        screen: screen
-                        nav: nav
+                ContentNavigationDrawerMedico:
+                    screen: screen
+                    nav: nav
 
 
 <DrawerClickableItemm@MDNavigationDrawerItem>
@@ -55,7 +240,7 @@
     ripple_color: "#FAFAFA"
     selected_color: "#F41F05"
 
-<ContentNavigationDrawerr>
+<ContentNavigationDrawerMedico>
 
     MDNavigationDrawerMenu:
         MDNavigationDrawerHeader:
@@ -72,10 +257,19 @@
         DrawerClickableItemm:
             id: search_paciente_medico
             icon: "account-search"
-            text: "Buscar pacientes en proceso"
+            text: "Buscar pacientes"
             on_release:
                 root.nav.set_state("close")
-                root.screen.current = "scr 1"
+                root.screen.current = "buscar_pacientes"
+
+        DrawerClickableItemm:
+            id: donaciones_medico
+            icon: "blood-bag"
+            text: "Donaciones"
+            on_release:
+                root.nav.set_state("close")
+                root.screen.current = "donaciones"
+                root.root_medico_instance.mostrar_donaciones()
 
         DrawerClickableItemm:
             id: create_paciente_medico
@@ -83,4 +277,13 @@
             text: "Crear paciente"
             on_release:
                 root.nav.set_state("close")
-                root.screen.current = "scr 2"
+                root.screen.current = "crear_paciente"
+
+        DrawerClickableItemm:
+            id: mostrar_paciente_medico
+            icon: "account-box-multiple"
+            text: "Mostrar Pacientes"
+            on_release:
+                root.nav.set_state("close")
+                root.screen.current = "mostrar_paciente"
+                root.root_medico_instance.mostrar_pacientes()

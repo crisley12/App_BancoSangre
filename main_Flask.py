@@ -38,22 +38,39 @@ def login():
             paciente_id = user.get('paciente_id')
             if paciente_id:
                 paciente = mongo.db.pacientes.find_one({'_id': paciente_id})
-                print("Datos del paciente:")
-                print("Nombre:", paciente['p_nombre'])
-                print("Tipo de sangre:", paciente['t_sangre'])
+
+                # Obtener las donaciones vinculadas con el paciente
+                donaciones_collection = mongo.db.donaciones
+                donaciones = donaciones_collection.find({'paciente_id': paciente_id})
+                datos_donaciones = []
+                for donacion in donaciones:
+                    datos_donacion = {
+                        'localidad': donacion['localidad'],
+                        'numero_bolsa': donacion['numero_bolsa'],
+                        'hemoglobina': donacion['hemoglobina'],
+                        'volumen': donacion['volumen'],
+                        'fecha_hora': donacion['fecha_hora'],
+                        'paciente_id': donacion['paciente_id']
+                    }
+                    datos_donaciones.append(datos_donacion)
+
+                # Agregar los datos del paciente y las donaciones a un solo diccionario
                 response = {
                     'user_id': user_id,
                     'email': user['email'],
                     'password': user['password'],
+                    'donaciones': datos_donaciones,
                     'paciente': {
                         'nombre': paciente['p_nombre'],
                         'apellido': paciente['p_apellido'],
                         'tipo_sangre': paciente['t_sangre']
-                        }
+                    },
                 }
+                print("Datos de las donaciones:", datos_donaciones)
                 return jsonify(response), 200
 
     return jsonify({'message': 'Usuario o contraseña incorrecto.'}), 401
+
 
 
 # Ruta de registro de usuario
@@ -131,18 +148,48 @@ def registro():
                 return jsonify({'error': 'Error al registrar.'}), 500
     else:
         return jsonify({'error': 'Datos insuficientes.'}), 400
-    
+
+
+
+# @app.route('/obtener_donaciones_paciente', methods=['GET'])
+# def obtener_donaciones_paciente():
+#     # Obtener el ID del paciente desde la sesión
+#     paciente_id = session.get('paciente_id')
+
+#     if paciente_id:
+#         # Buscar las donaciones vinculadas con el paciente en la base de datos
+#         donaciones_collection = mongo.db.donaciones
+#         donaciones = donaciones_collection.find({'paciente_id': paciente_id})
+
+#         datos_donaciones = []
+#         for donacion in donaciones:
+#             datos_donacion = {
+#                 'localidad': donacion['localidad'],
+#                 'numero_bolsa': donacion['numero_bolsa'],
+#                 'hemoglobina': donacion['hemoglobina'],
+#                 'volumen': donacion['volumen'],
+#                 'fecha_hora': donacion['fecha_hora'],
+#                 'paciente_id': donacion['paciente_id']
+#             }
+#             datos_donaciones.append(datos_donacion)
+
+#         return jsonify(datos_donaciones), 200
+#     else:
+#         return jsonify({'message': 'Usuario no autenticado o no vinculado con un paciente.'}), 401
+
+
 
 
 @app.route('/obtener_pacientes', methods=['GET'])
 def obtener_pacientes():
     pacientes_collection = mongo.db.pacientes
     pacientes = pacientes_collection.find()
-    
+
     # Crear una lista para almacenar los datos de los pacientes
     datos_pacientes = []
     for paciente in pacientes:
         datos_paciente = {
+            'paciente_id': str(paciente['_id']),
             'cedula': paciente['cedula'],
             'nombre_completo': f"{paciente['p_nombre']} {paciente['s_nombre']}",
             'apellido_completo': f"{paciente['p_apellido']} {paciente['s_apellido']}",
@@ -182,6 +229,7 @@ def actualizar_paciente(id):
     else:
         return jsonify({"message": "Paciente no encontrado"}), 404
 
+
 @app.route('/eliminar_paciente/<id>', methods=['DELETE'])
 def eliminar_paciente(id):
     # Realiza las acciones de eliminación en la base de datos.
@@ -203,6 +251,94 @@ def eliminar_paciente(id):
 
 
 
+
+@app.route('/buscar_pacientes_por_cedula', methods=['POST'])
+def buscar_pacientes_por_cedula():
+    data = request.get_json()
+    cedula = data.get('cedula')
+
+    if cedula:
+        # Realiza la búsqueda de pacientes por cédula en la base de datos
+        pacientes_collection = mongo.db.pacientes
+        paciente = pacientes_collection.find_one({'cedula': cedula})
+
+        if paciente:
+            # Si se encuentra el paciente, extraer su _id y otros datos
+            paciente_id = str(paciente['_id'])
+            p_nombre = paciente['p_nombre']
+            p_apellido = paciente['p_apellido']
+
+            # Crear un diccionario con los datos del paciente, incluyendo el _id
+            datos_paciente = {
+                'cedula': cedula,
+                'p_nombre': p_nombre,
+                'p_apellido': p_apellido,
+                'paciente_id': paciente_id  # Agregar el _id del paciente al diccionario
+            }
+
+            return jsonify(datos_paciente), 200
+        else:
+            return jsonify({'error': 'No se encontró ningún paciente con esa cédula.'}), 404
+    else:
+        return jsonify({'error': 'Cédula no proporcionada en la solicitud.'}), 400
+
+
+
+@app.route('/crear_donacion', methods=['POST'])
+def crear_donacion():
+    data = request.get_json()
+
+    localidad = data.get('localidad')
+    numero_bolsa = data.get('numero_bolsa')
+    hemoglobina = data.get('hemoglobina')
+    volumen = data.get('volumen')
+    fecha_hora = data.get('fecha_hora')
+    paciente_id = data.get('paciente_id')
+
+    # Verificar si la colección "donaciones" existe en la base de datos
+    if 'donaciones' not in mongo.db.list_collection_names():
+        # Si no existe, crea la colección "donaciones"
+        mongo.db.create_collection('donaciones')
+
+    # Crear el documento de la donación
+    donacion = {
+        'localidad': localidad,
+        'numero_bolsa': numero_bolsa,
+        'hemoglobina': hemoglobina,
+        'volumen': volumen,
+        'fecha_hora': fecha_hora,
+        'paciente_id': paciente_id
+    }
+
+    # Insertar el documento en la colección "donaciones"
+    mongo.db['donaciones'].insert_one(donacion)
+
+    return jsonify({'message': 'Donación registrada exitosamente.'}), 200
+
+
+
+@app.route('/obtener_donaciones', methods=['GET'])
+def obtener_donaciones():
+    donaciones_collection = mongo.db.donaciones
+    donaciones = donaciones_collection.find()
+
+    datos_donaciones = []
+    for donacion in donaciones:
+        datos_donacion = {
+            'localidad': donacion['localidad'],
+            'numero_bolsa': donacion['numero_bolsa'],
+            'hemoglobina': donacion['hemoglobina'],
+            'volumen': donacion['volumen'],
+            'fecha_hora': donacion['fecha_hora'],
+            'paciente_id': donacion['paciente_id']
+        }
+        datos_donaciones.append(datos_donacion)
+
+    return jsonify(datos_donaciones), 200
+
+
+
+
 # mostrar
 @app.route('/user/<id>', methods=['GET'])
 def get_user(id):
@@ -219,7 +355,8 @@ def guardar_respuestas():
     if respuestas:
         # Guardar las respuestas en la base de datos
         respuestas_collection = mongo.db.respuestas
-        respuestas_id = respuestas_collection.insert_one(respuestas).inserted_id
+        respuestas_id = respuestas_collection.insert_one(
+            respuestas).inserted_id
 
         if respuestas_id:
             return jsonify({'message': 'Respuestas guardadas exitosamente.'}), 200
@@ -238,6 +375,8 @@ def delete_user(id):
     return response
 
 # actualizar
+
+
 @app.route('/users/<id>', methods=['PUT'])
 def update_user(id):
     username = request.json['username']

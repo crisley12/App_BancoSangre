@@ -7,17 +7,20 @@ from views.login_views import Login
 from views.signup_views import Signup
 from views.root_screen import RootScreen
 from views.root_admin import RootAdmin
+from views.root_medico import RootMedico 
 from screen.requirements_screen import RequirementsScreen
 from screen.donate_screen import DonateScreen
 from screen.paciente_basantranfs_screen import PacienteBasantranfsScreen
 from screen.need_donate_screen import NeedDonateScreen
-from screen.process_screen import ProcessScreen
+from screen.donaciones_screen import DonacionesScreen
 from screen.questions_screen import QuestionsScreen
 from screen.about_screen import AboutScreen
 from conection import Database
 from kivymd.uix.dialog import MDDialog
 from kivy.network.urlrequest import UrlRequest
 from kivymd.uix.button import MDFlatButton
+from kivymd.uix.datatables import MDDataTable
+from kivy.metrics import dp
 import re
 import datetime
 import requests
@@ -47,13 +50,14 @@ class MainApp(MDApp):
         screen_manager.add_widget(Signup(name='signup'))
         screen_manager.add_widget(RootScreen(name='root'))
         screen_manager.add_widget(RootAdmin(name='root_admin'))
+        screen_manager.add_widget(RootMedico(name='root_medico'))
         screen_manager.add_widget(RequirementsScreen(name='requirements'))
         screen_manager.add_widget(DonateScreen(name='donate'))
+        screen_manager.add_widget(DonacionesScreen(name='paciente_donaciones'))
         screen_manager.add_widget(PacienteBasantranfsScreen(name='paciente_basantranfs'))
 
         '''
         screen_manager.add_widget(NeedDonateScreen(name='need'))
-        screen_manager.add_widget(ProcessScreen(name='process'))
         screen_manager.add_widget(QuestionsScreen(name='questions'))
         screen_manager.add_widget(AboutScreen(name='about'))
         '''
@@ -65,7 +69,7 @@ class MainApp(MDApp):
         Clock.schedule_once(self.login, 3)
 
     def login(self, *args):
-        screen_manager.current = 'root_admin'
+        screen_manager.current = 'login'
 
     #################################################
     #            VALIDACION LOGIN
@@ -140,7 +144,7 @@ class MainApp(MDApp):
                     'O-': {'donar': ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'], 'recibir': ['O-']}
                 }
 
-                # Obtener la información de donación y recepción del paciente
+                # Obtener la información de tipo sangre y recepción del paciente
                 datos_paciente_sangre = datos_tipo_sangre.get(
                     tipo_sangre_paciente, {'donar': [], 'recibir': []})
 
@@ -149,12 +153,52 @@ class MainApp(MDApp):
                     datos_paciente_sangre['donar'])
                 root_screen.ids.paciente_recibir.text = '  '.join(
                     datos_paciente_sangre['recibir'])
+                
+#################################################
+#             DONACIONES POR PACIENTE
+#################################################
+            donaciones =  response.json().get('donaciones', [])
+            print(donaciones)
+            donacion_data = []
+            for i, item in enumerate(donaciones, start=1):
+                if isinstance(item, dict):
+                      row = (
+                          f"{i}",
+                          item['localidad'],
+                          item['numero_bolsa'],
+                          item['hemoglobina'],
+                          item['volumen'],
+                          item['fecha_hora'],
+                          item['paciente_id'],
+                      )
+                      donacion_data.append(row)
+                      print(donacion_data)
+                      self.data_table = MDDataTable(
+                            pos_hint={'center_y': 0.3, 'center_x': 0.5},
+                            size_hint=(0.9, 0.5),
+                            use_pagination=True,
+                            elevation=1,
+                            background_color_header="#F41F05",
+                            check=True,
+                            column_data=[
+                                ("No.", dp(30)),
+                                ("Localidad", dp(50)),
+                                ("Número de Bolsa", dp(30)),
+                                ("Hemoglobina", dp(30)),
+                                ("Volumen", dp(30)),
+                                ("Fecha y Hora", dp(50)),
+                                ("ID Paciente", dp(50)),
+                            ],
+                            row_data=donacion_data,
+                        )
+                      donaciones_paciente = screen_manager.get_screen('paciente_donaciones')
+                      donaciones_paciente.ids.donaciones.add_widget(self.data_table)
+                else:
+                    print("Error al obtener las donaciones")
 
         else:
             self.show_dialog("Error", "Usuario o contraseña incorrecto.")
 
-    # def request_error(req, error):
-    #     print("Error en la solicitud:", error)
 
     #################################################
     #            VALIDACION REGISTRO

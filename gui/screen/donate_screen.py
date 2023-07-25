@@ -302,6 +302,9 @@ class DonateScreen(MDScreen):
         self.ids.icon8.icon = "check-circle"
 
     def previous8(self):
+        self.ids.label9.text_color = [0, 0, 0, 1]
+        self.ids.icon9.text_color = [0, 0, 0, 1]
+        self.ids.icon9.icon = "numeric-9-circle"
         self.ids.label8.text_color = [0, 0, 0, 1]
         self.ids.icon8.text_color = [0, 0, 0, 1]
         self.ids.progress8.value = 0
@@ -338,37 +341,17 @@ class DonateScreen(MDScreen):
         self.respuestas = {}
         self.ids.carusel.index = 0
 
-
 ######################################################
 #           NOVENA PANTALLA
 #######################################################
 
 
     def next9(self):
-        pregunta = "Has finalizado el cuestionario. ¿Deseas guardar tus respuestas?"
-        respuestas = {}
-
         if self.ids.guardar_respuestas.state == "down":
-            respuesta_guardar = self.ids.guardar_respuestas.text
-            respuestas[pregunta] = respuesta_guardar
-        else:
-            self.show_dialog("Información no guardada",
-                             "Tus respuestas no serán guardadas en la base de datos.")
+            self.show_dialog("Excelente!", "Dirigite al Banco de sangre")
+            self.ids.label9.text_color = [1, 0, 0, 1]
+            self.icon_donate = self.ids.icon9.text_color = [1, 0, 0, 1]
+            self.ids.icon9.icon = "check-circle"
+            
 
-        # Guardar respuestas en la base de datos
-        url = 'http://localhost:5000/guardar_respuestas'
-        response = requests.post(url, json={'respuestas': self.respuesta})
 
-        if response.status_code == 200:
-            print('Respuestas guardadas exitosamente.')
-        else:
-            print('Error al guardar las respuestas:', response.json())
-
-         # Continuar con la siguiente pantalla
-        self.next_donate = self.ids.carusel.load_next(mode="")
-
-        self.ids.label9.text_color = [1, 0, 0, 1]
-        # self.ids.progress9.value = 100
-        # self.ids.progress9.bar_color = [1, 0, 0, 1]
-        self.icon_donate = self.ids.icon9.text_color = [1, 0, 0, 1]
-        self.ids.icon9.icon = "check-circle"

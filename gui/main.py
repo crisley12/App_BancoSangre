@@ -65,7 +65,7 @@ class MainApp(MDApp):
         Clock.schedule_once(self.login, 3)
 
     def login(self, *args):
-        screen_manager.current = 'root_admin'
+        screen_manager.current = 'login'
 
     #################################################
     #            VALIDACION LOGIN
@@ -85,9 +85,7 @@ class MainApp(MDApp):
         if not username or not password:
             self.show_dialog("Error", "Por favor, complete todos los campos.")
             return
-        # Realizar la solicitud de inicio de sesión a la API
-        import requests
-
+        
         data = {
             "email": username,
             "password": password
@@ -98,7 +96,17 @@ class MainApp(MDApp):
 
         if response.status_code == 200:
             self.show_dialog("Bienvenido", "¡Bienvenido!")
-            screen_manager.current = "root"
+            user_data = response.json()
+            role = user_data.get('role')
+            if role == 'paciente':
+                screen_manager.current = 'root'
+            elif role == 'medico':
+                screen_manager.current = 'root_admin'  # Cambia 'root_medico' por el nombre de la pantalla para médicos
+            elif role == 'administrador':
+                screen_manager.current = 'root_medico'  # Cambia 'root_admin' por el nombre de la pantalla para administradores
+            else:
+                self.show_dialog("Error", "Rol no reconocido.")
+                return
 
             # Obtener el user_id del usuario actual de la respuesta JSON
             user_id = response.json().get('user_id')
@@ -106,9 +114,9 @@ class MainApp(MDApp):
             print("El user_id del usuario actual es:", user_id)
 
 
-#################################################
-#            PANTALLA ROOT PACIENTE
-#################################################
+            #################################################
+            #            PANTALLA ROOT PACIENTE
+            #################################################
 
             # Obtener los datos del paciente si están disponibles
             paciente = response.json().get('paciente')
@@ -156,10 +164,6 @@ class MainApp(MDApp):
     # def request_error(req, error):
     #     print("Error en la solicitud:", error)
 
-    #################################################
-    #            VALIDACION REGISTRO
-    #################################################
-
     # Validar el formato del email
 
     def validar_email(self, email):
@@ -190,7 +194,8 @@ class MainApp(MDApp):
             self.helper_text = "dd/mm/yyyy"
         else:
             self.helper_text = ""
-
+    
+    # Validar Fecha
     def validate_date(self, text):
         parts = text.split('/')
         if len(parts) == 3 and all(part.isdigit() for part in parts):
@@ -207,7 +212,11 @@ class MainApp(MDApp):
         else:
             return "Formato de fecha de nacimiento incorrecto (dd/mm/yyyy)."
 
-    def validacionRegistro(self):
+    #################################################
+    #            VALIDACION REGISTRO
+    #################################################
+    
+    def RegistroPaciente(self):
         registre_screen = screen_manager.get_screen('signup')
         cedula = registre_screen.ids.cedula.text
         p_apellido = registre_screen.ids.p_apellido.text
@@ -293,7 +302,7 @@ class MainApp(MDApp):
             'password': password
         }
 
-        response = requests.post('http://localhost:5000/registro', json=data)
+        response = requests.post('http://localhost:5000/registro_paciente', json=data)
         if response.status_code == 201:
             self.show_dialog("Registro exitoso!",
                              "¡El registro ha sido exitoso!")
@@ -302,6 +311,150 @@ class MainApp(MDApp):
             self.show_dialog("Error", "Paciente ya existe.")
         else:
             self.show_dialog("Error", "Error al registrar")
+
+
+    def RegistroMedico(self):
+        registre_screen = screen_manager.get_screen('root_admin')
+        cedula = registre_screen.ids.cedula_medico.text
+        p_apellido = registre_screen.ids.p_apellido_medico.text
+        s_apellido = registre_screen.ids.s_apellido_medico.text
+        p_nombre = registre_screen.ids.p_nombre_medico.text
+        s_nombre = registre_screen.ids.s_nombre_medico.text
+        n_telefono = registre_screen.ids.n_telefono_medico.text
+        t_sangre = registre_screen.ids.t_sangre_medico.text
+        t_sexo = registre_screen.ids.t_sexo_medico.text
+        f_nacimiento = registre_screen.ids.f_nacimiento_medico.text
+        email = registre_screen.ids.email_medico.text
+        password = registre_screen.ids.password_medico.text
+
+        # Validar el formato del email
+        if not self.validar_email(email):
+            self.show_dialog(
+                "Error", "Por favor, ingrese un correo electrónico válido.")
+            return
+
+        # Verificar si los campos están vacíos
+        campo_vacio = []
+        if not cedula:
+            campo_vacio.append("cedula")
+        if not p_apellido:
+            campo_vacio.append("primer apellido")
+        if not s_apellido:
+            campo_vacio.append("segundo apellido")
+        if not p_nombre:
+            campo_vacio.append("primer nombre")
+        if not s_nombre:
+            campo_vacio.append("segundo nombre")
+        if not n_telefono:
+            campo_vacio.append("numero de telefono")
+        if not t_sangre:
+            campo_vacio.append("tipo de sangre")
+        if not t_sexo:
+            campo_vacio.append("tipo de sexo")
+        if not f_nacimiento:
+            campo_vacio.append("fecha de nacimiento")
+        if not email:
+            campo_vacio.append("email")
+        if not password:
+            campo_vacio.append("password")
+
+        if campo_vacio:
+            campos_str = ", ".join(campo_vacio)
+            mensaje = f"Por favor, complete los siguientes campos: {campos_str}"
+            self.show_dialog("Error", mensaje)
+            return
+
+         # Validar la fecha de nacimiento
+        date_validation_result = self.validate_date(f_nacimiento)
+        if date_validation_result != True:
+            self.show_dialog("Error", date_validation_result)
+            return
+
+        try:
+            # Convertir la fecha de nacimiento a un objeto de tipo datetime
+            f_nacimiento_dt = datetime.datetime.strptime(
+                f_nacimiento, '%d/%m/%Y').date()
+        except ValueError:
+            self.show_dialog(
+                "Error", "Formato de fecha de nacimiento incorrecto (dd/mm/yyyy).")
+            return
+
+        # Validar que la fecha de nacimiento sea anterior a la fecha actual
+        if f_nacimiento_dt >= datetime.date.today():
+            self.show_dialog("Error", "Fecha de nacimiento inválida.")
+            return
+
+        # Insertar el paciente en la colección "pacientes"
+        data = {
+            'cedula': cedula,
+            'p_apellido': p_apellido,
+            's_apellido': s_apellido,
+            'p_nombre': p_nombre,
+            's_nombre': s_nombre,
+            'n_telefono': n_telefono,
+            't_sangre': t_sangre,
+            't_sexo': t_sexo,
+            'f_nacimiento': f_nacimiento,
+            'email': email,
+            'password': password
+        }
+
+        response = requests.post('http://localhost:5000/registro_medico', json=data)
+        if response.status_code == 201:
+            self.show_dialog("Registro exitoso!",
+                             "¡El registro ha sido exitoso!")
+            #screen_manager.current = "login"
+        elif response.status_code == 409:
+            self.show_dialog("Error", "El Medico ya existe.")
+        else:
+            self.show_dialog("Error", "Error al registrar")
+
+
+    def RegistroAdmin(self):
+        registre_screen = screen_manager.get_screen('root_admin')
+        p_nombre = registre_screen.ids.p_nombre_admin.text
+        email = registre_screen.ids.email_admin.text
+        password = registre_screen.ids.password_admin.text
+
+        # Validar el formato del email
+        if not self.validar_email(email):
+            self.show_dialog(
+                "Error", "Por favor, ingrese un correo electrónico válido.")
+            return
+
+        # Verificar si los campos están vacíos
+        campo_vacio = []
+        if not p_nombre:
+            campo_vacio.append("primer nombre")
+        if not email:
+            campo_vacio.append("email")
+        if not password:
+            campo_vacio.append("password")
+
+        if campo_vacio:
+            campos_str = ", ".join(campo_vacio)
+            mensaje = f"Por favor, complete los siguientes campos: {campos_str}"
+            self.show_dialog("Error", mensaje)
+            return
+
+        # Insertar el paciente en la colección "pacientes"
+        data = {
+            'p_nombre': p_nombre,
+            'email': email,
+            'password': password
+        }
+
+        response = requests.post('http://localhost:5000/registro_admin', json=data)
+        if response.status_code == 201:
+            self.show_dialog("Registro exitoso!",
+                             "¡El registro ha sido exitoso!")
+            #screen_manager.current = "login"
+        elif response.status_code == 409:
+            self.show_dialog("Error", "El Medico ya existe.")
+        else:
+            self.show_dialog("Error", "Error al registrar")
+
+
 
     def show_dialog(self, title, text):
         # Crear y mostrar un cuadro de diálogo

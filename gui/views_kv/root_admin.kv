@@ -25,10 +25,19 @@
 #########################################
                 MostrarUsuarios:
                     name: "mostrar_usuarios"
-
-                    MDLabel:
-                        text: "Usuarios"
-                        halign: "center"
+                    MDFloatLayout:
+                        MDLabel:
+                            text: "Usuarios en Nomina"
+                            font_size: '15sp'
+                            font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
+                            pos_hint: {'center_x': .5, 'center_y': .8}
+                            size_hint: (.5, .2)
+                            halign: "center"
+                    AnchorLayout:
+                        id: usuarios
+                        anchor_x: "center"
+                        anchor_y: "center"
+                        pos_hint: {'center_x': .5, 'center_y': .5}
 
 #########################################
 #            PANTALLa 2
@@ -56,9 +65,19 @@
                 MostrarDonaciones:
                     name: "mostrar_donaciones"
 
-                    MDLabel:
-                        text: "Donaciones"
-                        halign: "center"
+                    MDFloatLayout:
+                        MDLabel:
+                            text: "Donaciones Relizadas"
+                            font_size: '15sp'
+                            font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
+                            pos_hint: {'center_x': .5, 'center_y': .8}
+                            size_hint: (.5, .2)
+                            halign: "center"
+                    AnchorLayout:
+                        id: admin_donaciones
+                        anchor_x: "center"
+                        anchor_y: "center"
+                        pos_hint: {'center_x': .5, 'center_y': .5}
 
 #########################################
 #            PANTALLa 4
@@ -66,25 +85,25 @@
                 MostrarMedico:
                     name: "mostrar_medico"
 
-                    MDLabel:
-                        text: "Medicos"
-                        halign: "center"
+                    MDFloatLayout:
+                        MDLabel:
+                            text: "Medicos en Nomina"
+                            font_size: '15sp'
+                            font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
+                            pos_hint: {'center_x': .5, 'center_y': .8}
+                            size_hint: (.5, .2)
+                            halign: "center"
+                    AnchorLayout:
+                        id: anchor_medico
+                        anchor_x: "center"
+                        anchor_y: "center"
+                        pos_hint: {'center_x': .5, 'center_y': .5}
+
 
 #########################################
 #            PANTALLa 5
 #########################################
-                MostrarAdmin:
-                    name: "mostrar_admin"
-
-                    MDLabel:
-                        text: "Administrador"
-                        halign: "center"
-
-
-#########################################
-#            PANTALLa 6
-#########################################
-                MDScreen:
+                CrearMedico:
                     name: 'crear_medico'
 
                     MDFloatLayout:
@@ -384,13 +403,16 @@
                             md_bg_color: get_color_from_hex("#F41F05")
                             elevation: None
                             padding: [10]
-                            on_release: app.RegistroMedico()
+                            on_release:   
+                                app.RegistroMedico()
+                                #root.obtener_usuarios()
+                                #root.screen_manager.current = "mostrar_usuarios"
 
 
 #########################################
 #            PANTALLa 7
 #########################################
-                MDScreen:
+                CrearAdmin:
                     name: "crear_admin"
                     MDFloatLayout:
                         MDLabel:
@@ -489,7 +511,12 @@
                         md_bg_color: get_color_from_hex("#F41F05")
                         elevation: None
                         padding: [10]
-                        on_release: app.RegistroAdmin()
+                        on_release: 
+                            app.RegistroAdmin()
+                            #root.current = "mostrar_usuarios"
+                            #root.obtener_usuarios()
+
+
 
 
 ################################################################
@@ -532,8 +559,9 @@
             icon: "account-lock-open"
             text: "Usuarios"
             on_release:
+                root.screen_manager.current = "mostrar_usuarios"
                 root.nav_drawer.set_state("close")
-                root.screen_manager.current = "mostrar_usuario"
+                root.root_admin_instance.obtener_usuarios()
 
         DrawerClickableItem:
             id: paciente_admin
@@ -547,11 +575,12 @@
 
         DrawerClickableItem:
             id: donante_admin
-            icon: "account-multiple-plus"
+            icon: "book-heart"
             text: "Donaciones"
             on_release:
                 root.nav_drawer.set_state("close")
                 root.screen_manager.current = "mostrar_donaciones"
+                root.root_admin_instance.obtener_donaciones()
 
         DrawerClickableItem:
             id: medico_admin
@@ -562,16 +591,8 @@
                 root.screen_manager.current = 'mostrar_medico'
 
         DrawerClickableItem:
-            id: admin_admin
-            icon: "account-key"
-            text: "Mostrar Administradores"
-            on_release:
-                root.nav_drawer.set_state("close")
-                root.screen_manager.current = "mostar_admin"
-
-        DrawerClickableItem:
             id: inventario_sangre_admin
-            icon: "book-heart"
+            icon: "account-multiple-plus"
             text: "Crear Medico"
             on_release:
                 root.nav_drawer.set_state("close")
@@ -579,9 +600,13 @@
 
         DrawerClickableItem:
             id: inventario_sangre_admin
-            icon: "blood-bag"
+            icon: "account-key"
             text: "Crear Admin"
             on_release:
                 root.nav_drawer.set_state("close")
                 root.screen_manager.current = "crear_admin"
-
+        
+        DrawerClickableItem:
+            icon: "logout"
+            text: "Logout"
+            on_release: app.logout()

@@ -69,10 +69,316 @@
 
                 CrearPaciente:
                     name: "crear_paciente"
-
                     MDLabel:
-                        text: "Agregar paciente"
+                        text: "Crear Paciente"
+                        font_size: '15sp'
+                        font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
+                        pos_hint: {'center_x': .5, 'center_y': .8}
+                        size_hint: (.5, .2)
                         halign: "center"
+#Primera fila
+                    MDFloatLayout:
+                        size_hint: .35, .05
+                        pos_hint: {"center_x": .3, "center_y": .70}
+                        canvas:
+                            Color:
+                                rgb: (238/255, 238/255, 1)
+                            RoundedRectangle:
+                                size: self.size
+                                pos: self.pos
+                                radius: [25]
+                        TextInput:
+                            id: cedula
+                            hint_text: "Cédula"
+                            size_hint: 1, None
+                            pos_hint: {"center_x": .5, "center_y": .5}
+                            height: self.minimum_height
+                            multiline: False
+                            cursor_color: 0, 0, 0
+                            cursor_width: '2sp'
+                            foreground_color: 0, 0, 0
+                            background_color: 0, 0, 0, 0
+                            padding: [10]
+                            font_size: '13sp'
+                            on_text: 
+                                root.check_length_cedula()
+                                self.text = app.solo_numeros(self.text, root.ids.mensaje_numero)
+
+                    MDFloatLayout:
+                        size_hint: .35, .05
+                        pos_hint: {"center_x": .7, "center_y": .70}
+                        canvas:
+                            Color:
+                                rgb: (238/255, 238/255, 1)
+                            RoundedRectangle:
+                                size: self.size
+                                pos: self.pos
+                                radius: [25]
+                        TextInput:
+                            id: n_telefono
+                            input_filter: 'int'
+                            #font_name: "Poppins"
+                            hint_text: "N° Telefono"
+                            size_hint: 1, None
+                            pos_hint: {"center_x": .5, "center_y": .5}
+                            height: self.minimum_height
+                            multiline: False
+                            cursor_color: 0, 0, 0
+                            cursor_width: '2sp'
+                            foreground_color: 0, 0, 0
+                            background_color: 0, 0, 0, 0
+                            padding: [10]
+                            font_size: '13sp'
+                            on_text: 
+                                root.check_length_telefono()
+                                self.text = app.solo_numeros(self.text, root.ids.mensaje_numero)
+                            Label:
+                                id: mensaje_numero
+                                text: "Solo se permiten números"
+                                opacity: 0
+
+
+            #Segundaa fila
+                    MDFloatLayout:
+                        size_hint: .35, .05
+                        pos_hint: {"center_x": .3, "center_y": .62}
+                        canvas:
+                            Color:
+                                rgb: (238/255, 238/255, 1)
+                            RoundedRectangle:
+                                size: self.size
+                                pos: self.pos
+                                radius: [25]
+                        TextInput:
+                            id: p_apellido
+                            #input_filter: 'str'
+                            #font_name: "Poppins"
+                            hint_text: "Primer Apellido"
+                            size_hint: 1, None
+                            pos_hint: {"center_x": .5, "center_y": .5}
+                            height: self.minimum_height
+                            multiline: False
+                            cursor_color: 0, 0, 0
+                            cursor_width: '2sp'
+                            foreground_color: 0, 0, 0
+                            background_color: 0, 0, 0, 0
+                            padding: [10]
+                            font_size: '13sp'
+                            on_text: self.text = app.solo_letras(self.text, root.ids.mensaje_nombre)
+                            Label:
+                                id: mensaje_nombre
+                                text: "Solo se permiten Letras"
+                                opacity: 0
+
+                    MDFloatLayout:
+                        size_hint: .35, .05
+                        pos_hint: {"center_x": .7, "center_y": .62}
+                        canvas:
+                            Color:
+                                rgb: (238/255, 238/255, 1)
+                            RoundedRectangle:
+                                size: self.size
+                                pos: self.pos
+                                radius: [25]
+                        TextInput:
+                            id: s_apellido
+                            hint_text: "Segundo Apellido"
+                            size_hint: 1, None
+                            pos_hint: {"center_x": .5, "center_y": .5}
+                            height: self.minimum_height
+                            multiline: False
+                            cursor_color: 0, 0, 0
+                            cursor_width: '2sp'
+                            foreground_color: 0, 0, 0
+                            background_color: 0, 0, 0, 0
+                            padding: [10]
+                            font_size: '13sp'
+                            on_text: self.text = app.solo_letras(self.text, root.ids.mensaje_nombre)
+                            Label:
+                                id: mensaje_nombre
+                                text: "Solo se permiten Letras"
+                                opacity: 0
+
+            #Tercera fila
+                    MDFloatLayout:
+                        size_hint: .35, .05
+                        pos_hint: {"center_x": .3, "center_y": .54}
+                        canvas:
+                            Color:
+                                rgb: (238/255, 238/255, 1)
+                            RoundedRectangle:
+                                size: self.size
+                                pos: self.pos
+                                radius: [25]
+                        TextInput:
+                            id: p_nombre
+                            #input_filter: 'str'
+                            #font_name: "Poppins"
+                            hint_text: "Primer Nombre"
+                            size_hint: 1, None
+                            pos_hint: {"center_x": .5, "center_y": .5}
+                            height: self.minimum_height
+                            multiline: False
+                            cursor_color: 0, 0, 0
+                            cursor_width: '2sp'
+                            foreground_color: 0, 0, 0
+                            background_color: 0, 0, 0, 0
+                            padding: [10]
+                            font_size: '13sp'
+                            on_text: self.text = app.solo_letras(self.text, root.ids.mensaje_nombre)
+                            Label:
+                                id: mensaje_nombre
+                                text: "Solo se permiten Letras"
+                                opacity: 0
+
+                    MDFloatLayout:
+                        size_hint: .35, .05
+                        pos_hint: {"center_x": .7, "center_y": .54}
+                        canvas:
+                            Color:
+                                rgb: (238/255, 238/255, 1)
+                            RoundedRectangle:
+                                size: self.size
+                                pos: self.pos
+                                radius: [25]
+                        TextInput:
+                            id: s_nombre
+                            #input_filter: 'str'
+                            #font_name: "Poppins"
+                            hint_text: "Segundo Nombre"
+                            size_hint: 1, None
+                            pos_hint: {"center_x": .5, "center_y": .5}
+                            height: self.minimum_height
+                            multiline: False
+                            cursor_color: 0, 0, 0
+                            cursor_width: '2sp'
+                            foreground_color: 0, 0, 0
+                            background_color: 0, 0, 0, 0
+                            padding: [10]
+                            font_size: '13sp'
+                            on_text: self.text = app.solo_letras(self.text, root.ids.mensaje_nombre)
+                            Label:
+                                id: mensaje_nombre
+                                text: "Solo se permiten Letras"
+                                opacity: 0
+
+            #Cuarta fila
+                    MDFloatLayout:
+                        #font_name: "Poppins"
+                        orientation: "vertical"
+                        spacing: "5dp"
+                        adaptive_height: True
+                        size_hint_x: .3
+                        #padding: [15]
+                        pos_hint: {"center_x": .3, "center_y": .46}
+                        MDTextField:
+                            id: f_nacimiento
+                            pos_hint: {"center_x": .2, "center_y": .52}
+                            hint_text: "Fecha"
+                            helper_text: "dd/mm/yyyy"
+                            validator: "date"
+                            date_format: "dd/mm/yyyy" 
+                            helper_text_mode: "persistent"
+                            input_filter: lambda text, from_undo: text[:10]
+                            on_text_validate:
+                                app.validate_date(self.text)
+
+                    OneLineListItem:
+                    MDScreen
+                        MDTextField:
+                            id: t_sexo
+                            pos_hint: {"center_x": .51, "center_y": .46}
+                            size_hint_x: .2
+                            width: "100dp"
+                            hint_text: "Sexo"
+                            position: "center"
+                            line_color_focus: "red"
+                            text_color_focus: "red"
+                            hint_text_color_focus: "red"
+                            on_focus: if self.focus: root.sexo.open()
+
+                    OneLineListItem:
+                    MDScreen
+                        MDTextField:
+                            id: t_sangre
+                            pos_hint: {"center_x": .75, "center_y": .46}
+                            size_hint_x: .2
+                            width: "100dp"
+                            hint_text: "Sangre"
+                            position: "center"
+                            line_color_focus: "red"
+                            text_color_focus: "red"
+                            hint_text_color_focus: "red"
+                            on_focus: if self.focus: root.sangre.open()
+
+            #Quinta fila
+                    MDFloatLayout:
+                        size_hint: .60, .05
+                        pos_hint: {"center_x": .5, "center_y": .35}
+                        canvas:
+                            Color:
+                                rgb: (238/255, 238/255, 1)
+                            RoundedRectangle:
+                                size: self.size
+                                pos: self.pos
+                                radius: [25]
+                        TextInput:
+                            id: email
+                            #font_name: "Poppins"
+                            hint_text: "Ingrese su Correo"
+                            size_hint: 1, None
+                            pos_hint: {"center_x": .5, "center_y": .5}
+                            height: self.minimum_height
+                            multiline: False
+                            cursor_color: 0, 0, 0
+                            cursor_width: '2sp'
+                            foreground_color: 0, 0, 0
+                            background_color: 0, 0, 0, 0
+                            padding: [10]
+                            font_size: '13sp'
+
+            #Sexta fila
+                    MDFloatLayout:
+                        size_hint: .60, .05
+                        pos_hint: {"center_x": .5, "center_y": .28}
+                        canvas:
+                            Color:
+                                rgb: (238/255, 238/255, 1)
+                            RoundedRectangle:
+                                size: self.size
+                                pos: self.pos
+                                radius: [25]
+                        TextInput:
+                            id: password
+                            #font_name: "Poppins"
+                            hint_text: "Ingrese una Contraseña"
+                            size_hint: 1, None
+                            pos_hint: {"center_x": .5, "center_y": .5}
+                            height: self.minimum_height
+                            multiline: False
+                            cursor_color: 0, 0, 0
+                            cursor_width: '2sp'
+                            foreground_color: 0, 0, 0
+                            background_color: 0, 0, 0, 0
+                            padding: [10]
+                            font_size: '13sp'
+
+
+            #Boton de registto
+
+                    MDFillRoundFlatButton:
+                        text: "Registrarse"
+                        font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
+                        font_size: '20sp'
+                        size_hint: .5, .08
+                        pos_hint: {"center_x": .5, "center_y": .15}
+                        text_color: "white"
+                        md_bg_color: get_color_from_hex("#F41F05")
+                        elevation: None
+                        padding: [10]
+                        on_release: 
+                            app.RegistroPaciente()
+
 
                 MostrarPacientesMedico:
                     name: "mostrar_paciente"
@@ -289,3 +595,9 @@
                 root.nav.set_state("close")
                 root.screen.current = "mostrar_paciente"
                 root.root_medico_instance.mostrar_pacientes()
+
+        DrawerClickableItemm:
+            id: mostrar_paciente_medico
+            icon: "logout"
+            text: "Logout"
+            on_release: app.logout()

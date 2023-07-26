@@ -79,7 +79,7 @@ def login():
                 }
                 return jsonify(response), 200
 
-            elif role_name == 'administrador':
+            elif role_name == 'admin':
 
                 response = {
                     'user_id': user_id,
@@ -90,6 +90,18 @@ def login():
                 return jsonify(response), 200
 
     return jsonify({'message': 'Usuario o contraseña incorrecto.'}), 401
+
+
+@app.route('/logout', methods=['POST'])
+def logout():
+    user_id = request.form.get('user_id')
+
+    if user_id:
+        session.clear()
+        return jsonify({'message': 'Sesión cerrada exitosamente'}), 200
+    else:
+        return jsonify({'message': 'No hay sesión activa'}), 401
+
 
 
 @app.route('/registro_paciente', methods=['POST'])
@@ -346,53 +358,6 @@ def obtener_pacientes():
     return jsonify(datos_pacientes), 200
 
 
-@app.route('/actualizar_paciente/<id>', methods=['PUT'])
-def actualizar_paciente(id):
-    # Obtener los datos actualizados del paciente desde la solicitud JSON.
-    data_actualizada = request.get_json()
-
-    # Eliminar el campo 'role_id' si existe en los datos actualizados para evitar modificar el rol.
-    if 'role_id' in data_actualizada:
-        del data_actualizada['role_id']
-
-    # Realiza las acciones de actualización en la base de datos.
-    # Por ejemplo, si estás usando PyMongo, puedes realizar lo siguiente:
-    pacientes_collection = mongo.db.pacientes
-    paciente = pacientes_collection.find_one({'_id': ObjectId(id)})
-
-    if paciente:
-        # Aquí debes realizar todas las acciones necesarias para actualizar los datos del paciente
-        # sin modificar el rol en la colección correspondiente.
-        # Por simplicidad, en este ejemplo se devuelve un mensaje ficticio de éxito.
-        # Supongamos que también actualizas los datos según los datos actualizados.
-        # pacientes_collection.update_one({'_id': ObjectId(id)}, {'$set': data_actualizada})
-        # Actualizar otros datos del paciente según los datos actualizados.
-
-        return jsonify({"message": "Paciente actualizado exitosamente"}), 200
-    else:
-        return jsonify({"message": "Paciente no encontrado"}), 404
-
-
-@app.route('/eliminar_paciente/<id>', methods=['DELETE'])
-def eliminar_paciente(id):
-    # Realiza las acciones de eliminación en la base de datos.
-    # Por ejemplo, si estás usando PyMongo, puedes realizar lo siguiente:
-    pacientes_collection = mongo.db.pacientes
-    paciente = pacientes_collection.find_one({'_id': ObjectId(id)})
-
-    if paciente:
-        # Aquí debes realizar todas las acciones necesarias para eliminar el paciente
-        # y sus datos relacionados de las colecciones correspondientes.
-        # Por simplicidad, en este ejemplo se devuelve un mensaje ficticio de éxito.
-        # Supongamos que también eliminas los datos relacionados en las otras colecciones.
-        # pacientes_collection.delete_one({'_id': ObjectId(id)})
-        # Eliminar datos relacionados en otras colecciones según la lógica de tu aplicación.
-
-        return jsonify({"message": "Paciente eliminado exitosamente"}), 200
-    else:
-        return jsonify({"message": "Paciente no encontrado"}), 404
-
-
 @app.route('/buscar_pacientes_por_cedula', methods=['POST'])
 def buscar_pacientes_por_cedula():
     data = request.get_json()
@@ -432,12 +397,9 @@ def crear_donacion():
     fecha_hora = data.get('fecha_hora')
     paciente_id = data.get('paciente_id')
 
-    # Verificar si la colección "donaciones" existe en la base de datos
     if 'donaciones' not in mongo.db.list_collection_names():
-        # Si no existe, crea la colección "donaciones"
         mongo.db.create_collection('donaciones')
 
-    # Crear el documento de la donación
     donacion = {
         'localidad': localidad,
         'numero_bolsa': numero_bolsa,
@@ -447,7 +409,6 @@ def crear_donacion():
         'paciente_id': paciente_id
     }
 
-    # Insertar el documento en la colección "donaciones"
     mongo.db['donaciones'].insert_one(donacion)
 
     return jsonify({'message': 'Donación registrada exitosamente.'}), 200
@@ -471,6 +432,70 @@ def obtener_donaciones():
         datos_donaciones.append(datos_donacion)
 
     return jsonify(datos_donaciones), 200
+
+
+@app.route('/obtener_usuarios', methods=['GET'])
+def obtener_usuarios():
+    usuarios_collection = mongo.db.users
+    roles_collection = mongo.db.roles
+    paciente_collection = mongo.db.pacientes
+
+    usuarios = usuarios_collection.find()
+
+    datos_usuarios = []
+    for usuario in usuarios:
+        paciente_id = usuario.get('paciente_id')
+        if paciente_id:
+            paciente = paciente_collection.find_one(
+                {'_id': ObjectId(paciente_id)})
+            if paciente:
+                cedula_paciente = paciente['cedula']
+            else:
+                cedula_paciente = "Paciente no encontrado"
+        else:
+            cedula_paciente = "No asignado"
+
+        role_id = usuario.get('role_id')
+        if role_id:
+            rol = roles_collection.find_one({'_id': ObjectId(role_id)})
+            if rol:
+                nombre_rol = rol['nombre']
+            else:
+                nombre_rol = "Rol no encontrado"
+        else:
+            nombre_rol = "No asignado"
+
+        datos_usuario = {
+            'email': usuario['email'],
+            'paciente_id': cedula_paciente,
+            'id_usuario': str(usuario['_id']),
+            'role_id': nombre_rol,
+        }
+        datos_usuarios.append(datos_usuario)
+
+    return jsonify(datos_usuarios), 200
+
+
+@app.route('/obtener_medicos', methods=['GET'])
+def obtener_medicos():
+    medicos_collection = mongo.db.medico
+    medicos = medicos_collection.find()
+
+    datos_medicos = []
+    for medico in medicos:
+        datos_medico = {
+            'paciente_id': str(medico['_id']),
+            'cedula': medico['cedula'],
+            'nombre_completo': f"{medico['p_nombre']} {medico['s_nombre']}",
+            'apellido_completo': f"{medico['p_apellido']} {medico['s_apellido']}",
+            'fecha_nacimiento': medico['f_nacimiento'],
+            'sexo': medico['t_sexo'],
+            'tipo_sangre': medico['t_sangre'],
+            'telefono': medico['n_telefono']
+        }
+        datos_medicos.append(datos_medico)
+
+    return jsonify(datos_medicos), 200
 
 
 # mostrar

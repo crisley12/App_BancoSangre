@@ -11,16 +11,22 @@ from kivy.metrics import dp
 import requests
 
 
+class CrearAdmin(MDScreen):
+    pass
+class CrearMedico(MDScreen):
+    pass
+
+class MostrarDonaciones(MDScreen):
+    pass
 class MostrarAdmin(MDScreen):
     pass
 class MostrarMedico(MDScreen):
     pass
 
-class MostrarUsuarios(MDScreen):
+class MostrarPacientes(MDScreen):
     pass
 
-
-class MostrarPacientes(MDScreen):
+class MostrarUsuarios(MDScreen):
     pass
 
 
@@ -43,6 +49,7 @@ class RootAdmin(MDScreen):
         ContentNavigationDrawerAdmin.root_admin_instance = self
         self.create_dropdown3()
         self.create_dropdown4()
+        self.obtener_usuarios()
         # self.obtener_pacientes()
 
 ###############################################
@@ -130,6 +137,54 @@ class RootAdmin(MDScreen):
 
 
 #################################################
+#            MOSTRAR USUARIOS
+#################################################
+
+    def obtener_usuarios(self):
+            urlusuarios = 'http://localhost:5000/obtener_usuarios'
+            response = requests.get(urlusuarios)
+
+            if response.status_code == 200:
+                usuarios = response.json()
+                usuario_data = []
+                for i, item in enumerate(usuarios, start=1):
+                    if isinstance(item, dict):
+                        row = (
+                            
+                            f"{i}", 
+                            item['email'],
+                            item['paciente_id'],
+                            item['role_id'],
+                            item['id_usuario'],
+                        )
+                        usuario_data.append(row)
+
+                self.data_table = MDDataTable(
+                    pos_hint={'center_y': 0.4, 'center_x': 0.5},
+                    size_hint=(0.9, 0.5),
+                    use_pagination=True,
+                    elevation=1,
+                    background_color_header="#F41F05",
+                    column_data=[
+                        ("No.", dp(30)),
+                        ("Email", dp(50)),
+                        ("Cedula del Usuario", dp(50)),
+                        ("Rol", dp(30)),
+                        ("Id.", dp(50)),
+                    ],
+                    row_data=usuario_data, 
+                )
+                self.ids.usuarios.add_widget(self.data_table)
+                self.checkcomprobar = 6
+            else:
+                print("Error al obtener los usuarios")
+
+
+
+
+
+
+#################################################
 #            MOSTRAR PACIENTES
 #################################################
 
@@ -143,8 +198,8 @@ class RootAdmin(MDScreen):
             for i, item in enumerate(pacientes, start=1):
                 if isinstance(item, dict):
                     row = (
-                        # Obtener el valor correspondiente a cada columna en la fila
-                        f"{i}",  # Número como cadena
+
+                        f"{i}",  
                         item['cedula'],
                         item['nombre_completo'],
                         item['apellido_completo'],
@@ -153,10 +208,8 @@ class RootAdmin(MDScreen):
                         item['tipo_sangre'],
                         item['telefono'],
                     )
-                    # Agregar la fila a la lista de datos de filas
                     paciente_data.append(row)
 
-            # Crear el MDDataTable con los datos obtenidos
             self.data_table = MDDataTable(
                 pos_hint={'center_y': 0.4, 'center_x': 0.5},
                 size_hint=(0.9, 0.5),
@@ -174,11 +227,10 @@ class RootAdmin(MDScreen):
                     ("Tipo Sangre", dp(30)),
                     ("Telefono", dp(30)),
                 ],
-                row_data=paciente_data,  # Pasar la lista de datos de filas al MDDataTable
+                row_data=paciente_data,  
             )
             self.data_table.bind(on_row_press=self.on_row_press)
             self.data_table.bind(on_check_press=self.on_check_press)
-            # Agregar el MDDataTable al layout
             self.ids.anchor_layout.add_widget(self.data_table)
             self.checkcomprobar = 5
         else:
@@ -279,3 +331,99 @@ class RootAdmin(MDScreen):
             app.show_alert_dialog_noselectcheck()
         else:
             print("Error")
+
+
+#################################################
+#            OBTENER DONACIONES
+#################################################
+
+    def obtener_donaciones(self):
+            url_donaciones = 'http://localhost:5000/obtener_donaciones'
+            response = requests.get(url_donaciones)
+
+            if response.status_code == 200:
+                donaciones = response.json()
+                donacion_data = []
+                for i, item in enumerate(donaciones, start=1):
+                    if isinstance(item, dict):
+                        row = (
+                            f"{i}",
+                            item['localidad'],
+                            item['numero_bolsa'],
+                            item['hemoglobina'],
+                            item['volumen'],
+                            item['fecha_hora'],
+                            item['paciente_id'],
+                        )
+                        donacion_data.append(row)
+
+                self.data_table = MDDataTable(
+                    pos_hint={'center_y': 0.3, 'center_x': 0.5},
+                    size_hint=(0.9, 0.5),
+                    use_pagination=True,
+                    elevation=1,
+                    background_color_header="#F41F05",
+                    column_data=[
+                        ("No.", dp(30)),
+                        ("Localidad", dp(50)),
+                        ("Número de Bolsa", dp(30)),
+                        ("Hemoglobina", dp(30)),
+                        ("Volumen", dp(30)),
+                        ("Fecha y Hora", dp(50)),
+                        ("ID Paciente", dp(50)),
+                    ],
+                    row_data=donacion_data,
+                )
+                self.ids.admin_donaciones.add_widget(self.data_table)
+                self.checkcomprobar = 5
+            else:
+                print("Error al obtener las donaciones")
+
+
+#################################################
+#            OBTENER MEDICOS
+#################################################
+
+    def obtener_medicos(self):
+        urlmedicos = 'http://localhost:5000/obtener_pacientes'
+        response = requests.get(urlmedicos)
+
+        if response.status_code == 200:
+            medicos = response.json()
+            medico_data = []
+            for i, item in enumerate(medicos, start=1):
+                if isinstance(item, dict):
+                    row = (
+                        f"{i}",  
+                        item['cedula'],
+                        item['nombre_completo'],
+                        item['apellido_completo'],
+                        item['fecha_nacimiento'],
+                        item['sexo'],
+                        item['tipo_sangre'],
+                        item['telefono'],
+                    )
+                    medico_data.append(row)
+
+            self.data_table = MDDataTable(
+                pos_hint={'center_y': 0.4, 'center_x': 0.5},
+                size_hint=(0.9, 0.5),
+                use_pagination=True,
+                elevation=1,
+                background_color_header="#F41F05",
+                column_data=[
+                    ("No.", dp(30)),
+                    ("Cédula", dp(30)),
+                    ("Nombre", dp(30)),
+                    ("Apellido", dp(30)),
+                    ("Fecha Nacimiento", dp(30)),
+                    ("Sexo", dp(30)),
+                    ("Tipo Sangre", dp(30)),
+                    ("Telefono", dp(30)),
+                ],
+                row_data=medico_data,
+            )
+            self.ids.anchor_medico.add_widget(self.data_table)
+            self.checkcomprobar = 5
+        else:
+            print("Error al obtener los medicos")

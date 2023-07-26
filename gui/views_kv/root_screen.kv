@@ -13,7 +13,6 @@
             MDBottomNavigationItem:
                 name: "user_screen"
                 icon: "account-circle"
-                #text: "User"
                 UserScreen:
                     name: "user_screen"
                 MDFloatLayout:
@@ -64,16 +63,23 @@
                     pos_hint: {"center_x": .60, "center_y": .73}
                     halign: "center"
                     line_height: .6
+                MDIconButton:
+                    icon: "heart-outline"
+                    theme_icon_color: "Custom"
+                    icon_color: "white"
+                    pos_hint: {"center_x": .9, "center_y": .9}
+                    icon: "logout"
+                    on_release: app.logout()
 
 
                 MDGridLayout:
                     id: cards_box
                     cols: 2
-                    rows: 3
+                    rows: 2
                     spacing: "15dp"
                     padding: "35dp"
                     size_hint_y: None
-                    height: root.height / 1.6
+                    height: root.height / 1.8
 
                     MDCard:
                         orientation: "vertical"
@@ -86,7 +92,7 @@
                             app.root.current = 'requirements'
                         MDIconButton:
                             icon: "text-box-edit-outline"
-                            pos_hint: {"center_x": .50, "center_y": .45}
+                            pos_hint: {"center_x": .50, "center_y": .40}
                         MDLabel:
                             text:"Requisitos para donar sangre"
                             halign: "center"
@@ -107,7 +113,7 @@
                             
                         MDIconButton:
                             icon: 'hand-heart'
-                            pos_hint: {"center_x": .50, "center_y": .43}
+                            pos_hint: {"center_x": .50, "center_y": .40}
                         MDLabel:
                             text:"Quiero donar"
                             halign: "center"
@@ -128,7 +134,7 @@
                         MDIconButton:
                             icon: "book-heart-outline"
                             halign: "center"
-                            pos_hint: {"center_x": .50, "center_y": .33}
+                            pos_hint: {"center_x": .50, "center_y": .23}
                         MDLabel:
                             text:"Mis donaciones"
                             halign: "center"
@@ -136,23 +142,6 @@
                             line_height: .6
                             font_size: "14sp"
 
-
-
-                    MDCard:
-                        orientation: "vertical"
-                        radius: 12
-                        padding: "12dp", 0, "12dp", "24dp"
-                        ripple_behavior: True
-                        md_bg_color: get_color_from_hex("#FAFAFA")
-                        MDIconButton:
-                            icon: "heart-plus-outline"
-                            pos_hint: {"center_x": .50, "center_y": .33}
-                        MDLabel:
-                            text:"Necesito un donador"
-                            halign: "center"
-                            adaptive_height: True
-                            line_height: .6
-                            font_size: "14sp"
 
 
                     MDCard:
@@ -169,23 +158,6 @@
                             pos_hint: {"center_x": .50, "center_y": .23}
                         MDLabel:
                             text:"Preguntas frecuentes"
-                            halign: "center"
-                            adaptive_height: True
-                            line_height: .6
-                            font_size: "14sp"
-
-
-                    MDCard:
-                        orientation: "vertical"
-                        radius: 12
-                        padding: "12dp", 0, "12dp", "24dp"
-                        ripple_behavior: True
-                        md_bg_color: get_color_from_hex("#FAFAFA")
-                        MDIconButton:
-                            icon: "account-group-outline"
-                            pos_hint: {"center_x": .50, "center_y": .23}
-                        MDLabel:
-                            text:"Acerca de Basantranfs"
                             halign: "center"
                             adaptive_height: True
                             line_height: .6

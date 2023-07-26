@@ -11,6 +11,11 @@ from kivy.metrics import dp
 import requests
 
 
+class MostrarAdmin(MDScreen):
+    pass
+class MostrarMedico(MDScreen):
+    pass
+
 class MostrarUsuarios(MDScreen):
     pass
 

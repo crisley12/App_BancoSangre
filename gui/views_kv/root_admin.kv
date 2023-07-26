@@ -24,11 +24,12 @@
 #            PANTALLa 1
 #########################################
                 MostrarUsuarios:
-                    name: "scr 1"
+                    name: "mostrar_usuarios"
 
                     MDLabel:
                         text: "Usuarios"
                         halign: "center"
+
 #########################################
 #            PANTALLa 2
 #########################################
@@ -52,17 +53,17 @@
 #########################################
 #            PANTALLa 3
 #########################################
-                MDScreen:
-                    name: "scr 3"
+                MostrarDonaciones:
+                    name: "mostrar_donaciones"
 
                     MDLabel:
-                        text: "Donantes"
+                        text: "Donaciones"
                         halign: "center"
 
 #########################################
 #            PANTALLa 4
 #########################################
-                MDScreen:
+                MostrarMedico:
                     name: "mostrar_medico"
 
                     MDLabel:
@@ -72,35 +73,16 @@
 #########################################
 #            PANTALLa 5
 #########################################
-                MDScreen:
-                    name: "scr 5"
+                MostrarAdmin:
+                    name: "mostrar_admin"
 
                     MDLabel:
                         text: "Administrador"
                         halign: "center"
 
+
 #########################################
 #            PANTALLa 6
-#########################################
-                MDScreen:
-                    name: "scr 6"
-
-                    MDLabel:
-                        text: "Donaciones"
-                        halign: "center"
-
-#########################################
-#            PANTALLa 7
-#########################################
-                MDScreen:
-                    name: "scr 7"
-
-                    MDLabel:
-                        text: "Inventario de sangre"
-                        halign: "center"
-
-#########################################
-#            PANTALLa 8
 #########################################
                 MDScreen:
                     name: 'crear_medico'
@@ -392,8 +374,6 @@
                                 padding: [10]
                                 font_size: '13sp'
 
-
-
                         MDFillRoundFlatButton:
                             text: "Registrar Medico"
                             font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
@@ -404,20 +384,11 @@
                             md_bg_color: get_color_from_hex("#F41F05")
                             elevation: None
                             padding: [10]
-                            on_release: app.validacionRegistroMedico()
+                            on_release: app.RegistroMedico()
 
 
 #########################################
-#            PANTALLa 9
-#########################################
-                MDScreen:
-                    name: "scr 9"
-
-                    MDLabel:
-                        text: "Editar Medico"
-                        halign: "center"
-#########################################
-#            PANTALLa 10
+#            PANTALLa 7
 #########################################
                 MDScreen:
                     name: "crear_admin"
@@ -518,18 +489,8 @@
                         md_bg_color: get_color_from_hex("#F41F05")
                         elevation: None
                         padding: [10]
-                        on_release: app.validacionRegistroAdmin()
+                        on_release: app.RegistroAdmin()
 
-
-#########################################
-#            PANTALLa 11
-#########################################
-                MDScreen:
-                    name: "scr 11"
-
-                    MDLabel:
-                        text: "Editar Admin"
-                        halign: "center"
 
 ################################################################
 #            ITEMS
@@ -572,12 +533,12 @@
             text: "Usuarios"
             on_release:
                 root.nav_drawer.set_state("close")
-                root.screen_manager.current = "scr 1"
+                root.screen_manager.current = "mostrar_usuario"
 
         DrawerClickableItem:
             id: paciente_admin
             icon: "account-box-multiple"
-            text: "Mostrar Pacientes"
+            text: "Pacientes"
             on_release:
                 root.screen_manager.current = "mostrar_pacientes"
                 root.nav_drawer.set_state("close")
@@ -587,15 +548,15 @@
         DrawerClickableItem:
             id: donante_admin
             icon: "account-multiple-plus"
-            text: "Donantes"
+            text: "Donaciones"
             on_release:
                 root.nav_drawer.set_state("close")
-                root.screen_manager.current = "scr 3"
+                root.screen_manager.current = "mostrar_donaciones"
 
         DrawerClickableItem:
             id: medico_admin
             icon: "badge-account-horizontal"
-            text: "Medicos sc4"
+            text: "Mostrar Medicos"
             on_release:
                 root.nav_drawer.set_state("close")
                 root.screen_manager.current = 'mostrar_medico'
@@ -603,7 +564,7 @@
         DrawerClickableItem:
             id: admin_admin
             icon: "account-key"
-            text: "Administradores"
+            text: "Mostrar Administradores"
             on_release:
                 root.nav_drawer.set_state("close")
                 root.screen_manager.current = "mostar_admin"
@@ -611,7 +572,7 @@
         DrawerClickableItem:
             id: inventario_sangre_admin
             icon: "book-heart"
-            text: "Donaciones"
+            text: "Crear Medico"
             on_release:
                 root.nav_drawer.set_state("close")
                 root.screen_manager.current = "crear_medico"
@@ -619,7 +580,7 @@
         DrawerClickableItem:
             id: inventario_sangre_admin
             icon: "blood-bag"
-            text: "Inventario de Sangre"
+            text: "Crear Admin"
             on_release:
                 root.nav_drawer.set_state("close")
                 root.screen_manager.current = "crear_admin"

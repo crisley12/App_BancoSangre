@@ -205,7 +205,9 @@
                             md_bg_color: get_color_from_hex("#F41F05")
                             elevation: None
                             padding: [10]
-                            on_release: root.guardarDonacion()
+                            on_release:
+                                root.guardarDonacion()
+                                root.mostrar_donaciones()
 
                 MostrarDonaciones:
                     name: "donaciones"

@@ -1,11 +1,221 @@
 <RequirementsScreen>
     MDScreen:
         name: "requirements"
-    MDLabel:
-        text:"hola"
-    MDTextButton:
-        text: "  Unete"
-        font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
-        color: 0, 0, 0
-        pos_hint: {"center_x": .706, "center_y": .65}
-        on_release: app.root.current = 'root'
+    FitImage:
+        source:'asset/img/signup.png'
+#    MDLabel:
+#        text:"hola"
+
+#    MDTextButton:
+#        text: "Volver a Menu"
+#        font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
+#        color: 0, 0, 0
+#        pos_hint: {"center_x": .806, "center_y": .95}
+#        on_release: app.root.current = 'root'
+
+    ScrollView:
+        BoxLayout:
+            orientation: 'vertical'
+            spacing: '10dp'
+            padding: '20dp'
+            size_hint_y: None
+            height: self.minimum_height  # Ajusta la altura automáticamente según el contenido 
+            
+            
+            MDFillRoundFlatButton:
+                text: "Volver a Menu"
+                font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
+                theme_text_color: 'Custom'
+                text_color: "white"
+                pos_hint: {"center_x": .806, "center_y": .95}
+                on_release: app.root.current = 'root'
+                md_bg_color: get_color_from_hex("#F41F05")
+                
+            MDLabel:
+                font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
+                theme_text_color: 'Primary'
+                text: "[u]¡Salvar vidas lo llevas en la Sangre![/u]"
+                halign: 'center'
+                size_hint_y: None
+                height: self.texture_size[1]
+                markup: True
+
+            AsyncImage:
+                source: 'asset/img/gota_feliz.png'
+                size_hint: (0.75, None)
+                pos_hint: {'center_x': 0.5, 'top': 0.95}
+                size_hint_x: 100
+
+            MDLabel:
+                font_name: 'asset/Fuentes/Poppins-SemiBoldItalic.ttf'
+                theme_text_color: 'Primary'
+                text: "La donación de sangre puede dividirse en cuatro fases: entrevista, exploración, extracción y recuperación.\n\n"
+                halign: 'center'
+                size_hint_y: None
+                pos_hint: {'center_x': 0.5, 'top': 0.95}
+                height: self.texture_size[1]
+                multiline: True  
+                size_hint_x: 0.75 
+
+            AsyncImage:
+                source: 'asset/img/sanitario.png'
+                size_hint: (0.75, None)
+                pos_hint: {'center_x': 0.5, 'top': 0.95}
+                size_hint_x: 100
+
+            MDLabel:
+                font_name: 'asset/Fuentes/Poppins-SemiBoldItalic.ttf'
+                theme_text_color: 'Primary'
+                text: "[u]Personal sanitario:[/u]\nEl personal cualificado le atenderá en todo instante durante el proceso y resolverá cualquier duda que se le planteará al respecto, pudiendo en cualquier momento que lo desee retirarse sin compromiso alguno, así como autoexcluirse si durante la entrevista usted mismo cree no cumplir alguno de los requisitos solicitados.\n\n"
+                halign: 'center'
+                size_hint_y: None
+                height: self.texture_size[1]
+                multiline: True
+                markup: True
+                size_hint_x: 0.75
+                pos_hint: {'center_x': 0.5, 'top': 0.95} 
+
+            AsyncImage:
+                source: 'asset/img/entrevista.png'
+                size_hint: (0.75, None)
+                pos_hint: {'center_x': 0.5, 'top': 0.95}
+                size_hint_x: 100
+
+            MDLabel:
+                font_name: 'asset/Fuentes/Poppins-SemiBoldItalic.ttf'
+                theme_text_color: 'Primary'
+                text: "[u]Entrevistas:[/u]\n Antes de proceder a la donación, es necesario registrarla e identificarla adecuadamente. Para ello, será preciso que nos facilite sus datos personales y dar su consentimiento firmado. Si ya es donante registrado se le pedirá que comunique si hay cambios en sus datos.\n\nEl tratamiento de sus datos personales es absolutamente confidencial y tiene como finalidad gestionar su donación de sangre y poder contactar con usted si fuese necesario.\n\nA continuación, se le realizará un cuestionario confidencial sobre su historial médico y actividades personales que puedan suponer un riesgo para la donación. Esta información es necesaria para garantizar una donación segura para usted y para el receptor de su sangre.\n\n"
+                halign: 'center'
+                size_hint_y: None
+                height: self.texture_size[1]
+                multiline: True
+                markup: True
+                size_hint_x: 0.75
+                pos_hint: {'center_x': 0.5, 'top': 0.95}
+            
+            AsyncImage:
+                source: 'asset/img/chequeo.png'
+                size_hint: (0.75, None)
+                pos_hint: {'center_x': 0.5, 'top': 0.95}
+                size_hint_x: 100
+
+            MDLabel:
+                font_name: 'asset/Fuentes/Poppins-SemiBoldItalic.ttf'
+                theme_text_color: 'Primary'
+                text: "[u]Exploración:[/u]\nSe comprobará su pulso y tensión arterial y se medirá su nivel de hemoglobina en una pequeña muestra de sangre extraída de uno de los dedos de la mano con material desechable, estéril y de uso único.\n\nSi todo resulta favorable podrá donar, en caso contrario, el personal sanitario le informará inmediatamente y le aconsejará sobre la posible anomalía encontrada.\n\n"
+                halign: 'center'
+                size_hint_y: None
+                height: self.texture_size[1]
+                multiline: True
+                markup: True
+                size_hint_x: 0.75
+                pos_hint: {'center_x': 0.5, 'top': 0.95}
+
+            AsyncImage:
+                source: 'asset/img/transfusion.png'
+                size_hint: (0.75, None)
+                pos_hint: {'center_x': 0.5, 'top': 0.95}
+                size_hint_x: 100
+
+            MDLabel:
+                font_name: 'asset/Fuentes/Poppins-SemiBoldItalic.ttf'
+                theme_text_color: 'Primary'
+                text: "[u]Extracción:[/u]\nLa extracción se efectúa habitualmente de una vena de la flexura del codo, durando unos 10 minutos, hasta obtener aproximadamente unos 450 ml. De sangre. En todo momento se emplea material estéril, de uso único y desechable por lo que no existe riesgo alguno de contraer ninguna enfermedad durante la donación de sangre.\n\nAl mismo tiempo, se le tomarán unas muestras de sangre que posteriormente se analizarán rigurosamente para descartar cualquier posible enfermedad transmisible. En caso de encontrar cualquier resultado positivo se le informará del mismo y quedará excluido para futuras donaciones temporal o definitivamente según proceda. De igual forma, su sangre extraída será retirada del uso.\n\n"
+                halign: 'center'
+                size_hint_y: None
+                height: self.texture_size[1]
+                multiline: True
+                markup: True
+                size_hint_x: 0.75
+                pos_hint: {'center_x': 0.5, 'top': 0.95}
+
+            AsyncImage:
+                source: 'asset/img/regeneracion.png'
+                size_hint: (0.75, None)
+                pos_hint: {'center_x': 0.5, 'top': 0.95}
+                size_hint_x: 100
+
+            MDLabel:
+                font_name: 'asset/Fuentes/Poppins-SemiBoldItalic.ttf'
+                theme_text_color: 'Primary'
+                text: "[u]Recuperación:[/u]\nConsiste en descansar en una sala anexa, al menos 15 minutos, donde se le ofrecerá una bebida y algún alimento ligero antes de reanudar su actividad normal. Es importante beber mucho líquido durante las 24 horas siguientes a la donación de sangre, especialmente en verano.\n\n"
+                halign: 'center'
+                size_hint_y: None
+                height: self.texture_size[1]
+                multiline: True
+                markup: True
+                size_hint_x: 0.75
+                pos_hint: {'center_x': 0.5, 'top': 0.95}
+
+            MDLabel:
+                font_name: 'asset/Fuentes/Poppins-SemiBoldItalic.ttf'
+                theme_text_color: 'Primary'
+                text: "[b]Requisitos mínimos:[/b]\n\n[color=#FA3D2E]- Tener entre 18 y 65 años.[/color] \n [color=#FA3D2E]- Peso igual o superior a 50 kg. [/color] \n [color=#FA3D2E]- Pulso y Tensión Arterial sin alteraciones. [/color] \n [color=#FA3D2E]- No tener Anemia.[/color] \n [color=#FA3D2E]- No realizar prácticas de riesgo que faciliten el contagio de hepatitis, sífilis o SIDA. [/color] \n\nFrecuencia para donar sangre:\n\n[color=#FA3D2E]- Mujeres 3 veces al año como máximo. [/color] \n [color=#FA3D2E]- Hombres 4 veces al año como máximo. [/color] \n [color=#FA3D2E]- Todos deben dejar pasar 2 meses como mínimo entre una donación y la siguiente. [/color] \n\n"
+                halign: 'center'
+                size_hint_y: None
+                height: self.texture_size[1]
+                multiline: True
+                markup: True
+                size_hint_x: 0.75
+                pos_hint: {'center_x': 0.5, 'top': 0.95}
+
+            AsyncImage:
+                source: 'asset/img/donacion.png'
+                size_hint: (0.75, None)
+                pos_hint: {'center_x': 0.5, 'top': 0.95}
+                size_hint_x: 100
+            
+            MDLabel:
+                font_name: 'asset/Fuentes/Poppins-SemiBoldItalic.ttf'
+                theme_text_color: 'Primary'
+                text:  "La donación de sangre es un acto altruista y valioso que puede salvar vidas. El personal capacitado te guiará durante todo el proceso y tus datos serán tratados de forma confidencial. No dudes en hacer preguntas y si tienes dudas, recuerda que puedes retirarte sin compromiso. Tu donación puede marcar la diferencia y ayudar a quienes más lo necesitan. ¡Cada gota cuenta!"
+                halign: 'center'
+                size_hint_y: None
+                height: self.texture_size[1]
+                multiline: True
+                markup: True
+                size_hint_x: 0.75
+                pos_hint: {'center_x': 0.5, 'top': 0.95}
+
+            MDLabel:
+                font_name: 'asset/Fuentes/Poppins-SemiBoldItalic.ttf'
+                theme_text_color: 'Primary'
+                text:  "Recuerda que la donación de sangre es una acción solidaria y que puede tener un impacto significativo en la vida de otras personas. Si estás considerando donar, no dudes en informarte más y acercarte a un centro de donación.\n\n"
+                halign: 'center'
+                size_hint_y: None
+                height: self.texture_size[1]
+                multiline: True
+                markup: True
+                size_hint_x: 0.75
+                pos_hint: {'center_x': 0.5, 'top': 0.95}
+            
+            MDLabel:
+                font_name: 'asset/Fuentes/Poppins-SemiBoldItalic.ttf'
+                theme_text_color: 'Primary'
+                text:  "[color=#FA3D2E][u]¡Tu generosidad puede salvar vidas![/u][/color]"
+                halign: 'center'
+                size_hint_y: None
+                height: self.texture_size[1]
+                multiline: True
+                markup: True
+                size_hint_x: 0.75
+                pos_hint: {'center_x': 0.5, 'top': 0.95}
+
+            AsyncImage:
+                source: 'asset/img/corazon_feliz.png'
+                size_hint: (0.75, None)
+                pos_hint: {'center_x': 0.5, 'top': 0.95}
+                size_hint_x: 100
+
+            MDFillRoundFlatButton:
+                text: "Volver a Menu"
+                font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
+                theme_text_color: 'Custom'
+                text_color: "white"
+                pos_hint: {"center_x": .5}
+                on_release: app.root.current = 'root'
+                md_bg_color: get_color_from_hex("#F41F05")
+
+        
+
+  

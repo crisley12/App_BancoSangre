@@ -72,7 +72,7 @@ class RootMedico(MDScreen):
         if not buscar_cedula:
             app.show_dialog("Error", "Por favor, ingrese una cédula.")
             return
-        if not self.validar_cedula_venezolana(buscar_cedula):
+        if not app.validar_cedula_venezolana(buscar_cedula):
             app.show_dialog("Error", "Formato de cédula incorrecto")
             return
 
@@ -102,6 +102,7 @@ class RootMedico(MDScreen):
         else:
             app.show_dialog("Error", "El paciente no exixte")
             self.ids.screen.current = "crear_paciente"
+            
 
     def guardarDonacion(self):
         app = self.app
@@ -168,11 +169,7 @@ class RootMedico(MDScreen):
             app.show_dialog(
                 "Error", "Error al guardar la donación. Intente nuevamente.")
 
-    def validar_cedula_venezolana(self, cedula):
-        # Verificar si la cédula tiene el formato correcto (12345678)
-        if not cedula.isdigit() or len(cedula) != 8:
-            return False
-        return True
+    
 
 
 #################################################

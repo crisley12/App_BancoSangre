@@ -161,6 +161,9 @@
                         padding: "12dp", 0, "12dp", "24dp"
                         ripple_behavior: True
                         md_bg_color: get_color_from_hex("#FAFAFA")
+                        on_release: 
+                            app.root.transition.direction = "left" 
+                            app.root.current = 'questions'
                         MDIconButton:
                             icon: "help-circle-outline"
                             pos_hint: {"center_x": .50, "center_y": .23}

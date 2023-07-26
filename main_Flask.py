@@ -20,7 +20,6 @@ def get_users():
     return Response(response, mimetype='application/json')
 
 
-# Ruta de inicio de sesión
 @app.route('/login', methods=['POST'])
 def login():
     email = request.json['email']
@@ -32,49 +31,68 @@ def login():
         if user and check_password_hash(user['password'], password):
             user_id = str(user['_id'])
 
+            role_id = user.get('role_id')
+            if not role_id:
+                return jsonify({'message': 'Usuario o contraseña incorrecto.'}), 401
+
+            # Buscar el rol en la base de datos
+            role = mongo.db.roles.find_one({'_id': role_id})
+            role_name = role.get('nombre')
+
             # Guardar el user_id en la sesión
             session['user_id'] = user_id
+
             # Buscar el paciente relacionado con el usuario
-            paciente_id = user.get('paciente_id')
-            if paciente_id:
-                paciente = mongo.db.pacientes.find_one({'_id': paciente_id})
+            if role_name == 'paciente':
+                # Buscar el paciente relacionado con el usuario
+                paciente_id = user.get('paciente_id')
+                if paciente_id:
+                    paciente = mongo.db.pacientes.find_one(
+                        {'_id': paciente_id})
 
-                # Obtener las donaciones vinculadas con el paciente
-                donaciones_collection = mongo.db.donaciones
-                donaciones = donaciones_collection.find({'paciente_id': paciente_id})
-                datos_donaciones = []
-                for donacion in donaciones:
-                    datos_donacion = {
-                        'localidad': donacion['localidad'],
-                        'numero_bolsa': donacion['numero_bolsa'],
-                        'hemoglobina': donacion['hemoglobina'],
-                        'volumen': donacion['volumen'],
-                        'fecha_hora': donacion['fecha_hora'],
-                        'paciente_id': donacion['paciente_id']
+                    # Resto del código
+                    response = {
+                        'user_id': user_id,
+                        'paciente_id': str(paciente_id),
+                        'email': user['email'],
+                        'password': user['password'],
+                        'paciente': {
+                            'nombre': paciente['p_nombre'],
+                            'apellido': paciente['p_apellido'],
+                            'tipo_sangre': paciente['t_sangre']
+                        },
+                        'role': role_name
                     }
-                    datos_donaciones.append(datos_donacion)
+                    print("Datos del paciente:", paciente)
+                    print("Contenido de la sesión:", session)
+                    return jsonify(response), 200
+                else:
+                    return jsonify({'message': 'Usuario o contraseña incorrecto.'}), 401
 
-                # Agregar los datos del paciente y las donaciones a un solo diccionario
+            elif role_name == 'medico':
+
                 response = {
                     'user_id': user_id,
                     'email': user['email'],
                     'password': user['password'],
-                    'donaciones': datos_donaciones,
-                    'paciente': {
-                        'nombre': paciente['p_nombre'],
-                        'apellido': paciente['p_apellido'],
-                        'tipo_sangre': paciente['t_sangre']
-                    },
+                    'role': role_name
                 }
-                print("Datos de las donaciones:", datos_donaciones)
+                return jsonify(response), 200
+
+            elif role_name == 'administrador':
+
+                response = {
+                    'user_id': user_id,
+                    'email': user['email'],
+                    'password': user['password'],
+                    'role': role_name
+                }
                 return jsonify(response), 200
 
     return jsonify({'message': 'Usuario o contraseña incorrecto.'}), 401
 
 
-
-# Ruta de registro de usuario
-@app.route('/registro', methods=['POST'])
+@app.route('/registro_paciente', methods=['POST'])
 def registro():
     data = request.get_json()
     cedula = data.get('cedula')
@@ -91,10 +109,12 @@ def registro():
 
     if cedula and p_apellido and s_apellido and p_nombre and s_nombre and n_telefono and t_sangre and t_sexo and f_nacimiento and email and password:
         # Verificar si el paciente ya existe en la base de datos
+        pacientes_user_collection = mongo.db.users
         pacientes_collection = mongo.db.pacientes
-        existing_paciente = pacientes_collection.find_one({'cedula': cedula})
-        if existing_paciente:
-            return jsonify({'error': 'El paciente ya existe.'}), 409
+        existing_email = pacientes_user_collection.find_one({'email': email})
+        existing_cedula = pacientes_collection.find_one({'cedula': cedula})
+        if existing_cedula or existing_email:
+            return jsonify({'error': 'El paciente ya existe, cedula o email existentes'}), 409
         else:
             try:
                 # Insertar el paciente en la colección "pacientes"
@@ -150,34 +170,157 @@ def registro():
         return jsonify({'error': 'Datos insuficientes.'}), 400
 
 
+@app.route('/registro_medico', methods=['POST'])
+def registro_medico():
+    data = request.get_json()
+    cedula = data.get('cedula')
+    p_apellido = data.get('p_apellido')
+    s_apellido = data.get('s_apellido')
+    p_nombre = data.get('p_nombre')
+    s_nombre = data.get('s_nombre')
+    n_telefono = data.get('n_telefono')
+    t_sangre = data.get('t_sangre')
+    t_sexo = data.get('t_sexo')
+    f_nacimiento = data.get('f_nacimiento')
+    email = data.get('email')
+    password = data.get('password')
 
-# @app.route('/obtener_donaciones_paciente', methods=['GET'])
-# def obtener_donaciones_paciente():
-#     # Obtener el ID del paciente desde la sesión
-#     paciente_id = session.get('paciente_id')
+    if cedula and p_apellido and s_apellido and p_nombre and s_nombre and n_telefono and t_sangre and t_sexo and f_nacimiento and email and password:
+        medico_user_collection = mongo.db.users
+        medico_collection = mongo.db.medico
+        existing_email = medico_user_collection.find_one({'email': email})
+        existing_cedula = medico_collection.find_one({'cedula': cedula})
+        if existing_cedula or existing_email:
+            return jsonify({'error': 'El medico ya existe, cedula o email existentes'}), 409
+        else:
+            try:
+                medico_id = medico_collection.insert_one({
+                    'cedula': cedula,
+                    'p_apellido': p_apellido,
+                    's_apellido': s_apellido,
+                    'p_nombre': p_nombre,
+                    's_nombre': s_nombre,
+                    'n_telefono': n_telefono,
+                    't_sangre': t_sangre,
+                    't_sexo': t_sexo,
+                    'f_nacimiento': f_nacimiento
+                }).inserted_id
 
-#     if paciente_id:
-#         # Buscar las donaciones vinculadas con el paciente en la base de datos
-#         donaciones_collection = mongo.db.donaciones
-#         donaciones = donaciones_collection.find({'paciente_id': paciente_id})
+                if medico_id:
+                    roles_collection = mongo.db.roles
 
-#         datos_donaciones = []
-#         for donacion in donaciones:
-#             datos_donacion = {
-#                 'localidad': donacion['localidad'],
-#                 'numero_bolsa': donacion['numero_bolsa'],
-#                 'hemoglobina': donacion['hemoglobina'],
-#                 'volumen': donacion['volumen'],
-#                 'fecha_hora': donacion['fecha_hora'],
-#                 'paciente_id': donacion['paciente_id']
-#             }
-#             datos_donaciones.append(datos_donacion)
+                    medico_role = roles_collection.find_one(
+                        {'nombre': 'medico'})
 
-#         return jsonify(datos_donaciones), 200
-#     else:
-#         return jsonify({'message': 'Usuario no autenticado o no vinculado con un paciente.'}), 401
+                    if not medico_role:
+                        medico_role_id = roles_collection.insert_one(
+                            {'nombre': 'medico'}).inserted_id
+                    else:
+                        medico_role_id = medico_role['_id']
+
+                    users_collection = mongo.db.users
+
+                    hashed_password = generate_password_hash(password)
+
+                    user_id = users_collection.insert_one({
+                        'email': email,
+                        'password': hashed_password,
+                        'medico_id': medico_id,
+                        'role_id': medico_role_id
+                    }).inserted_id
+
+                    if user_id:
+                        return jsonify({'message': 'Registro exitoso.'}), 201
+                    else:
+                        return jsonify({'error': 'Error al registrar el usuario.'}), 500
+                else:
+                    return jsonify({'error': 'Error al registrar el paciente.'}), 500
+            except Exception as e:
+                return jsonify({'error': 'Error al registrar.'}), 500
+    else:
+        return jsonify({'error': 'Datos insuficientes.'}), 400
 
 
+@app.route('/registro_admin', methods=['POST'])
+def registro_admin():
+    data = request.get_json()
+    p_nombre = data.get('p_nombre')
+    email = data.get('email')
+    password = data.get('password')
+
+    if p_nombre and email and password:
+        admin_collection = mongo.db.admin
+        admin_user_collection = mongo.db.users
+        existing_email = admin_user_collection.find_one({'email': email})
+        existing_nombre = admin_collection.find_one({'p_nombre': p_nombre})
+        if existing_nombre or existing_email:
+            return jsonify({'error': 'El administrador ya existe.'}), 409
+        else:
+            try:
+                admin_id = admin_collection.insert_one({
+                    'p_nombre': p_nombre,
+                }).inserted_id
+
+                if admin_id:
+                    roles_collection = mongo.db.roles
+
+                    admin_role = roles_collection.find_one(
+                        {'nombre': 'admin'})
+
+                    if not admin_role:
+                        admin_role_id = roles_collection.insert_one(
+                            {'nombre': 'admin'}).inserted_id
+                    else:
+                        admin_role_id = admin_role['_id']
+
+                    users_collection = mongo.db.users
+
+                    hashed_password = generate_password_hash(password)
+
+                    user_id = users_collection.insert_one({
+                        'email': email,
+                        'password': hashed_password,
+                        'admin_id': admin_id,
+                        'role_id': admin_role_id
+                    }).inserted_id
+
+                    if user_id:
+                        return jsonify({'message': 'Registro exitoso.'}), 201
+                    else:
+                        return jsonify({'error': 'Error al registrar el usuario.'}), 500
+                else:
+                    return jsonify({'error': 'Error al registrar el paciente.'}), 500
+            except Exception as e:
+                return jsonify({'error': 'Error al registrar.'}), 500
+    else:
+        return jsonify({'error': 'Datos insuficientes.'}), 400
+
+
+@app.route('/donaciones_paciente', methods=['GET'])
+def obtener_donaciones_paciente():
+    paciente_id = request.args.get('paciente_id')
+
+    if paciente_id:
+        donaciones_collection = mongo.db.donaciones
+        donaciones_cursor = donaciones_collection.find(
+            {'paciente_id': paciente_id})
+        datos_donaciones = []
+        for donacion in donaciones_cursor:
+            datos_donacion = {
+                'localidad': donacion['localidad'],
+                'numero_bolsa': donacion['numero_bolsa'],
+                'hemoglobina': donacion['hemoglobina'],
+                'volumen': donacion['volumen'],
+                'fecha_hora': donacion['fecha_hora'],
+                'paciente_id': str(donacion['paciente_id'])
+            }
+            datos_donaciones.append(datos_donacion)
+            print(datos_donacion)
+            print(datos_donaciones)
+
+        return jsonify(datos_donaciones), 200
+
+    return jsonify({'message': 'El parámetro paciente_id no se proporcionó.'}), 400
 
 
 @app.route('/obtener_pacientes', methods=['GET'])
@@ -250,30 +393,25 @@ def eliminar_paciente(id):
         return jsonify({"message": "Paciente no encontrado"}), 404
 
 
-
-
 @app.route('/buscar_pacientes_por_cedula', methods=['POST'])
 def buscar_pacientes_por_cedula():
     data = request.get_json()
     cedula = data.get('cedula')
 
     if cedula:
-        # Realiza la búsqueda de pacientes por cédula en la base de datos
         pacientes_collection = mongo.db.pacientes
         paciente = pacientes_collection.find_one({'cedula': cedula})
 
         if paciente:
-            # Si se encuentra el paciente, extraer su _id y otros datos
             paciente_id = str(paciente['_id'])
             p_nombre = paciente['p_nombre']
             p_apellido = paciente['p_apellido']
 
-            # Crear un diccionario con los datos del paciente, incluyendo el _id
             datos_paciente = {
                 'cedula': cedula,
                 'p_nombre': p_nombre,
                 'p_apellido': p_apellido,
-                'paciente_id': paciente_id  # Agregar el _id del paciente al diccionario
+                'paciente_id': paciente_id
             }
 
             return jsonify(datos_paciente), 200
@@ -281,7 +419,6 @@ def buscar_pacientes_por_cedula():
             return jsonify({'error': 'No se encontró ningún paciente con esa cédula.'}), 404
     else:
         return jsonify({'error': 'Cédula no proporcionada en la solicitud.'}), 400
-
 
 
 @app.route('/crear_donacion', methods=['POST'])
@@ -316,7 +453,6 @@ def crear_donacion():
     return jsonify({'message': 'Donación registrada exitosamente.'}), 200
 
 
-
 @app.route('/obtener_donaciones', methods=['GET'])
 def obtener_donaciones():
     donaciones_collection = mongo.db.donaciones
@@ -337,33 +473,12 @@ def obtener_donaciones():
     return jsonify(datos_donaciones), 200
 
 
-
-
 # mostrar
 @app.route('/user/<id>', methods=['GET'])
 def get_user(id):
     user = mongo.db.users.find_one({'_id': ObjectId(id)})
     response = json_util.dumps(user)
     return response
-
-
-@app.route('/guardar_respuestas', methods=['POST'])
-def guardar_respuestas():
-    response = request.get_json()
-    respuestas = response.get('respuestas')
-
-    if respuestas:
-        # Guardar las respuestas en la base de datos
-        respuestas_collection = mongo.db.respuestas
-        respuestas_id = respuestas_collection.insert_one(
-            respuestas).inserted_id
-
-        if respuestas_id:
-            return jsonify({'message': 'Respuestas guardadas exitosamente.'}), 200
-        else:
-            return jsonify({'error': 'Error al guardar las respuestas.'}), 500
-    else:
-        return jsonify({'error': 'Respuestas no encontradas en la solicitud.'}), 400
 
 
 # eliminar
@@ -374,8 +489,8 @@ def delete_user(id):
     print(id)
     return response
 
-# actualizar
 
+# actualizar
 
 @app.route('/users/<id>', methods=['PUT'])
 def update_user(id):
@@ -392,14 +507,6 @@ def update_user(id):
         }})
         response = jsonify({'message': 'user' + id + 'fue actualizado'})
         return response
-
-
-@app.route('/obtener_respuestas', methods=['GET'])
-def obtener_respuestas():
-    respuestas_collection = mongo.db.respuestas
-    respuestas = respuestas_collection.find()
-    response = json_util.dumps(respuestas)
-    return Response(response, mimetype='application/json')
 
 
 @app.errorhandler(404)

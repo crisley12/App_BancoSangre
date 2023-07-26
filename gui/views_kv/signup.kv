@@ -129,8 +129,6 @@
                     radius: [25]
             TextInput:
                 id: s_apellido
-                #input_filter: 'str'
-                #font_name: "Poppins"
                 hint_text: "Segundo Apellido"
                 size_hint: 1, None
                 pos_hint: {"center_x": .5, "center_y": .5}
@@ -325,7 +323,9 @@
             md_bg_color: get_color_from_hex("#F41F05")
             elevation: None
             padding: [10]
-            on_release: app.validacionRegistro()
+            on_release: 
+                app.RegistroPaciente()
+
 
 
 #Testo para regresar al Login

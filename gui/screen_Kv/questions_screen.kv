@@ -1,0 +1,381 @@
+<QuestionsScreen>:
+    MDScreen:
+        name: "questions"
+    FitImage:
+        source: 'asset/img/signup.png'
+
+    ScrollView:
+        BoxLayout:
+            orientation: 'vertical'
+            spacing: '10dp'
+            padding: '20dp'
+            size_hint_y: None
+            height: self.minimum_height  # Ajusta la altura automáticamente según el contenido 
+            
+            
+            MDFillRoundFlatButton:
+                text: "Volver a Menu"
+                font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
+                theme_text_color: 'Custom'
+                text_color: "white"
+                pos_hint: {"center_x": .806, "center_y": .95}
+                on_release: app.root.current = 'root'
+                md_bg_color: get_color_from_hex("#F41F05")
+                
+            MDLabel:
+                font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
+                theme_text_color: 'Primary'
+                text: "[u]Preguntas Frecuentes[/u]"
+                halign: 'center'
+                size_hint_y: None
+                height: self.texture_size[1]
+                markup: True
+
+            AsyncImage:
+                source: 'asset/img/pregunta.png'
+                size_hint: (0.75, None)
+                pos_hint: {'center_x': 0.5, 'top': 0.95}
+                size_hint_x: 100
+
+            MDLabel:
+                font_name: 'asset/Fuentes/Poppins-SemiBoldItalic.ttf'
+                theme_text_color: 'Primary'
+                text: "¿Tienes dudas con respecto al proceso de donacion sanguinea? Aqui podras resolver tus dudas\n\n"
+                halign: 'center'
+                size_hint_y: None
+                pos_hint: {'center_x': 0.5, 'top': 0.95}
+                height: self.texture_size[1]
+                multiline: True  
+                size_hint_x: 0.75 
+
+            MDLabel:
+                font_name: 'asset/Fuentes/Poppins-SemiBoldItalic.ttf'
+                theme_text_color: 'Primary'
+                text: "[u]¿Por qué es voluntaria y altruista la donación de sangre?[/u]\n"
+                halign: 'center'
+                size_hint_y: None
+                height: self.texture_size[1]
+                multiline: True
+                markup: True
+                size_hint_x: 0.75
+                pos_hint: {'center_x': 0.5, 'top': 0.95} 
+
+            AsyncImage:
+                source: 'asset/img/altruista.png'
+                size_hint: (0.75, None)
+                pos_hint: {'center_x': 0.5, 'top': 0.95}
+                size_hint_x: 100
+
+            MDLabel:
+                font_name: 'asset/Fuentes/Poppins-SemiBoldItalic.ttf'
+                theme_text_color: 'Primary'
+                text: "Para garantizar la seguridad y fiabilidad de la donación. Si fuese remunerada, podría darse el caso de donaciones nacidas de la necesidad económica, que influiría en la sinceridad del donante, pudiendo ocultar datos que de conocerse supondrían su exclusión. Así mismo, al ser voluntaria, evitamos las presiones sociales que el donante podría sufrir.\n\n"
+                halign: 'center'
+                size_hint_y: None
+                height: self.texture_size[1]
+                multiline: True
+                markup: True
+                size_hint_x: 0.75
+                pos_hint: {'center_x': 0.5, 'top': 0.95}
+
+
+            MDLabel:
+                font_name: 'asset/Fuentes/Poppins-SemiBoldItalic.ttf'
+                theme_text_color: 'Primary'
+                text: "[u]¿Por qué se debe donar sangre?[/u]\n"
+                halign: 'center'
+                size_hint_y: None
+                height: self.texture_size[1]
+                multiline: True
+                markup: True
+                size_hint_x: 0.75
+                pos_hint: {'center_x': 0.5, 'top': 0.95}
+
+            AsyncImage:
+                source: 'asset/img/sangre1.png'
+                size_hint: (0.75, None)
+                pos_hint: {'center_x': 0.5, 'top': 0.95}
+                size_hint_x: 100
+
+            MDLabel:
+                font_name: 'asset/Fuentes/Poppins-SemiBoldItalic.ttf'
+                theme_text_color: 'Primary'
+                text: "Las donaciones regulares de sangre de un número suficiente de personas sanas son imprescindibles para garantizar la disponibilidad de componentes seguros en el momento y el lugar en que se precise, la sangre no se no se produce en los laboratorios, solo se consigue mediante donaciones, por eso es importante que nunca falte.\n\n"
+                halign: 'center'
+                size_hint_y: None
+                height: self.texture_size[1]
+                multiline: True
+                markup: True
+                size_hint_x: 0.75
+                pos_hint: {'center_x': 0.5, 'top': 0.95}
+
+            MDLabel:
+                font_name: 'asset/Fuentes/Poppins-SemiBoldItalic.ttf'
+                theme_text_color: 'Primary'
+                text: "[u]¿Por qué promover la donación voluntaria de sangre?[/u]\n"
+                halign: 'center'
+                size_hint_y: None
+                height: self.texture_size[1]
+                multiline: True
+                markup: True
+                size_hint_x: 0.75
+                pos_hint: {'center_x': 0.5, 'top': 0.95}
+
+            AsyncImage:
+                source: 'asset/img/promocion.png'
+                size_hint: (0.75, None)
+                pos_hint: {'center_x': 0.5, 'top': 0.95}
+                size_hint_x: 100
+
+            MDLabel:
+                font_name: 'asset/Fuentes/Poppins-SemiBoldItalic.ttf'
+                theme_text_color: 'Primary'
+                text: "[color=#FA3D2E]- Para promover un cambio cultural en beneficio de todos.[/color] \n [color=#FA3D2E]- Para fomentar el hábito de donar sangre en forma solidaria, habitual, sin que nadie lo pida. [/color] \n [color=#FA3D2E]- Para contar con sangre segura. [/color] \n [color=#FA3D2E]- Para que la sangre esté siempre disponible cuando se necesite.[/color] \n [color=#FA3D2E]- Para evitar que el paciente y su entorno deba encontrar donantes. [/color] \n\n"
+                halign: 'center'
+                size_hint_y: None
+                height: self.texture_size[1]
+                multiline: True
+                markup: True
+                size_hint_x: 0.75
+                pos_hint: {'center_x': 0.5, 'top': 0.95}
+            
+            MDLabel:
+                font_name: 'asset/Fuentes/Poppins-SemiBoldItalic.ttf'
+                theme_text_color: 'Primary'
+                text:  "[u]¿Por qué ser donante voluntario y habitual?[/u]"
+                halign: 'center'
+                size_hint_y: None
+                height: self.texture_size[1]
+                multiline: True
+                markup: True
+                size_hint_x: 0.75
+                pos_hint: {'center_x': 0.5, 'top': 0.95}
+
+            AsyncImage:
+                source: 'asset/img/social.png'
+                size_hint: (0.75, None)
+                pos_hint: {'center_x': 0.5, 'top': 0.95}
+                size_hint_x: 100
+
+            MDLabel:
+                font_name: 'asset/Fuentes/Poppins-SemiBoldItalic.ttf'
+                theme_text_color: 'Primary'
+                text:  "Porque cada día son necesarias muchas donaciones de sangre. Porque hay ciertos períodos en que cuesta alcanzar la cantidad necesaria.\n\n"
+                halign: 'center'
+                size_hint_y: None
+                height: self.texture_size[1]
+                multiline: True
+                markup: True
+                size_hint_x: 0.75
+                pos_hint: {'center_x': 0.5, 'top': 0.95}
+
+
+            MDLabel:
+                font_name: 'asset/Fuentes/Poppins-SemiBoldItalic.ttf'
+                theme_text_color: 'Primary'
+                text:  "[u]¿Se puede donar si se está menstruando?[/u]"
+                halign: 'center'
+                size_hint_y: None
+                height: self.texture_size[1]
+                multiline: True
+                markup: True
+                size_hint_x: 0.75
+                pos_hint: {'center_x': 0.5, 'top': 0.95}
+
+            AsyncImage:
+                source: 'asset/img/utero.png'
+                size_hint: (0.75, None)
+                pos_hint: {'center_x': 0.5, 'top': 0.95}
+                size_hint_x: 100
+
+            MDLabel:
+                font_name: 'asset/Fuentes/Poppins-SemiBoldItalic.ttf'
+                theme_text_color: 'Primary'
+                text:  "Sí, la mayoría de las mujeres pierden menos de 40-50 ml. de sangre en cada menstruación y, el promedio pérdida anual normalmente no excede los 650 ml. de sangre. Estos son recuperados y no se produce anemia.\n\n"
+                halign: 'center'
+                size_hint_y: None
+                height: self.texture_size[1]
+                multiline: True
+                markup: True
+                size_hint_x: 0.75
+                pos_hint: {'center_x': 0.5, 'top': 0.95}
+
+            MDLabel:
+                font_name: 'asset/Fuentes/Poppins-SemiBoldItalic.ttf'
+                theme_text_color: 'Primary'
+                text:  "[u]¿Hay riesgos de infección o de contaminación cuando se dona sangre?[/u]"
+                halign: 'center'
+                size_hint_y: None
+                height: self.texture_size[1]
+                multiline: True
+                markup: True
+                size_hint_x: 0.75
+                pos_hint: {'center_x': 0.5, 'top': 0.95}
+
+            AsyncImage:
+                source: 'asset/img/gota_feliz.png'
+                size_hint: (0.75, None)
+                pos_hint: {'center_x': 0.5, 'top': 0.95}
+                size_hint_x: 100
+
+            MDLabel:
+                font_name: 'asset/Fuentes/Poppins-SemiBoldItalic.ttf'
+                theme_text_color: 'Primary'
+                text:  "No, el material que se usa para la extracción es estéril, descartable y de uso único. No se puede contagiar ninguna enfermedad por donar sangre. Además la donación se realiza bajo la supervisión médica y los procedimientos implementados buscan resguardar la seguridad tanto del donante como del receptor.\n\n"
+                halign: 'center'
+                size_hint_y: None
+                height: self.texture_size[1]
+                multiline: True
+                markup: True
+                size_hint_x: 0.75
+                pos_hint: {'center_x': 0.5, 'top': 0.95}
+
+            MDLabel:
+                font_name: 'asset/Fuentes/Poppins-SemiBoldItalic.ttf'
+                theme_text_color: 'Primary'
+                text:  "[u]En caso de detectarse alguna infección a través de los análisis que se efectúan a la sangre donada, ¿se le comunica al donante?[/u]"
+                halign: 'center'
+                size_hint_y: None
+                height: self.texture_size[1]
+                multiline: True
+                markup: True
+                size_hint_x: 0.75
+                pos_hint: {'center_x': 0.5, 'top': 0.95}
+
+            AsyncImage:
+                source: 'asset/img/sanitario.png'
+                size_hint: (0.75, None)
+                pos_hint: {'center_x': 0.5, 'top': 0.95}
+                size_hint_x: 100
+
+            MDLabel:
+                font_name: 'asset/Fuentes/Poppins-SemiBoldItalic.ttf'
+                theme_text_color: 'Primary'
+                text:  "Siempre se le comunica al donante cualquier anormalidad detectada y se lo orienta sobre los pasos a seguir para su atención y tratamiento.\n\n"
+                halign: 'center'
+                size_hint_y: None
+                height: self.texture_size[1]
+                multiline: True
+                markup: True
+                size_hint_x: 0.75
+                pos_hint: {'center_x': 0.5, 'top': 0.95}
+
+            MDLabel:
+                font_name: 'asset/Fuentes/Poppins-SemiBoldItalic.ttf'
+                theme_text_color: 'Primary'
+                text:  "[u]¿Qué se recomienda tener presente para el día de la donación?[/u]"
+                halign: 'center'
+                size_hint_y: None
+                height: self.texture_size[1]
+                multiline: True
+                markup: True
+                size_hint_x: 0.75
+                pos_hint: {'center_x': 0.5, 'top': 0.95}
+
+            AsyncImage:
+                source: 'asset/img/info.png'
+                size_hint: (0.75, None)
+                pos_hint: {'center_x': 0.5, 'top': 0.95}
+                size_hint_x: 100
+
+            MDLabel:
+                font_name: 'asset/Fuentes/Poppins-SemiBoldItalic.ttf'
+                theme_text_color: 'Primary'
+                text: "[color=#FA3D2E]- No estar en ayunas.[/color] \n [color=#FA3D2E]- Ingerir abundante líquido antes y después de la donación. [/color] \n [color=#FA3D2E]- Estar descansado. [/color] \n [color=#FA3D2E]- Concurrir con ropa cómoda.[/color] \n [color=#FA3D2E]- Presentarse con Cedula de Identidad. [/color] \n\n"
+                halign: 'center'
+                size_hint_y: None
+                height: self.texture_size[1]
+                multiline: True
+                markup: True
+                size_hint_x: 0.75
+                pos_hint: {'center_x': 0.5, 'top': 0.95}
+
+            MDLabel:
+                font_name: 'asset/Fuentes/Poppins-SemiBoldItalic.ttf'
+                theme_text_color: 'Primary'
+                text:  "[u]¿Quién organiza la donación de sangre?[/u]"
+                halign: 'center'
+                size_hint_y: None
+                height: self.texture_size[1]
+                multiline: True
+                markup: True
+                size_hint_x: 0.75
+                pos_hint: {'center_x': 0.5, 'top': 0.95}
+
+            AsyncImage:
+                source: 'asset/img/donacion.png'
+                size_hint: (0.75, None)
+                pos_hint: {'center_x': 0.5, 'top': 0.95}
+                size_hint_x: 100
+
+            MDLabel:
+                font_name: 'asset/Fuentes/Poppins-SemiBoldItalic.ttf'
+                theme_text_color: 'Primary'
+                text:  "La donación de sangre está organizada por los Bancos de Sangre y/o Centros regionales de Hemoterapia en el marco de los Programas Provinciales de Hemoterapia de los Ministerios de Salud de cada jurisdicción. Son ellos los que conocen la cantidad y tipos de componentes sanguíneos requeridos por esa población y son responsables de instrumentar los medios para asegurar su disponibilidad.\n\n"
+                halign: 'center'
+                size_hint_y: None
+                height: self.texture_size[1]
+                multiline: True
+                markup: True
+                size_hint_x: 0.75
+                pos_hint: {'center_x': 0.5, 'top': 0.95}
+
+            MDLabel:
+                font_name: 'asset/Fuentes/Poppins-SemiBoldItalic.ttf'
+                theme_text_color: 'Primary'
+                text:  "[u]¿Se puede donar sangre si se consumen drogas?[/u]"
+                halign: 'center'
+                size_hint_y: None
+                height: self.texture_size[1]
+                multiline: True
+                markup: True
+                size_hint_x: 0.75
+                pos_hint: {'center_x': 0.5, 'top': 0.95}
+
+            AsyncImage:
+                source: 'asset/img/inyeccion.png'
+                size_hint: (0.75, None)
+                pos_hint: {'center_x': 0.5, 'top': 0.95}
+                size_hint_x: 100
+
+            MDLabel:
+                font_name: 'asset/Fuentes/Poppins-SemiBoldItalic.ttf'
+                theme_text_color: 'Primary'
+                text:  "Las personas que hayan utilizado marihuana, en la mayor parte de los países, no son diferidas. (en cada caso consultar con el médico). Los que hayan utilizado drogas inyectables deben ser diferidos en forma permanente. Por el consumo de otras drogas, será la evaluación médica la que determine si se puede o no donar, dado que fundamentalmente se evaluará el grado de adicción y eventuales riesgos a los que haya podido estar  expuesto durante el efecto de las mismas.\n\n"
+                halign: 'center'
+                size_hint_y: None
+                height: self.texture_size[1]
+                multiline: True
+                markup: True
+                size_hint_x: 0.75
+                pos_hint: {'center_x': 0.5, 'top': 0.95}
+
+
+            MDLabel:
+                font_name: 'asset/Fuentes/Poppins-SemiBoldItalic.ttf'
+                theme_text_color: 'Primary'
+                text:  "[color=#FA3D2E][u]Y recuerda, ¡Tu generosidad puede salvar vidas![/u][/color]"
+                halign: 'center'
+                size_hint_y: None
+                height: self.texture_size[1]
+                multiline: True
+                markup: True
+                size_hint_x: 0.75
+                pos_hint: {'center_x': 0.5, 'top': 0.95}
+
+            AsyncImage:
+                source: 'asset/img/corazon_feliz.png'
+                size_hint: (0.75, None)
+                pos_hint: {'center_x': 0.5, 'top': 0.95}
+                size_hint_x: 100
+
+            MDFillRoundFlatButton:
+                text: "Volver a Menu"
+                font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
+                theme_text_color: 'Custom'
+                text_color: "white"
+                pos_hint: {"center_x": .806, "center_y": .95}
+                on_release: app.root.current = 'root'
+                md_bg_color: get_color_from_hex("#F41F05")
+    
+

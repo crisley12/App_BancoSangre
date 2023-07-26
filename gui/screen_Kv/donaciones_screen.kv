@@ -5,9 +5,9 @@
         MDFloatLayout:
             MDLabel:
                 text: "Mis Donaciones"
-                font_size: '15sp'
+                font_size: '20sp'
                 font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
-                pos_hint: {'center_x': .5, 'center_y': .8}
+                pos_hint: {'center_x': .5, 'center_y': .83}
                 size_hint: (.5, .2)
                 halign: "center"
         AnchorLayout:
@@ -15,3 +15,10 @@
             anchor_x: "center"
             anchor_y: "center"
             pos_hint: {'center_x': .5, 'center_y': .5}
+
+        MDIconButton:
+            icon: "arrow-left"
+            pos_hint: {"center_x": .10, "center_y": .1}
+            on_release:
+                root.manager.transition.direction = "right" 
+                app.root.current = 'root'

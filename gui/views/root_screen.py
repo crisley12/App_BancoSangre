@@ -3,6 +3,8 @@ from kivy.lang import Builder
 import os
 import webbrowser
 from kivy.utils import platform
+from reportes.carnetPDF import TarjetaPDF
+
 
 class RootScreen(MDScreen):
     def __init__(self, **kwargs) -> None:
@@ -53,6 +55,23 @@ class RootScreen(MDScreen):
         else:
             webbrowser.open(url)
 
+    def generar_pdf(self):
+        tarjeta_pdf = TarjetaPDF()
+
+    # Llamar al método para generar el PDF
+        tarjeta_pdf.generar()
+        # Ejemplo de mensaje para comprobar que la función se ejecuta correctamente
+        print("PDF generado con éxito.")
+
+        if platform == "android":
+            # Abre el archivo PDF en Android usando una aplicación compatible con PDF
+            os.system("xdg-open Carnet.pdf")  # Puedes ajustar el comando según el lector de PDF en Android
+        elif platform == "ios":
+            # Abre el archivo PDF en iOS usando una aplicación compatible con PDF
+            os.system("open Carnet.pdf")  # Puedes ajustar el comando según el lector de PDF en iOS
+        else:
+            # Abre el archivo PDF en el navegador web en otras plataformas
+            webbrowser.open("file:///" + os.path.abspath("Carnet.pdf"))  # Ruta absoluta del archivo PDF para abrirlo en el navegador
         
     '''
     def __init__(self, directory, **kwargs):

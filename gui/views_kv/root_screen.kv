@@ -1,4 +1,5 @@
 <RootScreen>
+
     MDScreen:
         MDBottomNavigation:
             panel_color: "#ffffff"
@@ -121,6 +122,16 @@
                     #x: "270dp"
                     line_height: .6
 
+
+                MDIconButton:
+                    icon: "card-account-details"  # Icono de carnet (ajusta el nombre del icono si es necesario)
+                    pos_hint: {"center_x": .15, "center_y": .77}  # Ajusta la posición del botón
+                    icon_size: "50sp"
+                    theme_text_color: "Custom"  # Indica que deseas un color personalizado para el icono
+                    text_color: 1, 1, 1, 1  # Establece el color del icono en blanco (RGB: 1, 1, 1) y opacidad completa (1)
+                    on_release: root.generar_pdf()
+                    
+                        
 
                 MDGridLayout:
                     id: cards_box

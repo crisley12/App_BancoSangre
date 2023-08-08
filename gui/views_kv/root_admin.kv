@@ -40,7 +40,16 @@
                             id: anchor_layout
                             anchor_x: "center"
                             anchor_y: "center"
-                            
+                        MDFloatingActionButton:
+                            elevation: None
+                            icon:"pencil"
+                            pos_hint:{'center_x':.6, 'center_y': .15}
+                        MDFloatingActionButton:
+                            elevation: None
+                            icon:"delete"
+                            pos_hint:{'center_x':.42, 'center_y': .15}
+                            on_release: root.eliminar_pacientes()
+                              
 
 #########################################
 #            PANTALLa 3

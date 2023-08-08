@@ -4,6 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from bson import json_util
 from bson.objectid import ObjectId
 # import requests
+import traceback
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
@@ -132,7 +133,8 @@ def registro_paciente():
                     'n_telefono': n_telefono,
                     't_sangre': t_sangre,
                     't_sexo': t_sexo,
-                    'f_nacimiento': f_nacimiento
+                    'f_nacimiento': f_nacimiento,
+                    'eliminado': False
                 }).inserted_id
 
                 if paciente_id:
@@ -310,62 +312,64 @@ def registro_admin():
     else:
         return jsonify({'error': 'Datos insuficientes.'}), 400
  
+
+@app.route('/eliminar_paciente/<string:paciente_id>', methods=['POST'])
+def eliminar_paciente(paciente_id):
+    # Restar 1 al índice para obtener el paciente correcto
+    print(f"Recibiendo solicitud de eliminación para el paciente con ID: {paciente_id}")
+
+    pacientes_collection = mongo.db.pacientes
+    paciente = pacientes_collection.find_one({'_id': ObjectId(paciente_id)})
+
+    if paciente:
+        # Verificar si el paciente ya ha sido eliminado (eliminación lógica)
+        if paciente.get('eliminado', False):
+            return jsonify({'message': 'El paciente ya ha sido eliminado.'}), 400
+
+        # Realizar la eliminación lógica, estableciendo el campo "eliminado" en True
+        pacientes_collection.update_one({'_id': ObjectId(paciente_id)}, {'$set': {'eliminado': True}})
+        return jsonify({'message': 'Paciente eliminado exitosamente.'}), 200
+    else:
+        return jsonify({'message': 'Paciente no encontrado.'}), 404
+
  
+
 
 @app.route('/obtener_pacientes', methods=['GET'])
 def obtener_pacientes():
     pacientes_collection = mongo.db.pacientes
-    pacientes = pacientes_collection.find()
+    pacientes = pacientes_collection.find({'eliminado': {'$ne': True}})
+    
     
     # Crear una lista para almacenar los datos de los pacientes
     datos_pacientes = []
     for paciente in pacientes:
         datos_paciente = {
+            'id': str(paciente['_id']), 
             'cedula': paciente['cedula'],
             'nombre_completo': f"{paciente['p_apellido']} {paciente['p_nombre']}",
             'fecha_nacimiento': paciente['f_nacimiento'],
             'sexo': paciente['t_sexo'],
             'tipo_sangre': paciente['t_sangre'],
-            'telefono': paciente['n_telefono']
+            'telefono': paciente['n_telefono'],
+            #'eliminado': paciente.get('eliminado', False),
+            'selected': False
+            #'eliminar_url': f"/eliminar_paciente/{str(paciente['_id'])}"  # Agregar la URL de eliminación
         }
         datos_pacientes.append(datos_paciente)
+        
+    print("Datos de pacientes obtenidos:", datos_pacientes)
 
     return jsonify(datos_pacientes), 200
 
 
 # mostrar
-@app.route('/user/<id>', methods=['GET'])
-def get_user(id):
-    user = mongo.db.users.find_one({'_id': ObjectId(id)})
-    response = json_util.dumps(user)
-    return response
+#@app.route('/user/<id>', methods=['GET'])
+#def get_user(id):
+ #   user = mongo.db.users.find_one({'_id': ObjectId(id)})
+  #  response = json_util.dumps(user)
+   # return response
 
-
-@app.route('/guardar_respuestas', methods=['POST'])
-def guardar_respuestas():
-    response = request.get_json()
-    respuestas = response.get('respuestas')
-
-    if respuestas:
-        # Guardar las respuestas en la base de datos
-        respuestas_collection = mongo.db.respuestas
-        respuestas_id = respuestas_collection.insert_one(respuestas).inserted_id
-
-        if respuestas_id:
-            return jsonify({'message': 'Respuestas guardadas exitosamente.'}), 200
-        else:
-            return jsonify({'error': 'Error al guardar las respuestas.'}), 500
-    else:
-        return jsonify({'error': 'Respuestas no encontradas en la solicitud.'}), 400
-
-
-# eliminar
-@app.route('/users/<id>', methods=['DELETE'])
-def delete_user(id):
-    mongo.db.users.delete_one({'_id': ObjectId(id)})
-    response = jsonify({'message': 'user' + id + 'se borro'})
-    print(id)
-    return response
 
 # actualizar
 @app.route('/users/<id>', methods=['PUT'])
@@ -385,12 +389,6 @@ def update_user(id):
         return response
 
 
-@app.route('/obtener_respuestas', methods=['GET'])
-def obtener_respuestas():
-    respuestas_collection = mongo.db.respuestas
-    respuestas = respuestas_collection.find()
-    response = json_util.dumps(respuestas)
-    return Response(response, mimetype='application/json')
 
 
 @app.errorhandler(404)

@@ -65,7 +65,7 @@ class MainApp(MDApp):
         Clock.schedule_once(self.login, 3)
 
     def login(self, *args):
-        screen_manager.current = 'login'
+        screen_manager.current = 'root_admin'
 
     #################################################
     #            VALIDACION LOGIN
@@ -96,17 +96,7 @@ class MainApp(MDApp):
 
         if response.status_code == 200:
             self.show_dialog("Bienvenido", "¡Bienvenido!")
-            user_data = response.json()
-            role = user_data.get('role')
-            if role == 'paciente':
-                screen_manager.current = 'root'
-            elif role == 'medico':
-                screen_manager.current = 'root_admin'  # Cambia 'root_medico' por el nombre de la pantalla para médicos
-            elif role == 'administrador':
-                screen_manager.current = 'root_medico'  # Cambia 'root_admin' por el nombre de la pantalla para administradores
-            else:
-                self.show_dialog("Error", "Rol no reconocido.")
-                return
+            screen_manager.current = "root"
 
             # Obtener el user_id del usuario actual de la respuesta JSON
             user_id = response.json().get('user_id')

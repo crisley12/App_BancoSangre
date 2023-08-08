@@ -8,6 +8,7 @@ from kivymd.uix.datatables import MDDataTable
 from kivymd.uix.menu import MDDropdownMenu
 from kivy.metrics import dp
 import requests
+import logging
 
 
 class ContentNavigationDrawer(MDScrollView):
@@ -18,6 +19,10 @@ class ContentNavigationDrawer(MDScrollView):
 class RootAdmin(MDScreen):
     data_table = ObjectProperty(None)
     # sexo_medico = ObjectProperty(None)
+    pacientes_data = []
+    logging.basicConfig(filename='app_debug.log', level=logging.DEBUG,
+                    format='%(asctime)s - %(levelname)s - %(message)s')
+    paciente_id = None
     
 
     def __init__(self, **kwargs) -> None:
@@ -78,6 +83,7 @@ class RootAdmin(MDScreen):
             elevation=2
         )
 
+
     def set_item4(self, item):
         self.ids.t_sangre_medico.text = item
         self.sangre_medico.dismiss()
@@ -121,13 +127,15 @@ class RootAdmin(MDScreen):
 
 
     def obtener_pacientes(self):
-        urlpacientes = 'http://localhost:5000/obtener_pacientes'
-        response = requests.get(urlpacientes)
+        response = requests.get('http://localhost:5000/obtener_pacientes')
+        datos_pacientes = response.json()
+        print("Datos de pacientes recibidos desde el servidor:", datos_pacientes)
+        # Asignar los datos de pacientes recibidos al atributo pacientes_data del cliente
+        self.pacientes_data = datos_pacientes
 
         if response.status_code == 200:
-            pacientes = response.json()
             paciente_data = []
-            for i, item in enumerate(pacientes, start=1):
+            for i, item in enumerate(self.pacientes_data, start=0):
                 if isinstance(item, dict):
                     row = (
                         # Obtener el valor correspondiente a cada columna en la fila
@@ -168,8 +176,45 @@ class RootAdmin(MDScreen):
         else:
             print("Error al obtener los pacientes")
 
+
+    def eliminar_pacientes(self):
+        print("Botón de eliminar pacientes presionado.")
+        print("Datos de pacientes:")
+        print(self.pacientes_data)
+        
+        filas_seleccionadas = self.data_table.get_row_checks()  # Obtener filas seleccionadas en la tabla
+        if filas_seleccionadas:
+            # Obtener los IDs de los pacientes seleccionados
+            pacientes_a_eliminar = []
+            for index_list in filas_seleccionadas:
+                index = int(index_list[0])  # Convertir el índice a enterox``
+                paciente_id = self.pacientes_data[index]['id']
+                print(f"Enviando al servidor para eliminar paciente con ID: {paciente_id}")
+                pacientes_a_eliminar.append(paciente_id)
+
+            for paciente_id in pacientes_a_eliminar:
+                # Hacer la solicitud al servidor de Flask para eliminar el paciente
+                url_eliminar = f"http://localhost:5000/eliminar_paciente/{paciente_id}"
+                response = requests.post(url_eliminar)
+
+                if response.status_code == 200:
+                    # Si la eliminación fue exitosa en el servidor, eliminar el paciente del self.pacientes_data
+                    self.pacientes_data = [row for row in self.pacientes_data if row['id'] not in pacientes_a_eliminar]
+                    # Actualizar la tabla en la interfaz con la nueva lista de pacientes
+                    self.obtener_pacientes()        
+                else:
+                    print(f"Error al eliminar el paciente con ID {paciente_id} en el servidor")
+        else:
+            print("Por favor, seleccione al menos un paciente para eliminar.")
+            
+            
+
+
+
+
     def on_row_press(self, instance_table, instance_row):
         print("Se presionó una fila:", instance_row)
+
 
     def on_check_press(self, instance_table, current_row):
         print("Se presionó el checkbox de la fila:", current_row)

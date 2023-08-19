@@ -131,7 +131,6 @@ class RootAdmin(MDScreen):
             for i, item in enumerate(self.pacientes_data, start=0):
                 if isinstance(item, dict):
                     row = (
-                        
                         # Obtener el valor correspondiente a cada columna en la fila
                         f"{i}",  # Número como cadena
                         item['cedula'],

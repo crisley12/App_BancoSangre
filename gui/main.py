@@ -27,11 +27,6 @@ Window.size = (350, 600)
 
 
 class MainApp(MDApp):
-    # Variable para almacenar los datos del paciente
-    # global nombre_paciente
-    # global tipo_sangre_paciente
-    # nombre_paciente = {}
-    # tipo_sangre_paciente = {}
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -67,10 +62,10 @@ class MainApp(MDApp):
     def login(self, *args):
         screen_manager.current = 'root_admin'
 
-    #################################################
-    #            VALIDACION LOGIN
-    #################################################
 
+#################################################
+#            VALIDACION LOGIN
+#################################################
     def validacionUser(self):
         # Obtener el texto de los campos de usuario y contraseña
         login_screen = screen_manager.get_screen('login')
@@ -151,16 +146,18 @@ class MainApp(MDApp):
         else:
             self.show_dialog("Error", "Usuario o contraseña incorrecto.")
 
-    # def request_error(req, error):
-    #     print("Error en la solicitud:", error)
 
-    # Validar el formato del email
-
+#################################################
+#            VALIDACION EMAIL
+#################################################
     def validar_email(self, email):
         pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
         return re.match(pattern, email) is not None
 
-    # Valida solo números
+
+#################################################
+#            VALIDACION NUMEROS
+#################################################
     def solo_numeros(self, text, mensaje_numero):
         if text.isdigit():
             mensaje_numero.opacity = 0
@@ -169,7 +166,10 @@ class MainApp(MDApp):
             mensaje_numero.opacity = 1
             return ""
 
-    # Valida solo letras
+
+#################################################
+#            VALIDACION LETRAS
+#################################################
     def solo_letras(self, text, mensaje_nombre):
         if text.isalpha():
             mensaje_nombre.opacity = 0
@@ -178,14 +178,20 @@ class MainApp(MDApp):
             mensaje_nombre.opacity = 1
             return ""
 
-    # Valida el formato de fecha
+
+#################################################
+#            VALIDACION FORMATO FECHA
+#################################################
     def on_text(self, instance, value):
         if value == "":
             self.helper_text = "dd/mm/yyyy"
         else:
             self.helper_text = ""
+   
     
-    # Validar Fecha
+#################################################
+#            VALIDACION FECHA
+#################################################    
     def validate_date(self, text):
         parts = text.split('/')
         if len(parts) == 3 and all(part.isdigit() for part in parts):
@@ -202,10 +208,10 @@ class MainApp(MDApp):
         else:
             return "Formato de fecha de nacimiento incorrecto (dd/mm/yyyy)."
 
-    #################################################
-    #            VALIDACION REGISTRO
-    #################################################
     
+#################################################
+#            VALIDACION REGISTRO_PACIENTE
+#################################################
     def RegistroPaciente(self):
         registre_screen = screen_manager.get_screen('signup')
         cedula = registre_screen.ids.cedula.text
@@ -303,6 +309,9 @@ class MainApp(MDApp):
             self.show_dialog("Error", "Error al registrar")
 
 
+#################################################
+#            VALIDACION REGISTRO_MEDICO
+#################################################
     def RegistroMedico(self):
         registre_screen = screen_manager.get_screen('root_admin')
         cedula = registre_screen.ids.cedula_medico.text
@@ -400,6 +409,9 @@ class MainApp(MDApp):
             self.show_dialog("Error", "Error al registrar")
 
 
+#################################################
+#            VALIDACION REGISTRO_ADMIN
+#################################################
     def RegistroAdmin(self):
         registre_screen = screen_manager.get_screen('root_admin')
         p_nombre = registre_screen.ids.p_nombre_admin.text
@@ -445,7 +457,6 @@ class MainApp(MDApp):
             self.show_dialog("Error", "Error al registrar")
 
 
-
     def show_dialog(self, title, text):
         # Crear y mostrar un cuadro de diálogo
         dialog = MDDialog(
@@ -458,15 +469,6 @@ class MainApp(MDApp):
             ],
         )
         dialog.open()
-
-
-#################################################
- #       PANTALLA DE ROOT ADMIN
-#################################################
-    # def mostrar_pacientes(self):
-    #     root_admin = screen_manager.get_screen('root_admin')
-    #     root_admin.ids.screen_manager.current = "mostrar_pacientes"
-    #     root_admin.on_enter()
 
 
 

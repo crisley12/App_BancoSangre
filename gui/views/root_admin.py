@@ -92,9 +92,7 @@ class RootAdmin(MDScreen):
 #################################################
 #            INPUT CEDULA
 #################################################
-
     Max_c = 8
-
     def check_length_cedula_medico(self):
         cedula_medico = self.ids.cedula_medico
         text = cedula_medico.text
@@ -107,9 +105,7 @@ class RootAdmin(MDScreen):
 #################################################
 #            INPUT N_TELEFONO
 #################################################
-
     Max_t = 11
-
     def check_length_telefono_medico(self):
         telefono_medico = self.ids.n_telefono_medico
         text = telefono_medico.text
@@ -123,9 +119,6 @@ class RootAdmin(MDScreen):
 #################################################
 #            MOSTRAR PACIENTES
 #################################################
-
-
-
     def obtener_pacientes(self):
         response = requests.get('http://localhost:5000/obtener_pacientes')
         datos_pacientes = response.json()
@@ -177,6 +170,9 @@ class RootAdmin(MDScreen):
             print("Error al obtener los pacientes")
 
 
+#################################################
+#            ELIMINAR PACIENTES
+#################################################
     def eliminar_pacientes(self):
         print("Botón de eliminar pacientes presionado.")
         print("Datos de pacientes:")
@@ -207,10 +203,7 @@ class RootAdmin(MDScreen):
         else:
             print("Por favor, seleccione al menos un paciente para eliminar.")
             
-            
-
-
-
+  
 
     def on_row_press(self, instance_table, instance_row):
         print("Se presionó una fila:", instance_row)
@@ -218,7 +211,3 @@ class RootAdmin(MDScreen):
 
     def on_check_press(self, instance_table, current_row):
         print("Se presionó el checkbox de la fila:", current_row)
-
-
-
-

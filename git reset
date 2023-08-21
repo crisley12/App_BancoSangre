@@ -1,0 +1,52 @@
+[33ma36391e[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{0}: commit: main
+[33med66de4[m HEAD@{1}: checkout: moving from copia-master-andrew to master
+[33m2f458fb[m[33m ([m[1;31morigin/copia-master-andrew[m[33m, [m[1;32mcopia-master-andrew[m[33m)[m HEAD@{2}: checkout: moving from master to copia-master-andrew
+[33med66de4[m HEAD@{3}: commit (merge): Merge branch 'copia-master-andrew'
+[33m97ce090[m HEAD@{4}: pull origin master: Fast-forward
+[33mb45d17d[m[33m ([m[1;31morigin/prueba2[m[33m)[m HEAD@{5}: checkout: moving from copia-master-andrew to master
+[33m2f458fb[m[33m ([m[1;31morigin/copia-master-andrew[m[33m, [m[1;32mcopia-master-andrew[m[33m)[m HEAD@{6}: commit: main
+[33mb248e84[m HEAD@{7}: commit: main
+[33mb1cb160[m HEAD@{8}: commit: main
+[33md506007[m HEAD@{9}: commit: main
+[33mb10dc7f[m HEAD@{10}: commit: main
+[33mb45d17d[m[33m ([m[1;31morigin/prueba2[m[33m)[m HEAD@{11}: checkout: moving from master to copia-master-andrew
+[33mb45d17d[m[33m ([m[1;31morigin/prueba2[m[33m)[m HEAD@{12}: checkout: moving from copia-master-andrew to master
+[33m4525eca[m HEAD@{13}: checkout: moving from copia-master-andrew to copia-master-andrew
+[33m4525eca[m HEAD@{14}: checkout: moving from copia-master-andrew to copia-master-andrew
+[33m4525eca[m HEAD@{15}: checkout: moving from master to copia-master-andrew
+[33mb45d17d[m[33m ([m[1;31morigin/prueba2[m[33m)[m HEAD@{16}: checkout: moving from copia-master-andrew to master
+[33m4525eca[m HEAD@{17}: checkout: moving from master to copia-master-andrew
+[33mb45d17d[m[33m ([m[1;31morigin/prueba2[m[33m)[m HEAD@{18}: pull: Fast-forward
+[33m4525eca[m HEAD@{19}: checkout: moving from master to master
+[33m4525eca[m HEAD@{20}: checkout: moving from copia-master-andrew to master
+[33m4525eca[m HEAD@{21}: checkout: moving from master to copia-master-andrew
+[33m4525eca[m HEAD@{22}: checkout: moving from copia-para-andrew to master
+[33m204a1a0[m[33m ([m[1;31morigin/copia-para-andrew[m[33m, [m[1;32mcopia-para-andrew[m[33m)[m HEAD@{23}: commit: main_flask
+[33m54fc92e[m HEAD@{24}: commit: main_Flask
+[33md0e2788[m HEAD@{25}: commit: main
+[33m4525eca[m HEAD@{26}: checkout: moving from master to copia-para-andrew
+[33m4525eca[m HEAD@{27}: checkout: moving from copia-para-andrew to master
+[33m4525eca[m HEAD@{28}: checkout: moving from master to copia-para-andrew
+[33m4525eca[m HEAD@{29}: pull: Fast-forward
+[33m1847e61[m HEAD@{30}: checkout: moving from registro_api to master
+[33m4934da5[m[33m ([m[1;31morigin/registro_api[m[33m, [m[1;32mregistro_api[m[33m)[m HEAD@{31}: checkout: moving from master to registro_api
+[33m1847e61[m HEAD@{32}: pull: Fast-forward
+[33m253db58[m[33m ([m[1;32mAndrew[m[33m)[m HEAD@{33}: checkout: moving from registro_api to master
+[33m4934da5[m[33m ([m[1;31morigin/registro_api[m[33m, [m[1;32mregistro_api[m[33m)[m HEAD@{34}: commit: main_Flask
+[33mfa0d6b6[m HEAD@{35}: commit: Registro con la Api y tratar de agarrar el nombre y el tipo de sangre cuando inicia seccion
+[33m57ad901[m[33m ([m[1;31morigin/Andrew_conexion_bd[m[33m, [m[1;32mAndrew_conexion_bd[m[33m)[m HEAD@{36}: checkout: moving from registro_api to registro_api
+[33m57ad901[m[33m ([m[1;31morigin/Andrew_conexion_bd[m[33m, [m[1;32mAndrew_conexion_bd[m[33m)[m HEAD@{37}: checkout: moving from Andrew_conexion_bd to registro_api
+[33m57ad901[m[33m ([m[1;31morigin/Andrew_conexion_bd[m[33m, [m[1;32mAndrew_conexion_bd[m[33m)[m HEAD@{38}: pull --tags origin Andrew_conexion_bd: Merge made by the 'ort' strategy.
+[33m32e76b4[m HEAD@{39}: commit: main_Flask
+[33m14a6666[m HEAD@{40}: commit: validaciones_main
+[33mc2f950d[m HEAD@{41}: commit: validaciones_main
+[33m04290ef[m HEAD@{42}: checkout: moving from master to Andrew_conexion_bd
+[33m253db58[m[33m ([m[1;32mAndrew[m[33m)[m HEAD@{43}: checkout: moving from master to master
+[33m253db58[m[33m ([m[1;32mAndrew[m[33m)[m HEAD@{44}: checkout: moving from Andrew_conexion_bd to master
+[33m04290ef[m HEAD@{45}: checkout: moving from Andrew_conexion_bd to Andrew_conexion_bd
+[33m04290ef[m HEAD@{46}: commit: main
+[33m253db58[m[33m ([m[1;32mAndrew[m[33m)[m HEAD@{47}: checkout: moving from Andrew to Andrew_conexion_bd
+[33m253db58[m[33m ([m[1;32mAndrew[m[33m)[m HEAD@{48}: checkout: moving from 253db587e4600857ca788eb7240e07cdab0e144f to Andrew
+[33m253db58[m[33m ([m[1;32mAndrew[m[33m)[m HEAD@{49}: checkout: moving from Andrew to 253db587e4600857ca788eb7240e07cdab0e144f
+[33m253db58[m[33m ([m[1;32mAndrew[m[33m)[m HEAD@{50}: checkout: moving from master to Andrew
+[33m253db58[m[33m ([m[1;32mAndrew[m[33m)[m HEAD@{51}: clone: from https://github.com/crisley12/App_BancoSangre.git

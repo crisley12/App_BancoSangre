@@ -102,7 +102,8 @@ class MainApp(MDApp):
             self.helper_text = "dd/mm/yyyy"
         else:
             self.helper_text = ""
-
+    
+    # Validar Fecha
     def validate_date(self, text):
         parts = text.split('/')
         if len(parts) == 3 and all(part.isdigit() for part in parts):

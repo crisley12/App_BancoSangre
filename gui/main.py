@@ -55,7 +55,7 @@ class MainApp(MDApp):
         return screen_manager
 
     def on_start(self):
-        Clock.schedule_once(self.login_inicio, 5)
+        Clock.schedule_once(self.login_inicio, 8)
 
     def login_inicio(self, *args):
         screen_manager.current = 'login'
@@ -102,8 +102,7 @@ class MainApp(MDApp):
             self.helper_text = "dd/mm/yyyy"
         else:
             self.helper_text = ""
-    
-    # Validar Fecha
+
     def validate_date(self, text):
         parts = text.split('/')
         if len(parts) == 3 and all(part.isdigit() for part in parts):
@@ -184,29 +183,8 @@ class MainApp(MDApp):
 
             print("El user_id del usuario actual es:", user_id)
             print("El paciente_id del usuario actual es:", self.paciente_id)
-
             self.current_user_id = user_id
 
-    def logout(self):
-        url_logout = 'http://localhost:5000/logout'
-        user_id = self.current_user_id  
-
-        if not user_id:
-            print("No hay usuario para cerrar sesión.")
-            return
-
-        try:
-            response = requests.post(url_logout, data={'user_id': user_id})
-
-            if response.status_code == 200:
-                print("Sesión cerrada exitosamente")
-                self.root.current = 'login'  
-
-            else:
-                print("Error al cerrar la sesión")
-
-        except requests.exceptions.RequestException as e:
-            print("Error al comunicarse con la API")
 
 #################################################
 #            PANTALLA PACIENTE
@@ -592,6 +570,28 @@ class MainApp(MDApp):
             self.show_dialog("Error", "El Administrador ya existe.")
         else:
             self.show_dialog("Error", "Error al registrar")
+
+
+    def logout(self):
+        url_logout = 'http://localhost:5000/logout'
+        user_id = self.current_user_id  
+
+        if not user_id:
+            print("No hay usuario para cerrar sesión.")
+            return
+
+        try:
+            response = requests.post(url_logout, data={'user_id': user_id})
+
+            if response.status_code == 200:
+                print("Sesión cerrada exitosamente")
+                self.root.current = 'login'  
+
+            else:
+                print("Error al cerrar la sesión")
+
+        except requests.exceptions.RequestException as e:
+            print("Error al comunicarse con la API")
 
 
 if __name__ == '__main__':

@@ -58,7 +58,7 @@ class MainApp(MDApp):
         Clock.schedule_once(self.login_inicio, 8)
 
     def login_inicio(self, *args):
-        screen_manager.current = 'login'
+        screen_manager.current = 'root_admin'
 
 
 

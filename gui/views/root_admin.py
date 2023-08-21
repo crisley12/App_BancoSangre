@@ -341,7 +341,7 @@ class RootAdmin(MDScreen):
     def on_check_press(self, instance_table, current_row):
         print("Se presionó el checkbox de la fila:", current_row)
         # Obtener las filas seleccionadas
-        selected_rows = [row for row in self.data_tables.get_row_checks()]
+        selected_rows = [row for row in self.data_table.get_row_checks()]
         if len(selected_rows) > 1:
             self.checkcomprobar = 2
             print("condicion mas de un check ", self.checkcomprobar)
@@ -484,7 +484,7 @@ class RootAdmin(MDScreen):
 #################################################
 
     def obtener_medicos(self):
-        urlmedicos = 'http://localhost:5000/obtener_pacientes'
+        urlmedicos = 'http://localhost:5000/obtener_medicos'
         response = requests.get(urlmedicos)
 
         if response.status_code == 200:

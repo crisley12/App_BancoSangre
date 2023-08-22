@@ -37,7 +37,7 @@ def login():
 
             # Auditoría: Registrar el evento de inicio de sesión exitoso
             audit_event = {
-                'event_type': 'login_exitoso',
+                'event_type': 'Login exitoso',
                 'user_id': user_id,
                 'timestamp': datetime.datetime.now(),
                 'details': {
@@ -148,7 +148,7 @@ def logout():
 
         # Registrar el evento de logout en la colección de auditoría
         audit_event = {
-            'event_type': 'logout',
+            'event_type': 'Cierre de sesion',
             'user_id': user_id,
             'timestamp': datetime.datetime.now(),
             'details': {
@@ -207,7 +207,7 @@ def registro():
                     # Auditoría: Registrar el evento de registro de paciente
 
                     audit_event = {
-                        'event_type': 'Registro Paciente Nuevo',
+                        'event_type': 'Registro de Paciente Nuevo',
                         'user_id': session.get('user_id'),
                         'timestamp': datetime.datetime.now(),
                         'details': {
@@ -255,7 +255,7 @@ def registro():
                  # Auditoría: Registrar el evento de error en el registro de paciente
 
                 audit_event = {
-                    'event_type': 'error_registro_paciente',
+                    'event_type': 'Error registro de paciente',
                     'user_id': session.get('user_id'),
                     'timestamp': datetime.datetime.now(),
                     'details': {
@@ -310,7 +310,7 @@ def registro_medico():
                     # Auditoría: Registrar el evento de registro de medico
 
                     audit_event = {
-                        'event_type': 'registro_medico',
+                        'event_type': 'Registro de medico',
                         'user_id': session.get('user_id'),
                         'timestamp': datetime.datetime.now(),
                         'details': {
@@ -380,7 +380,7 @@ def registro_admin():
                     # Auditoría: Registrar el evento de registro de paciente
 
                     audit_event = {
-                        'event_type': 'registro_admin',
+                        'event_type': 'Registro de admin',
                         'user_id': session.get('user_id'),
                         'timestamp': datetime.datetime.now(),
                         'details': {
@@ -458,7 +458,7 @@ def eliminar_paciente(paciente_id):
 
     # Auditoría: Registrar el evento de solicitud de eliminación de paciente
     audit_event = {
-        'event_type': 'solicitud_eliminar_paciente',
+        'event_type': 'Solicitud eliminar paciente',
         'user_id': session.get('user_id'),
         'timestamp': datetime.datetime.now(),
         'details': {
@@ -789,7 +789,7 @@ def update_user(id):
 
          # Registrar la auditoría de edición de usuario
         audit_event = {
-            'event_type': 'edicion_usuario',
+            'event_type': 'Edicion usuario',
             'user_id': session.get('user_id'),  # Ajusta según cómo obtienes el ID del usuario actual
             'timestamp': datetime.datetime.now(),
             'details': {

@@ -359,10 +359,39 @@ class RootAdmin(MDScreen):
 
         # Ejecutar el archivo pacientesPDF.py usando subprocess
         try:
+            print(medico_pdf_path)
             subprocess.run(["python", medico_pdf_path])
             print("Archivo medicosPDF.py ejecutado con éxito.")
         except Exception as e:
             print("Error al ejecutar medicosPDF.py:", e)
+
+    def imprimir_users(self):
+        # Obtener la ruta completa al archivo medicosPDF.py
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        reportes_dir = os.path.join(current_dir, "..", "reportes")
+        users_pdf_path = os.path.join(reportes_dir, "UsersPDF.py")
+
+        # Ejecutar el archivo pacientesPDF.py usando subprocess
+        try:
+            print(users_pdf_path)
+            subprocess.run(["python", users_pdf_path])
+            print("Archivo UsuariosPDF.py ejecutado con éxito.")
+        except Exception as e:
+            print("Error al ejecutar UsuariosPDF.py:", e)
+
+    def imprimir_auditoria(self):
+        # Obtener la ruta completa al archivo medicosPDF.py
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        reportes_dir = os.path.join(current_dir, "..", "reportes")
+        auditoria_pdf_path = os.path.join(reportes_dir, "auditoriaPDF.py")
+
+        # Ejecutar el archivo pacientesPDF.py usando subprocess
+        try:
+            print(auditoria_pdf_path)
+            subprocess.run(["python", auditoria_pdf_path])
+            print("Archivo AuditoriaPDF.py ejecutado con éxito.")
+        except Exception as e:
+            print("Error al ejecutar AuditoriaPDF.py:", e)
 
     def on_row_press(self, instance_table, instance_row):
         print("Se presionó una fila:", instance_row)

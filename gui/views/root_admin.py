@@ -31,6 +31,8 @@ class MostrarPacientes(MDScreen):
 
 class MostrarUsuarios(MDScreen):
     pass
+class MostrarAuditoria(MDScreen):
+    pass
 
 
 class ContentNavigationDrawerAdmin(MDScrollView):
@@ -349,6 +351,19 @@ class RootAdmin(MDScreen):
         except Exception as e:
             print("Error al ejecutar pacientesPDF.py:", e)
 
+    def imprimir_medico(self):
+        # Obtener la ruta completa al archivo medicosPDF.py
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        reportes_dir = os.path.join(current_dir, "..", "reportes")
+        medico_pdf_path = os.path.join(reportes_dir, "MedicosPDF.py")
+
+        # Ejecutar el archivo pacientesPDF.py usando subprocess
+        try:
+            subprocess.run(["python", medico_pdf_path])
+            print("Archivo medicosPDF.py ejecutado con éxito.")
+        except Exception as e:
+            print("Error al ejecutar medicosPDF.py:", e)
+
     def on_row_press(self, instance_table, instance_row):
         print("Se presionó una fila:", instance_row)
 
@@ -541,3 +556,47 @@ class RootAdmin(MDScreen):
             self.checkcomprobar = 5
         else:
             print("Error al obtener los medicos")
+
+
+#################################################
+#            OBTENER AUDITORIA
+#################################################
+def obtener_auditorias(self):
+        response = requests.get('http://localhost:5000/obtener_auditorias')  # Cambia la URL según tus necesidades
+        datos_auditorias = response.json()
+        print("Datos de auditorías recibidos desde el servidor:", datos_auditorias)
+        self.auditorias_data = datos_auditorias
+
+        if response.status_code == 200:
+            auditoria_data = []
+            for i, item in enumerate(self.auditorias_data, start=0):
+                if isinstance(item, dict):
+                    row = (
+                        f"{i+1}",
+                        item['fecha'],
+                        item['usuario'],
+                        item['accion'],
+                    )
+                    auditoria_data.append(row)
+
+            self.data_table = MDDataTable(
+                pos_hint={'center_y': 0.4, 'center_x': 0.5},
+                size_hint=(0.9, 0.5),
+                use_pagination=True,
+                elevation=1,
+                background_color_header="#F41F05",
+                check=True,
+                column_data=[
+                    ("No.", dp(30)),
+                    ("Fecha", dp(30)),
+                    ("Usuario", dp(30)),
+                    ("Acción", dp(30)),
+                ],
+                row_data=auditoria_data,
+            )
+            self.data_table.bind(on_row_press=self.on_row_press)
+            self.data_table.bind(on_check_press=self.on_check_press)
+            self.ids.audi.add_widget(self.data_table)
+            self.checkcomprobar = 5
+        else:
+            print("Error al obtener las auditorías")

@@ -565,7 +565,26 @@
 #            PANTALLa 8
 #########################################
 
-
+                MostrarAuditoria:
+                    name: "mostrar_auditoria"
+                    MDFloatLayout:
+                        MDLabel:
+                            text: "Auditoria"
+                            font_size: '15sp'
+                            font_name: 'asset/Fuentes/Poppins-SemiBold.ttf'
+                            pos_hint: {'center_x': .5, 'center_y': .8}
+                            size_hint: (.5, .2)
+                            halign: "center"
+                        MDFloatingActionButton:
+                            elevation: None
+                            icon:"printer"
+                            pos_hint:{'center_x':.5, 'center_y': .15}
+                            on_release: root.imprimir_auditoria()
+                    AnchorLayout:
+                        id: audi
+                        anchor_x: "center"
+                        anchor_y: "center"
+                        pos_hint: {'center_x': .5, 'center_y': .5}   
 
 ################################################################
 #            ITEMS
@@ -656,12 +675,13 @@
                 root.screen_manager.current = "crear_admin"
 
         DrawerClickableItem:
-            id: inventario_sangre_admin
+            id: auditoria
             icon: "laptop"
             text: "Auditoria"
             on_release:
+                root.screen_manager.current = "mostrar_auditoria"
                 root.nav_drawer.set_state("close")
-                root.screen_manager.current = "crear_admin"
+                #root.root_admin_instance.obtener_auditorias()
         
         DrawerClickableItem:
             icon: "logout"

@@ -502,7 +502,24 @@ def eliminar_paciente(paciente_id):
     else:
         return jsonify({'message': 'Paciente no encontrado.'}), 404
 
- 
+@app.route('/obtener_auditorias', methods=['GET'])
+def obtener_auditorias():
+    auditorias_collection = mongo.db.auditoria_logs  # Cambia esto al nombre correcto de la colección de auditorías
+    auditorias = auditorias_collection.find()
+
+    # Crear una lista para almacenar los datos de las auditorías
+    datos_auditorias = []
+    for auditoria in auditorias:
+        datos_auditoria = {
+            'fecha': auditoria['timestamp'],
+            'usuario': auditoria['user_id'],
+            'accion': auditoria['event_type'],
+        }
+        datos_auditorias.append(datos_auditoria)
+
+    print("Datos de auditorías obtenidos:", datos_auditorias)
+
+    return jsonify(datos_auditorias), 200
 
 
 @app.route('/obtener_pacientes', methods=['GET'])

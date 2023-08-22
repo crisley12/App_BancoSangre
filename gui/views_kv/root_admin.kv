@@ -33,6 +33,21 @@
                             pos_hint: {'center_x': .5, 'center_y': .8}
                             size_hint: (.5, .2)
                             halign: "center"
+                        MDFloatingActionButton:
+                            elevation: None
+                            icon:"pencil"
+                            pos_hint:{'center_x':.5, 'center_y': .15}
+                            on_release: app.upate_paciente()
+                        MDFloatingActionButton:
+                            elevation: None
+                            icon:"delete"
+                            pos_hint:{'center_x':.30, 'center_y': .15}
+                            on_release: root.eliminar_medicos()
+                        MDFloatingActionButton:
+                            elevation: None
+                            icon:"printer"
+                            pos_hint:{'center_x':.70, 'center_y': .15}
+                            on_release: root.imprimir_usuarios()
                     AnchorLayout:
                         id: usuarios
                         anchor_x: "center"
@@ -57,6 +72,21 @@
                         anchor_x: "center"
                         anchor_y: "center"
                         pos_hint: {'center_x': .5, 'center_y': .5}
+                    MDFloatingActionButton:
+                        elevation: None
+                        icon:"pencil"
+                        pos_hint:{'center_x':.5, 'center_y': .15}
+                        on_release: app.upate_paciente()
+                    MDFloatingActionButton:
+                        elevation: None
+                        icon:"delete"
+                        pos_hint:{'center_x':.30, 'center_y': .15}
+                        on_release: root.eliminar_pacientes()
+                    MDFloatingActionButton:
+                        elevation: None
+                        icon:"printer"
+                        pos_hint:{'center_x':.70, 'center_y': .15}
+                        on_release: root.imprimir_pacientes()
 
 
 #########################################
@@ -93,6 +123,21 @@
                             pos_hint: {'center_x': .5, 'center_y': .8}
                             size_hint: (.5, .2)
                             halign: "center"
+                        MDFloatingActionButton:
+                            elevation: None
+                            icon:"pencil"
+                            pos_hint:{'center_x':.5, 'center_y': .15}
+                            on_release: app.upate_paciente()
+                        MDFloatingActionButton:
+                            elevation: None
+                            icon:"delete"
+                            pos_hint:{'center_x':.30, 'center_y': .15}
+                            on_release: root.eliminar_medicos()
+                        MDFloatingActionButton:
+                            elevation: None
+                            icon:"printer"
+                            pos_hint:{'center_x':.70, 'center_y': .15}
+                            on_release: 
                     AnchorLayout:
                         id: anchor_medico
                         anchor_x: "center"
@@ -516,6 +561,9 @@
                             #root.current = "mostrar_usuarios"
                             #root.obtener_usuarios()
 
+#########################################
+#            PANTALLa 8
+#########################################
 
 
 
@@ -603,6 +651,14 @@
             id: inventario_sangre_admin
             icon: "account-key"
             text: "Crear Admin"
+            on_release:
+                root.nav_drawer.set_state("close")
+                root.screen_manager.current = "crear_admin"
+
+        DrawerClickableItem:
+            id: inventario_sangre_admin
+            icon: "laptop"
+            text: "Auditoria"
             on_release:
                 root.nav_drawer.set_state("close")
                 root.screen_manager.current = "crear_admin"

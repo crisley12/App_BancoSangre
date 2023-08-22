@@ -10,6 +10,8 @@ from kivymd.uix.menu import MDDropdownMenu
 from kivy.metrics import dp
 import requests
 import logging
+import subprocess
+import os
 
 
 class CrearAdmin(MDScreen):
@@ -334,6 +336,19 @@ class RootAdmin(MDScreen):
             print("Por favor, seleccione al menos un paciente para eliminar.")
 
 
+    def imprimir_pacientes(self):
+        # Obtener la ruta completa al archivo pacientesPDF.py
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        reportes_dir = os.path.join(current_dir, "..", "reportes")
+        pacientes_pdf_path = os.path.join(reportes_dir, "pacientesPDF.py")
+
+        # Ejecutar el archivo pacientesPDF.py usando subprocess
+        try:
+            subprocess.run(["python", pacientes_pdf_path])
+            print("Archivo pacientesPDF.py ejecutado con éxito.")
+        except Exception as e:
+            print("Error al ejecutar pacientesPDF.py:", e)
+
     def on_row_press(self, instance_table, instance_row):
         print("Se presionó una fila:", instance_row)
 
@@ -341,7 +356,7 @@ class RootAdmin(MDScreen):
     def on_check_press(self, instance_table, current_row):
         print("Se presionó el checkbox de la fila:", current_row)
         # Obtener las filas seleccionadas
-        selected_rows = [row for row in self.data_tables.get_row_checks()]
+        selected_rows = [row for row in self.data_table.get_row_checks()]
         if len(selected_rows) > 1:
             self.checkcomprobar = 2
             print("condicion mas de un check ", self.checkcomprobar)
@@ -484,7 +499,7 @@ class RootAdmin(MDScreen):
 #################################################
 
     def obtener_medicos(self):
-        urlmedicos = 'http://localhost:5000/obtener_pacientes'
+        urlmedicos = 'http://localhost:5000/obtener_medicos'
         response = requests.get(urlmedicos)
 
         if response.status_code == 200:

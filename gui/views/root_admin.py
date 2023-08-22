@@ -10,6 +10,8 @@ from kivymd.uix.menu import MDDropdownMenu
 from kivy.metrics import dp
 import requests
 import logging
+import subprocess
+import os
 
 
 class CrearAdmin(MDScreen):
@@ -333,6 +335,19 @@ class RootAdmin(MDScreen):
         else:
             print("Por favor, seleccione al menos un paciente para eliminar.")
 
+
+    def imprimir_pacientes(self):
+        # Obtener la ruta completa al archivo pacientesPDF.py
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        reportes_dir = os.path.join(current_dir, "..", "reportes")
+        pacientes_pdf_path = os.path.join(reportes_dir, "pacientesPDF.py")
+
+        # Ejecutar el archivo pacientesPDF.py usando subprocess
+        try:
+            subprocess.run(["python", pacientes_pdf_path])
+            print("Archivo pacientesPDF.py ejecutado con éxito.")
+        except Exception as e:
+            print("Error al ejecutar pacientesPDF.py:", e)
 
     def on_row_press(self, instance_table, instance_row):
         print("Se presionó una fila:", instance_row)

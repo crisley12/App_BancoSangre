@@ -64,6 +64,13 @@
                     halign: "center"
                     line_height: .6
                 MDIconButton:
+                    icon: "card-account-details"
+                    pos_hint: {"center_x": .80, "center_y": .78}
+                    user_font_size: "40sp"  # Tamaño personalizado, ajusta el valor a tu preferencia
+                    theme_text_color: "Custom"  # Indica que deseas un color personalizado para el icono
+                    text_color: 1, 1, 1, 1  # Establece el color del icono en blanco (RGB: 1, 1, 1) y opacidad completa (1)
+                    on_release: root.imprimir_carnet()
+                MDIconButton:
                     icon: "heart-outline"
                     theme_icon_color: "Custom"
                     icon_color: "white"

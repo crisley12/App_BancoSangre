@@ -3,7 +3,7 @@ from kivy.lang import Builder
 import os
 import webbrowser
 from kivy.utils import platform
-
+import subprocess
 
 class LocationScreen(MDScreen):
     pass
@@ -65,6 +65,20 @@ class RootScreen(MDScreen):
             os.system(f"open {url}")
         else:
             webbrowser.open(url)
+
+    def imprimir_carnet(self):
+        # Obtener la ruta completa al archivo medicosPDF.py
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        reportes_dir = os.path.join(current_dir, "..", "reportes")
+        carnet_pdf_path = os.path.join(reportes_dir, "carnetPDF.py")
+
+        # Ejecutar el archivo pacientesPDF.py usando subprocess
+        try:
+            print(carnet_pdf_path)
+            subprocess.run(["python", carnet_pdf_path])
+            print("Archivo CarnetPDF.py ejecutado con éxito.")
+        except Exception as e:
+            print("Error al ejecutar CarnetPDF.py:", e)
 
     '''
     def __init__(self, directory, **kwargs):
